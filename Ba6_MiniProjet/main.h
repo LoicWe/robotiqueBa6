@@ -9,6 +9,10 @@ extern "C" {
 #include "msgbus/messagebus.h"
 #include "parameter/parameter.h"
 
+#define PUCKY_PLAY				0
+#define PUCKY_SLEEP				1
+#define PUCKY_WAKE_UP			3
+
 #define IMAGE_BUFFER_SIZE		640
 #define MIN_LINE_WIDTH				40
 #define WIDTH_SLOPE				5
@@ -21,6 +25,7 @@ extern "C" {
 #define KP						800.0f
 #define KI 						3.5f	//must not be zero
 #define MAX_SUM_ERROR 			(MOTOR_SPEED_LIMIT/KI)
+
 
 /** Robot wide IPC bus. */
 extern messagebus_t bus;
