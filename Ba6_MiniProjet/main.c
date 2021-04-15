@@ -5,6 +5,7 @@
 #include "ch.h"
 #include "hal.h"
 #include "memory_protection.h"
+#include "leds.h"
 #include <usbcfg.h>
 #include <main.h>
 #include <chprintf.h>
