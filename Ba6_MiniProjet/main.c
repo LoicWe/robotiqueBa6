@@ -19,6 +19,7 @@
 #include <arm_math.h>
 #include <pi_regulator.h>
 #include <process_image.h>
+#include <sensors/VL53L0X/VL53L0X.h>
 
 static THD_WORKING_AREA(waThdPotentiometer, 128);
 static THD_FUNCTION(ThdPotentiometer, arg) {
@@ -97,23 +98,25 @@ int main(void)
     serial_start();
     //starts the USB communication
     usb_start();
-    //starts timer 12
-    timer12_start();
-    //inits the motors
-    motors_init();
+//    //starts timer 12
+//    timer12_start();
+//    //inits the motors
+//    motors_init();
+    VL53L0X_start();
+    uint16_t distance = 0;
 
 	chThdCreateStatic(waThdPotentiometer, sizeof(waThdPotentiometer), NORMALPRIO, ThdPotentiometer, NULL);
 
-    //temp tab used to store values in complex_float format
-    //needed bx doFFT_c
-    static complex_float temp_tab[FFT_SIZE];
-    //send_tab is used to save the state of the buffer to send (double buffering)
-    //to avoid modifications of the buffer while sending it
-    static float send_tab[FFT_SIZE];
+//    //temp tab used to store values in complex_float format
+//    //needed bx doFFT_c
+//    static complex_float temp_tab[FFT_SIZE];
+//    //send_tab is used to save the state of the buffer to send (double buffering)
+//    //to avoid modifications of the buffer while sending it
+//    static float send_tab[FFT_SIZE];
 
-    //starts the microphones processing thread.
-    //it calls the callback given in parameter when samples are ready
-    mic_start(&processAudioData);
+//    //starts the microphones processing thread.
+//    //it calls the callback given in parameter when samples are ready
+//    mic_start(&processAudioData);
 
     /* Infinite loop. */
     while (1) {
@@ -125,12 +128,18 @@ int main(void)
     	//code barre
 
     	//laser
+    	distance = VL53L0X_get_dist_mm();
+    	if(distance > 200)
+    		set_body_led(1);
+    	else
+    		set_body_led(0);
 
-        //waits until a result must be sent to the computer
-        wait_send_to_computer();
-        //we copy the buffer to avoid conflicts
-        arm_copy_f32(get_audio_buffer_ptr(LEFT_OUTPUT), send_tab, FFT_SIZE);
-        SendFloatToComputer((BaseSequentialStream *) &SD3, send_tab, FFT_SIZE);
+
+//        //waits until a result must be sent to the computer
+//        wait_send_to_computer();
+//        //we copy the buffer to avoid conflicts
+//        arm_copy_f32(get_audio_buffer_ptr(LEFT_OUTPUT), send_tab, FFT_SIZE);
+//        SendFloatToComputer((BaseSequentialStream *) &SD3, send_tab, FFT_SIZE);
     }
 }
 
