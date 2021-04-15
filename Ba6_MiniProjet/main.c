@@ -6,6 +6,7 @@
 #include "hal.h"
 #include "memory_protection.h"
 #include "leds.h"
+#include "selector.h"
 #include <usbcfg.h>
 #include <main.h>
 #include <chprintf.h>
@@ -19,6 +20,44 @@
 #include <pi_regulator.h>
 #include <process_image.h>
 
+static THD_WORKING_AREA(waThdPotentiometer, 128);
+static THD_FUNCTION(ThdPotentiometer, arg) {
+
+	chRegSetThreadName(__FUNCTION__);
+	(void) arg;
+
+	static uint8_t selector;
+	static uint8_t old_selector;
+	static bool loopback;
+	selector = get_selector();
+	old_selector = selector;
+
+
+	while (1) {
+		selector = get_selector();
+		loopback = (old_selector == 0 || old_selector == 15) ? 1:0;
+		clear_leds();
+		if (!loopback){
+			if (old_selector<selector && selector<old_selector+3){
+				set_led(LED1, 1);
+			} else if (old_selector>selector && selector>old_selector-3){
+				set_led(LED3, 1);
+			}
+		} else {
+			if (old_selector == 0 && selector != 0 && selector < 3){
+				set_led(LED1, 1);
+			}else if (old_selector == 0 && selector != 0 && selector > 13){
+				set_led(LED3, 1);
+			}else if (old_selector == 15 && selector != 15 && selector < 2){
+				set_led(LED1, 1);
+			}else if (old_selector == 15 && selector != 15 && selector > 12){
+				set_led(LED3, 1);
+			}
+		}
+		old_selector = selector;
+		chThdSleepMilliseconds(1000);
+	}
+}
 
 static void serial_start(void)
 {
@@ -63,6 +102,8 @@ int main(void)
     //inits the motors
     motors_init();
 
+	chThdCreateStatic(waThdPotentiometer, sizeof(waThdPotentiometer), NORMALPRIO, ThdPotentiometer, NULL);
+
     //temp tab used to store values in complex_float format
     //needed bx doFFT_c
     static complex_float temp_tab[FFT_SIZE];
@@ -77,6 +118,7 @@ int main(void)
     /* Infinite loop. */
     while (1) {
     	//ajout thread potentiometre
+
 
     	//audio processing
 
