@@ -15,9 +15,11 @@
 #include <fft.h>
 #include <communications.h>
 #include <arm_math.h>
+#include <pi_regulator.h>
+#include <process_image.h>
 
 //uncomment to send the FFTs results from the real microphones
-//#define SEND_FROM_MIC
+#define SEND_FROM_MIC
 
 //uncomment to use double buffering to send the FFT to the computer
 #define DOUBLE_BUFFERING
