@@ -138,7 +138,7 @@ int main(void)
 //        //waits until a result must be sent to the computer
 //        wait_send_to_computer();
 //        //we copy the buffer to avoid conflicts
-//        arm_copy_f32(get_audio_buffer_ptr(LEFT_OUTPUT), send_tab, FFT_SIZE);
+//        arm_copy_f32(get_audio_buffer_ptr(), send_tab, FFT_SIZE);
 //        SendFloatToComputer((BaseSequentialStream *) &SD3, send_tab, FFT_SIZE);
     }
 }
