@@ -23,6 +23,8 @@
 
 uint8_t pucky_state = PUCKY_PLAY;
 
+
+
 static THD_WORKING_AREA(waThdPotentiometer, 128);
 static THD_FUNCTION(ThdPotentiometer, arg) {
 
@@ -90,6 +92,11 @@ int main(void) {
 	serial_start();
 	//starts the USB communication
 	usb_start();
+    //starts the camera
+    dcmi_start();
+	po8030_start();
+	process_image_start();
+
 //    //starts timer 12
 //    timer12_start();
 //    //inits the motors
@@ -122,16 +129,18 @@ int main(void) {
 
 			//laser
 			distance = distance_sensor_get_dist_mm();
-			if (distance > 200)
-				set_body_led(1);
-			else
-				set_body_led(0);
-
-			//        //waits until a result must be sent to the computer
-			//        wait_send_to_computer();
-			//        //we copy the buffer to avoid conflicts
-			//        arm_copy_f32(get_audio_buffer_ptr(LEFT_OUTPUT), send_tab, FFT_SIZE);
-			//        SendFloatToComputer((BaseSequentialStream *) &SD3, send_tab, FFT_SIZE);
+			if (distance > min_dist_barcode && distance < max_dist_barcode){
+				capture_image(YES);
+				set_led(LED5, 1);
+			}else{
+				capture_image(NO);
+				set_led(LED5, 0);
+			}
+//			        //waits until a result must be sent to the computer
+//			        wait_send_to_computer();
+//			        //we copy the buffer to avoid conflicts
+//			        arm_copy_f32(get_audio_buffer_ptr(LEFT_OUTPUT), send_tab, FFT_SIZE);
+//			        SendFloatToComputer((BaseSequentialStream *) &SD3, send_tab, FFT_SIZE);
 
 			break;
 
@@ -155,7 +164,8 @@ int main(void) {
 		default:
 			break;
 		}
-
+    	//waits 1 second
+        chThdSleepMilliseconds(1000);
 	}
 }
 

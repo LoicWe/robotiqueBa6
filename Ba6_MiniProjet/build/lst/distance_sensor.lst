@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
   55 0012 039A     		ldr	r2, [sp, #12]
   56 0014 2368     		ldr	r3, [r4]
   57 0016 9A42     		cmp	r2, r3
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 2
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 2
 
 
   58 0018 1DD1     		bne	.L7
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  112              	.L9:
  113 005a 00BF     		.align	2
  114              	.L8:
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 3
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 3
 
 
  115 005c 00000000 		.word	__stack_chk_guard
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  169 0025 0B       		.byte	(.L17-.L23)/2
  170              		.p2align 1
  171              	.L12:
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 4
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 4
 
 
  172              		.loc 1 205 0
@@ -238,7 +238,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  226              		.loc 1 165 0
  227 0070 41F69912 		movw	r2, #6553
  228 0074 0121     		movs	r1, #1
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 5
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 5
 
 
  229 0076 3046     		mov	r0, r6
@@ -298,7 +298,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  283              		.cfi_restore 4
  284              		.cfi_def_cfa_offset 0
  285              	.LVL37:
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 6
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 6
 
 
  286              		.loc 1 183 0
@@ -358,7 +358,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  340 00fe 0122     		movs	r2, #1
  341 0100 1146     		mov	r1, r2
  342 0102 3046     		mov	r0, r6
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 7
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 7
 
 
  343              	.LVL45:
@@ -418,7 +418,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  397              		.cfi_restore_state
  398              		.loc 1 210 0
  399 0152 FFF7FEFF 		bl	__stack_chk_fail
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 8
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 8
 
 
  400              	.LVL52:
@@ -478,7 +478,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  454 001c 30BD     		pop	{r4, r5, pc}
  455              	.LVL57:
  456              	.L37:
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 9
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 9
 
 
  457              		.cfi_restore_state
@@ -538,7 +538,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  511              		.cfi_offset 9, -8
  512              		.cfi_offset 14, -4
  513              	.LBB16:
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 10
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 10
 
 
  514              	.LBB17:
@@ -598,7 +598,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  568 003a 0122     		movs	r2, #1
  569 003c 1A70     		strb	r2, [r3]
  570              	.L41:
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 11
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 11
 
 
  571              		.loc 1 61 0
@@ -658,7 +658,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  625 0074 BDE8F083 		pop	{r4, r5, r6, r7, r8, r9, pc}
  626              	.L43:
  627              		.cfi_restore_state
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 12
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 12
 
 
  628              		.loc 1 68 0
@@ -718,7 +718,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  682              	.LVL74:
  683 0000 00B5     		push	{lr}
  684              		.cfi_def_cfa_offset 4
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 13
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 13
 
 
  685              		.cfi_offset 14, -4
@@ -778,7 +778,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  739              		.cfi_offset 14, -4
  740 0002 074B     		ldr	r3, .L69
  741 0004 83B0     		sub	sp, sp, #12
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 14
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 14
 
 
  742              		.cfi_def_cfa_offset 16
@@ -838,7 +838,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  796 0004 0D4C     		ldr	r4, .L76+4
  797              		.loc 1 237 0
  798 0006 1D78     		ldrb	r5, [r3]	@ zero_extendqisi2
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 15
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 15
 
 
  799              		.loc 1 235 0
@@ -856,14 +856,14 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  811 0014 0A4B     		ldr	r3, .L76+8
  812 0016 0095     		str	r5, [sp]
  813 0018 0A48     		ldr	r0, .L76+12
- 814 001a 4A22     		movs	r2, #74
+ 814 001a 4022     		movs	r2, #64
  815 001c 4FF45E71 		mov	r1, #888
  816 0020 FFF7FEFF 		bl	chThdCreateStatic
  817              	.LVL81:
  818 0024 084B     		ldr	r3, .L76+16
  819 0026 1860     		str	r0, [r3]
  820              	.L71:
- 821              		.loc 1 246 0
+ 821              		.loc 1 245 0
  822 0028 039A     		ldr	r2, [sp, #12]
  823 002a 2368     		ldr	r3, [r4]
  824 002c 9A42     		cmp	r2, r3
@@ -898,11 +898,11 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  853              		.fpu fpv4-sp-d16
  854              		.type	distance_sensor_stop, %function
  855              	distance_sensor_stop:
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 16
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 16
 
 
  856              	.LFB267:
- 857              		.loc 1 248 0
+ 857              		.loc 1 247 0
  858              		.cfi_startproc
  859              		@ args = 0, pretend = 0, frame = 8
  860              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -911,39 +911,39 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  863              		.cfi_offset 4, -12
  864              		.cfi_offset 5, -8
  865              		.cfi_offset 14, -4
- 866              		.loc 1 249 0
+ 866              		.loc 1 248 0
  867 0002 0B4C     		ldr	r4, .L82
- 868              		.loc 1 248 0
+ 868              		.loc 1 247 0
  869 0004 0B4D     		ldr	r5, .L82+4
- 870              		.loc 1 249 0
+ 870              		.loc 1 248 0
  871 0006 2068     		ldr	r0, [r4]
- 872              		.loc 1 248 0
+ 872              		.loc 1 247 0
  873 0008 2B68     		ldr	r3, [r5]
  874 000a 83B0     		sub	sp, sp, #12
  875              		.cfi_def_cfa_offset 24
- 876              		.loc 1 248 0
+ 876              		.loc 1 247 0
  877 000c 0193     		str	r3, [sp, #4]
- 878              		.loc 1 249 0
+ 878              		.loc 1 248 0
  879 000e FFF7FEFF 		bl	chThdTerminate
  880              	.LVL83:
- 881              		.loc 1 250 0
+ 881              		.loc 1 249 0
  882 0012 2068     		ldr	r0, [r4]
  883 0014 FFF7FEFF 		bl	chThdWait
  884              	.LVL84:
- 885              		.loc 1 253 0
+ 885              		.loc 1 252 0
  886 0018 0199     		ldr	r1, [sp, #4]
  887 001a 2A68     		ldr	r2, [r5]
- 888              		.loc 1 252 0
+ 888              		.loc 1 251 0
  889 001c 0648     		ldr	r0, .L82+8
- 890              		.loc 1 251 0
+ 890              		.loc 1 250 0
  891 001e 0023     		movs	r3, #0
- 892              		.loc 1 253 0
+ 892              		.loc 1 252 0
  893 0020 9142     		cmp	r1, r2
- 894              		.loc 1 251 0
+ 894              		.loc 1 250 0
  895 0022 2360     		str	r3, [r4]
- 896              		.loc 1 252 0
+ 896              		.loc 1 251 0
  897 0024 0370     		strb	r3, [r0]
- 898              		.loc 1 253 0
+ 898              		.loc 1 252 0
  899 0026 01D1     		bne	.L81
  900 0028 03B0     		add	sp, sp, #12
  901              		.cfi_remember_state
@@ -958,7 +958,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  910              		.align	2
  911              	.L82:
  912 0030 00000000 		.word	.LANCHOR5
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 17
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 17
 
 
  913 0034 00000000 		.word	__stack_chk_guard
@@ -977,7 +977,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  926              		.type	distance_sensor_pause, %function
  927              	distance_sensor_pause:
  928              	.LFB268:
- 929              		.loc 1 255 0
+ 929              		.loc 1 254 0
  930              		.cfi_startproc
  931              		@ args = 0, pretend = 0, frame = 8
  932              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -985,22 +985,22 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  934              		.cfi_def_cfa_offset 4
  935              		.cfi_offset 14, -4
  936 0002 084B     		ldr	r3, .L88
- 937              		.loc 1 256 0
+ 937              		.loc 1 255 0
  938 0004 0849     		ldr	r1, .L88+4
- 939              		.loc 1 255 0
+ 939              		.loc 1 254 0
  940 0006 1A68     		ldr	r2, [r3]
  941 0008 83B0     		sub	sp, sp, #12
  942              		.cfi_def_cfa_offset 16
- 943              		.loc 1 256 0
+ 943              		.loc 1 255 0
  944 000a 0120     		movs	r0, #1
- 945              		.loc 1 255 0
+ 945              		.loc 1 254 0
  946 000c 0192     		str	r2, [sp, #4]
- 947              		.loc 1 257 0
+ 947              		.loc 1 256 0
  948 000e 019A     		ldr	r2, [sp, #4]
  949 0010 1B68     		ldr	r3, [r3]
- 950              		.loc 1 256 0
+ 950              		.loc 1 255 0
  951 0012 0870     		strb	r0, [r1]
- 952              		.loc 1 257 0
+ 952              		.loc 1 256 0
  953 0014 9A42     		cmp	r2, r3
  954 0016 02D1     		bne	.L87
  955 0018 03B0     		add	sp, sp, #12
@@ -1018,7 +1018,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  967 0024 00000000 		.word	__stack_chk_guard
  968 0028 00000000 		.word	.LANCHOR2
  969              		.cfi_endproc
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 18
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 18
 
 
  970              	.LFE268:
@@ -1034,7 +1034,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  980              		.type	distance_sensor_resume, %function
  981              	distance_sensor_resume:
  982              	.LFB269:
- 983              		.loc 1 259 0
+ 983              		.loc 1 258 0
  984              		.cfi_startproc
  985              		@ args = 0, pretend = 0, frame = 8
  986              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -1042,22 +1042,22 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  988              		.cfi_def_cfa_offset 4
  989              		.cfi_offset 14, -4
  990 0002 084B     		ldr	r3, .L94
- 991              		.loc 1 260 0
+ 991              		.loc 1 259 0
  992 0004 0849     		ldr	r1, .L94+4
- 993              		.loc 1 259 0
+ 993              		.loc 1 258 0
  994 0006 1A68     		ldr	r2, [r3]
  995 0008 83B0     		sub	sp, sp, #12
  996              		.cfi_def_cfa_offset 16
- 997              		.loc 1 260 0
+ 997              		.loc 1 259 0
  998 000a 0020     		movs	r0, #0
- 999              		.loc 1 259 0
+ 999              		.loc 1 258 0
  1000 000c 0192     		str	r2, [sp, #4]
- 1001              		.loc 1 261 0
+ 1001              		.loc 1 260 0
  1002 000e 019A     		ldr	r2, [sp, #4]
  1003 0010 1B68     		ldr	r3, [r3]
- 1004              		.loc 1 260 0
+ 1004              		.loc 1 259 0
  1005 0012 0870     		strb	r0, [r1]
- 1006              		.loc 1 261 0
+ 1006              		.loc 1 260 0
  1007 0014 9A42     		cmp	r2, r3
  1008 0016 02D1     		bne	.L93
  1009 0018 03B0     		add	sp, sp, #12
@@ -1078,7 +1078,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  1024              	.LFE269:
  1025              		.size	distance_sensor_resume, .-distance_sensor_resume
  1026              		.section	.text.distance_sensor_get_dist_mm,"ax",%progbits
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 19
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 19
 
 
  1027              		.align	1
@@ -1091,7 +1091,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  1034              		.type	distance_sensor_get_dist_mm, %function
  1035              	distance_sensor_get_dist_mm:
  1036              	.LFB270:
- 1037              		.loc 1 263 0
+ 1037              		.loc 1 262 0
  1038              		.cfi_startproc
  1039              		@ args = 0, pretend = 0, frame = 8
  1040              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -1099,18 +1099,18 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  1042              		.cfi_def_cfa_offset 4
  1043              		.cfi_offset 14, -4
  1044 0002 074B     		ldr	r3, .L100
- 1045              		.loc 1 264 0
+ 1045              		.loc 1 263 0
  1046 0004 0749     		ldr	r1, .L100+4
- 1047              		.loc 1 263 0
+ 1047              		.loc 1 262 0
  1048 0006 1A68     		ldr	r2, [r3]
- 1049              		.loc 1 265 0
+ 1049              		.loc 1 264 0
  1050 0008 0888     		ldrh	r0, [r1]
- 1051              		.loc 1 263 0
+ 1051              		.loc 1 262 0
  1052 000a 83B0     		sub	sp, sp, #12
  1053              		.cfi_def_cfa_offset 16
- 1054              		.loc 1 263 0
+ 1054              		.loc 1 262 0
  1055 000c 0192     		str	r2, [sp, #4]
- 1056              		.loc 1 265 0
+ 1056              		.loc 1 264 0
  1057 000e 019A     		ldr	r2, [sp, #4]
  1058 0010 1B68     		ldr	r3, [r3]
  1059 0012 9A42     		cmp	r2, r3
@@ -1138,7 +1138,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  1081              		.size	VL53L0X_configured, 1
  1082              	VL53L0X_configured:
  1083 0000 00       		.space	1
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 20
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 20
 
 
  1084              		.section	.bss.device.12790,"aw",%nobits
@@ -1198,7 +1198,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  1128              		.file 8 "../../lib/e-puck2_main-processor/src/sensors/VL53L0X/Api/core/inc/vl53l0x_device.h"
  1129              		.file 9 "../../lib/e-puck2_main-processor/src/sensors/VL53L0X/Api/core/inc/vl53l0x_def.h"
  1130              		.file 10 "c:\\users\\hirtt\\documents\\eclipse_e-puck2_win32_29_jan_2020\\eclipse_e-puck2\\tools\\
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 21
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 21
 
 
  1131              		.file 11 "c:\\users\\hirtt\\documents\\eclipse_e-puck2_win32_29_jan_2020\\eclipse_e-puck2\\tools\\
@@ -1258,7 +1258,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  1185              	.Ldebug_info0:
  1186 0000 6B4C0000 		.4byte	0x4c6b
  1187 0004 0400     		.2byte	0x4
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 22
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 22
 
 
  1188 0006 00000000 		.4byte	.Ldebug_abbrev0
@@ -1318,7 +1318,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  1242 007b 4C1B0000 		.4byte	.LASF9
  1243 007f 02       		.uleb128 0x2
  1244 0080 DB220000 		.4byte	.LASF10
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 23
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 23
 
 
  1245 0084 04       		.byte	0x4
@@ -1378,7 +1378,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  1299 00f0 6D000000 		.4byte	0x6d
  1300 00f4 06       		.uleb128 0x6
  1301 00f5 E9000000 		.4byte	0xe9
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 24
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 24
 
 
  1302 00f9 02       		.uleb128 0x2
@@ -1438,7 +1438,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  1356 016b 20       		.byte	0x20
  1357 016c 08       		.uleb128 0x8
  1358 016d A51C0000 		.4byte	.LASF30
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 25
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 25
 
 
  1359 0171 09       		.byte	0x9
@@ -1498,7 +1498,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  1413 01e0 C7       		.byte	0xc7
  1414 01e1 C3000000 		.4byte	0xc3
  1415 01e5 02       		.uleb128 0x2
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 26
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 26
 
 
  1416 01e6 C9260000 		.4byte	.LASF39
@@ -1558,7 +1558,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  1470 0252 FC       		.byte	0xfc
  1471 0253 E9000000 		.4byte	0xe9
  1472 0257 14       		.byte	0x14
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 27
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 27
 
 
  1473 0258 08       		.uleb128 0x8
@@ -1618,7 +1618,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  1527 02cd 0B       		.uleb128 0xb
  1528 02ce E51A0000 		.4byte	.LASF54
  1529 02d2 09       		.byte	0x9
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 28
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 28
 
 
  1530 02d3 2801     		.2byte	0x128
@@ -1678,7 +1678,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  1584 0346 2B010000 		.4byte	0x12b
  1585 034a 10       		.byte	0x10
  1586 034b 0B       		.uleb128 0xb
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 29
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 29
 
 
  1587 034c 851F0000 		.4byte	.LASF63
@@ -1738,7 +1738,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  1641 03c1 09       		.byte	0x9
  1642 03c2 6701     		.2byte	0x167
  1643 03c4 C3000000 		.4byte	0xc3
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 30
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 30
 
 
  1644 03c8 62       		.byte	0x62
@@ -1798,7 +1798,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  1698 0439 0B       		.uleb128 0xb
  1699 043a FF090000 		.4byte	.LASF78
  1700 043e 09       		.byte	0x9
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 31
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 31
 
 
  1701 043f 7E01     		.2byte	0x17e
@@ -1858,7 +1858,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  1755 04b4 9401     		.2byte	0x194
  1756 04b6 DE000000 		.4byte	0xde
  1757 04ba 1A       		.byte	0x1a
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 32
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 32
 
 
  1758 04bb 0B       		.uleb128 0xb
@@ -1918,7 +1918,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  1812 0530 0B       		.uleb128 0xb
  1813 0531 75090000 		.4byte	.LASF96
  1814 0535 09       		.byte	0x9
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 33
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 33
 
 
  1815 0536 A401     		.2byte	0x1a4
@@ -1978,7 +1978,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  1869 05aa 3E050000 		.4byte	0x53e
  1870 05ae D4       		.byte	0xd4
  1871 05af 0F       		.uleb128 0xf
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 34
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 34
 
 
  1872 05b0 9B040000 		.4byte	.LASF105
@@ -2038,7 +2038,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  1926 062e 540D0000 		.4byte	.LASF111
  1927 0632 09       		.byte	0x9
  1928 0633 D401     		.2byte	0x1d4
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 35
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 35
 
 
  1929 0635 DE000000 		.4byte	0xde
@@ -2098,7 +2098,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  1983 06b2 0C       		.uleb128 0xc
  1984 06b3 36190000 		.4byte	.LASF120
  1985 06b7 09       		.byte	0x9
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 36
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 36
 
 
  1986 06b8 E801     		.2byte	0x1e8
@@ -2158,7 +2158,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  2040 072d B1000000 		.4byte	0xb1
  2041 0731 03       		.byte	0x3
  2042 0732 00       		.byte	0
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 37
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 37
 
 
  2043 0733 07       		.uleb128 0x7
@@ -2218,7 +2218,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  2097 079e 32       		.byte	0x32
  2098 079f AA000000 		.4byte	0xaa
  2099 07a3 08       		.byte	0x8
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 38
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 38
 
 
  2100 07a4 08       		.uleb128 0x8
@@ -2278,7 +2278,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  2154 080f DA120000 		.4byte	.LASF142
  2155 0813 0C       		.byte	0xc
  2156 0814 3C       		.byte	0x3c
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 39
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 39
 
 
  2157 0815 AA000000 		.4byte	0xaa
@@ -2338,7 +2338,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  2211 0882 4E       		.byte	0x4e
  2212 0883 6A070000 		.4byte	0x76a
  2213 0887 0001     		.2byte	0x100
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 40
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 40
 
 
  2214 0889 18       		.uleb128 0x18
@@ -2398,7 +2398,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  2268 08fa 00       		.byte	0
  2269 08fb 10       		.uleb128 0x10
  2270 08fc 04       		.byte	0x4
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 41
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 41
 
 
  2271 08fd 01090000 		.4byte	0x901
@@ -2458,7 +2458,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  2325 0966 08       		.uleb128 0x8
  2326 0967 8C210000 		.4byte	.LASF161
  2327 096b 0C       		.byte	0xc
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 42
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 42
 
 
  2328 096c BA       		.byte	0xba
@@ -2518,7 +2518,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  2382 09d8 CF       		.byte	0xcf
  2383 09d9 27090000 		.4byte	0x927
  2384 09dd 38       		.byte	0x38
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 43
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 43
 
 
  2385 09de 16       		.uleb128 0x16
@@ -2578,7 +2578,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  2439 0a4a 08       		.uleb128 0x8
  2440 0a4b C2280000 		.4byte	.LASF175
  2441 0a4f 0C       		.byte	0xc
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 44
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 44
 
 
  2442 0a50 E5       		.byte	0xe5
@@ -2638,7 +2638,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  2496 0ac8 4202     		.2byte	0x242
  2497 0aca AA000000 		.4byte	0xaa
  2498 0ace 10       		.byte	0x10
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 45
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 45
 
 
  2499 0acf 0B       		.uleb128 0xb
@@ -2698,7 +2698,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  2553 0b44 0B       		.uleb128 0xb
  2554 0b45 8F020000 		.4byte	.LASF191
  2555 0b49 0C       		.byte	0xc
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 46
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 46
 
 
  2556 0b4a 5402     		.2byte	0x254
@@ -2758,7 +2758,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  2610 0bc3 DC0B0000 		.4byte	0xbdc
  2611 0bc7 1B       		.uleb128 0x1b
  2612 0bc8 750A0000 		.4byte	0xa75
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 47
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 47
 
 
  2613 0bcc 1B       		.uleb128 0x1b
@@ -2818,7 +2818,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  2667 0c4a 00       		.byte	0
  2668 0c4b 0C       		.uleb128 0xc
  2669 0c4c 692A0000 		.4byte	.LASF198
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 48
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 48
 
 
  2670 0c50 0C       		.byte	0xc
@@ -2878,7 +2878,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  2724 0cc4 0C       		.byte	0xc
  2725 0cc5 4201     		.2byte	0x142
  2726 0cc7 66000000 		.4byte	0x66
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 49
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 49
 
 
  2727 0ccb 0C       		.byte	0xc
@@ -2938,7 +2938,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  2781 0d3c 980C0000 		.4byte	0xc98
  2782 0d40 58       		.byte	0x58
  2783 0d41 0B       		.uleb128 0xb
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 50
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 50
 
 
  2784 0d42 C7200000 		.4byte	.LASF213
@@ -2998,7 +2998,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  2838 0db7 10160000 		.4byte	.LASF222
  2839 0dbb 0C       		.byte	0xc
  2840 0dbc 6B02     		.2byte	0x26b
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 51
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 51
 
 
  2841 0dbe 54070000 		.4byte	0x754
@@ -3058,7 +3058,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  2895 0e32 09       		.uleb128 0x9
  2896 0e33 27090000 		.4byte	0x927
  2897 0e37 420E0000 		.4byte	0xe42
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 52
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 52
 
 
  2898 0e3b 0A       		.uleb128 0xa
@@ -3118,7 +3118,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  2952 0eb0 00       		.byte	0
  2953 0eb1 10       		.uleb128 0x10
  2954 0eb2 04       		.byte	0x4
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 53
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 53
 
 
  2955 0eb3 B70E0000 		.4byte	0xeb7
@@ -3178,7 +3178,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  3009 0f27 F00E0000 		.4byte	0xef0
  3010 0f2b 10       		.uleb128 0x10
  3011 0f2c 04       		.byte	0x4
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 54
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 54
 
 
  3012 0f2d 200F0000 		.4byte	0xf20
@@ -3238,7 +3238,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  3066 0fa5 51       		.byte	0x51
  3067 0fa6 E9000000 		.4byte	0xe9
  3068 0faa 02       		.uleb128 0x2
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 55
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 55
 
 
  3069 0fab AB180000 		.4byte	.LASF248
@@ -3298,7 +3298,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  3123 101d 10       		.byte	0x10
  3124 101e CB       		.byte	0xcb
  3125 101f F9100000 		.4byte	0x10f9
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 56
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 56
 
 
  3126 1023 14       		.byte	0x14
@@ -3358,7 +3358,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  3180 1091 2C       		.byte	0x2c
  3181 1092 0B       		.uleb128 0xb
  3182 1093 63190000 		.4byte	.LASF266
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 57
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 57
 
 
  3183 1097 10       		.byte	0x10
@@ -3418,7 +3418,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  3237 110a 15       		.uleb128 0x15
  3238 110b 592C0000 		.4byte	.LASF275
  3239 110f 04       		.byte	0x4
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 58
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 58
 
 
  3240 1110 10       		.byte	0x10
@@ -3478,7 +3478,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  3294 117e 9201     		.2byte	0x192
  3295 1180 730F0000 		.4byte	0xf73
  3296 1184 08       		.byte	0x8
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 59
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 59
 
 
  3297 1185 0B       		.uleb128 0xb
@@ -3538,7 +3538,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  3351 11fa 00       		.byte	0
  3352 11fb 0B       		.uleb128 0xb
  3353 11fc A60A0000 		.4byte	.LASF290
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 60
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 60
 
 
  3354 1200 10       		.byte	0x10
@@ -3598,7 +3598,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  3408 1274 10       		.byte	0x10
  3409 1275 8201     		.2byte	0x182
  3410 1277 C00F0000 		.4byte	0xfc0
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 61
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 61
 
 
  3411 127b 0C       		.byte	0xc
@@ -3658,7 +3658,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  3465 12f0 00       		.byte	0
  3466 12f1 0B       		.uleb128 0xb
  3467 12f2 61050000 		.4byte	.LASF306
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 62
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 62
 
 
  3468 12f6 10       		.byte	0x10
@@ -3718,7 +3718,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  3522 136f 25       		.uleb128 0x25
  3523 1370 A0190000 		.4byte	.LASF311
  3524 1374 12       		.byte	0x12
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 63
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 63
 
 
  3525 1375 4C       		.byte	0x4c
@@ -3778,7 +3778,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  3579 13e0 1C       		.byte	0x1c
  3580 13e1 08       		.uleb128 0x8
  3581 13e2 E30B0000 		.4byte	.LASF317
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 64
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 64
 
 
  3582 13e6 13       		.byte	0x13
@@ -3838,7 +3838,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  3636 1452 13       		.byte	0x13
  3637 1453 D7       		.byte	0xd7
  3638 1454 04010000 		.4byte	0x104
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 65
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 65
 
 
  3639 1458 44       		.byte	0x44
@@ -3898,7 +3898,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  3693 14c0 07       		.uleb128 0x7
  3694 14c1 10       		.byte	0x10
  3695 14c2 13       		.byte	0x13
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 66
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 66
 
 
  3696 14c3 F5       		.byte	0xf5
@@ -3958,7 +3958,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  3750 1530 04150000 		.4byte	0x1504
  3751 1534 0E       		.uleb128 0xe
  3752 1535 2003     		.2byte	0x320
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 67
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 67
 
 
  3753 1537 13       		.byte	0x13
@@ -4018,7 +4018,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  3807 15ac 1501     		.2byte	0x115
  3808 15ae 6A160000 		.4byte	0x166a
  3809 15b2 20       		.byte	0x20
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 68
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 68
 
 
  3810 15b3 0F       		.uleb128 0xf
@@ -4078,7 +4078,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  3864 1631 0F       		.uleb128 0xf
  3865 1632 1C240000 		.4byte	.LASF347
  3866 1636 13       		.byte	0x13
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 69
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 69
 
 
  3867 1637 1F01     		.2byte	0x11f
@@ -4138,7 +4138,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  3921 16b4 B1000000 		.4byte	0xb1
  3922 16b8 1B       		.byte	0x1b
  3923 16b9 00       		.byte	0
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 70
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 70
 
 
  3924 16ba 0C       		.uleb128 0xc
@@ -4198,7 +4198,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  3978 172e 13       		.byte	0x13
  3979 172f 3F01     		.2byte	0x13f
  3980 1731 04010000 		.4byte	0x104
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 71
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 71
 
 
  3981 1735 1C       		.byte	0x1c
@@ -4258,7 +4258,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  4035 17a5 0B       		.uleb128 0xb
  4036 17a6 B0250000 		.4byte	.LASF365
  4037 17aa 13       		.byte	0x13
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 72
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 72
 
 
  4038 17ab 6E01     		.2byte	0x16e
@@ -4318,7 +4318,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  4092 1820 3F02     		.2byte	0x23f
  4093 1822 A8180000 		.4byte	0x18a8
  4094 1826 23       		.uleb128 0x23
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 73
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 73
 
 
  4095 1827 43523100 		.ascii	"CR1\000"
@@ -4378,7 +4378,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  4149 189b 0D2B0000 		.4byte	.LASF372
  4150 189f 13       		.byte	0x13
  4151 18a0 4A02     		.2byte	0x24a
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 74
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 74
 
 
  4152 18a2 04010000 		.4byte	0x104
@@ -4438,7 +4438,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  4206 1917 18       		.byte	0x18
  4207 1918 0B       		.uleb128 0xb
  4208 1919 AA060000 		.4byte	.LASF379
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 75
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 75
 
 
  4209 191d 13       		.byte	0x13
@@ -4498,7 +4498,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  4263 1992 13       		.byte	0x13
  4264 1993 D102     		.2byte	0x2d1
  4265 1995 43130000 		.4byte	0x1343
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 76
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 76
 
 
  4266 1999 40       		.byte	0x40
@@ -4558,7 +4558,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  4320 1a0c 08       		.byte	0x8
  4321 1a0d 23       		.uleb128 0x23
  4322 1a0e 445200   		.ascii	"DR\000"
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 77
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 77
 
 
  4323 1a11 13       		.byte	0x13
@@ -4618,7 +4618,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  4377 1a81 0C03     		.2byte	0x30c
  4378 1a83 04010000 		.4byte	0x104
  4379 1a87 04       		.byte	0x4
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 78
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 78
 
 
  4380 1a88 23       		.uleb128 0x23
@@ -4678,7 +4678,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  4434 1afd 0E010000 		.4byte	0x10e
  4435 1b01 15       		.uleb128 0x15
  4436 1b02 B2150000 		.4byte	.LASF399
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 79
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 79
 
 
  4437 1b06 04       		.byte	0x4
@@ -4738,7 +4738,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  4491 1b6f 73323200 		.ascii	"s22\000"
  4492 1b73 15       		.byte	0x15
  4493 1b74 FC       		.byte	0xfc
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 80
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 80
 
 
  4494 1b75 EB1A0000 		.4byte	0x1aeb
@@ -4798,7 +4798,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  4548 1be7 EB1A0000 		.4byte	0x1aeb
  4549 1beb 3C       		.byte	0x3c
  4550 1bec 23       		.uleb128 0x23
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 81
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 81
 
 
  4551 1bed 723400   		.ascii	"r4\000"
@@ -4858,7 +4858,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  4605 1c5b 10       		.uleb128 0x10
  4606 1c5c 04       		.byte	0x4
  4607 1c5d 1A1B0000 		.4byte	0x1b1a
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 82
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 82
 
 
  4608 1c61 07       		.uleb128 0x7
@@ -4918,7 +4918,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  4662 1ccb 16       		.byte	0x16
  4663 1ccc 73       		.byte	0x73
  4664 1ccd D91C0000 		.4byte	0x1cd9
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 83
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 83
 
 
  4665 1cd1 08       		.byte	0x8
@@ -4978,7 +4978,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  4719 1d3a 4B       		.byte	0x4b
  4720 1d3b 310F0000 		.4byte	0xf31
  4721 1d3f 08       		.byte	0x8
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 84
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 84
 
 
  4722 1d40 16       		.uleb128 0x16
@@ -5038,7 +5038,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  4776 1da7 04       		.byte	0x4
  4777 1da8 10       		.byte	0x10
  4778 1da9 FA       		.byte	0xfa
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 85
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 85
 
 
  4779 1daa 031E0000 		.4byte	0x1e03
@@ -5098,7 +5098,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  4833 1e26 19       		.byte	0x19
  4834 1e27 37       		.byte	0x37
  4835 1e28 9F0F0000 		.4byte	0xf9f
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 86
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 86
 
 
  4836 1e2c 08       		.byte	0x8
@@ -5158,7 +5158,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  4890 1e97 10       		.byte	0x10
  4891 1e98 0902     		.2byte	0x209
  4892 1e9a CB120000 		.4byte	0x12cb
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 87
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 87
 
 
  4893 1e9e 07       		.uleb128 0x7
@@ -5218,7 +5218,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  4947 1f07 FC270000 		.4byte	.LASF445
  4948 1f0b 02       		.byte	0x2
  4949 1f0c 3D       		.byte	0x3d
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 88
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 88
 
 
  4950 1f0d C3000000 		.4byte	0xc3
@@ -5278,7 +5278,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  5004 1f79 C3000000 		.4byte	0xc3
  5005 1f7d 15       		.byte	0x15
  5006 1f7e 00       		.byte	0
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 89
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 89
 
 
  5007 1f7f 09       		.uleb128 0x9
@@ -5338,7 +5338,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  5061 1ff1 890F0000 		.4byte	0xf89
  5062 1ff5 08       		.byte	0x8
  5063 1ff6 08       		.uleb128 0x8
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 90
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 90
 
 
  5064 1ff7 7A260000 		.4byte	.LASF463
@@ -5398,7 +5398,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  5118 2063 19010000 		.4byte	0x119
  5119 2067 08       		.byte	0x8
  5120 2068 08       		.uleb128 0x8
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 91
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 91
 
 
  5121 2069 97140000 		.4byte	.LASF472
@@ -5458,7 +5458,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  5175 20d8 1C       		.byte	0x1c
  5176 20d9 64       		.byte	0x64
  5177 20da 39200000 		.4byte	0x2039
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 92
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 92
 
 
  5178 20de 02       		.uleb128 0x2
@@ -5518,7 +5518,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  5232 215c 07       		.uleb128 0x7
  5233 215d 0C       		.byte	0xc
  5234 215e 1D       		.byte	0x1d
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 93
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 93
 
 
  5235 215f DA       		.byte	0xda
@@ -5578,7 +5578,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  5289 21ce BD210000 		.4byte	0x21bd
  5290 21d2 21       		.uleb128 0x21
  5291 21d3 481F0000 		.4byte	.LASF487
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 94
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 94
 
 
  5292 21d7 1D       		.byte	0x1d
@@ -5638,7 +5638,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  5346 2259 10       		.uleb128 0x10
  5347 225a 04       		.byte	0x4
  5348 225b 3B220000 		.4byte	0x223b
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 95
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 95
 
 
  5349 225f 27       		.uleb128 0x27
@@ -5698,7 +5698,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  5403 22c8 39       		.byte	0x39
  5404 22c9 F9000000 		.4byte	0xf9
  5405 22cd 04       		.byte	0x4
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 96
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 96
 
 
  5406 22ce 00       		.byte	0
@@ -5758,7 +5758,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  5460 234c 1B       		.uleb128 0x1b
  5461 234d 52230000 		.4byte	0x2352
  5462 2351 00       		.byte	0
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 97
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 97
 
 
  5463 2352 10       		.uleb128 0x10
@@ -5818,7 +5818,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  5517 23b7 08       		.uleb128 0x8
  5518 23b8 5D1C0000 		.4byte	.LASF503
  5519 23bc 1F       		.byte	0x1f
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 98
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 98
 
 
  5520 23bd AB       		.byte	0xab
@@ -5878,7 +5878,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  5574 2429 BA       		.byte	0xba
  5575 242a 04010000 		.4byte	0x104
  5576 242e 24       		.byte	0x24
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 99
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 99
 
 
  5577 242f 16       		.uleb128 0x16
@@ -5938,7 +5938,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  5631 2498 57000000 		.4byte	.LASF517
  5632 249c 1F       		.byte	0x1f
  5633 249d CF       		.byte	0xcf
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 100
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 100
 
 
  5634 249e F9000000 		.4byte	0xf9
@@ -5998,7 +5998,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  5688 250a A8       		.byte	0xa8
  5689 250b 08       		.uleb128 0x8
  5690 250c C41B0000 		.4byte	.LASF526
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 101
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 101
 
 
  5691 2510 1F       		.byte	0x1f
@@ -6058,7 +6058,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  5745 257e 9A150000 		.4byte	.LASF536
  5746 2582 05       		.byte	0x5
  5747 2583 00       		.byte	0
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 102
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 102
 
 
  5748 2584 02       		.uleb128 0x2
@@ -6118,7 +6118,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  5802 25fa A701     		.2byte	0x1a7
  5803 25fc 91270000 		.4byte	0x2791
  5804 2600 04       		.byte	0x4
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 103
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 103
 
 
  5805 2601 0B       		.uleb128 0xb
@@ -6178,7 +6178,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  5859 2676 10       		.uleb128 0x10
  5860 2677 04       		.byte	0x4
  5861 2678 7C260000 		.4byte	0x267c
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 104
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 104
 
 
  5862 267c 20       		.uleb128 0x20
@@ -6238,7 +6238,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  5916 26f0 002A0000 		.4byte	.LASF558
  5917 26f4 21       		.byte	0x21
  5918 26f5 6801     		.2byte	0x168
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 105
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 105
 
 
  5919 26f7 9D260000 		.4byte	0x269d
@@ -6298,7 +6298,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  5973 276b 21       		.byte	0x21
  5974 276c 9801     		.2byte	0x198
  5975 276e 80270000 		.4byte	0x2780
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 106
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 106
 
 
  5976 2772 0B       		.uleb128 0xb
@@ -6358,7 +6358,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  6030 27e6 28       		.uleb128 0x28
  6031 27e7 38000000 		.4byte	.LASF572
  6032 27eb 02       		.byte	0x2
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 107
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 107
 
 
  6033 27ec 28       		.uleb128 0x28
@@ -6418,7 +6418,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  6087 285c 00       		.byte	0
  6088 285d 0B       		.uleb128 0xb
  6089 285e B2200000 		.4byte	.LASF545
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 108
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 108
 
 
  6090 2862 23       		.byte	0x23
@@ -6478,7 +6478,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  6144 28d4 04       		.byte	0x4
  6145 28d5 42280000 		.4byte	0x2842
  6146 28d9 10       		.uleb128 0x10
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 109
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 109
 
 
  6147 28da 04       		.byte	0x4
@@ -6538,7 +6538,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  6201 2948 0B       		.uleb128 0xb
  6202 2949 AF1C0000 		.4byte	.LASF593
  6203 294d 25       		.byte	0x25
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 110
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 110
 
 
  6204 294e 0101     		.2byte	0x101
@@ -6598,7 +6598,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  6258 29c3 302A0000 		.4byte	0x2a30
  6259 29c7 0B       		.uleb128 0xb
  6260 29c8 E4190000 		.4byte	.LASF544
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 111
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 111
 
 
  6261 29cc 25       		.byte	0x25
@@ -6658,7 +6658,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  6315 2a41 2A       		.uleb128 0x2a
  6316 2a42 07       		.byte	0x7
  6317 2a43 01       		.byte	0x1
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 112
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 112
 
 
  6318 2a44 42000000 		.4byte	0x42
@@ -6718,7 +6718,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  6372 2abd 2A       		.uleb128 0x2a
  6373 2abe 07       		.byte	0x7
  6374 2abf 01       		.byte	0x1
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 113
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 113
 
 
  6375 2ac0 42000000 		.4byte	0x42
@@ -6778,7 +6778,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  6429 2b34 05       		.uleb128 0x5
  6430 2b35 282B0000 		.4byte	0x2b28
  6431 2b39 0D       		.uleb128 0xd
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 114
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 114
 
 
  6432 2b3a 04       		.byte	0x4
@@ -6838,7 +6838,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  6486 2bab 00       		.byte	0
  6487 2bac 02       		.uleb128 0x2
  6488 2bad EE1F0000 		.4byte	.LASF619
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 115
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 115
 
 
  6489 2bb1 26       		.byte	0x26
@@ -6898,7 +6898,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  6543 2c1d 392C0000 		.4byte	0x2c39
  6544 2c21 08       		.uleb128 0x8
  6545 2c22 F2090000 		.4byte	.LASF623
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 116
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 116
 
 
  6546 2c26 27       		.byte	0x27
@@ -6958,7 +6958,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  6600 2c91 28       		.byte	0x28
  6601 2c92 31       		.byte	0x31
  6602 2c93 B62C0000 		.4byte	0x2cb6
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 117
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 117
 
 
  6603 2c97 28       		.uleb128 0x28
@@ -7018,7 +7018,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  6657 2d08 A92E0000 		.4byte	0x2ea9
  6658 2d0c 0C       		.byte	0xc
  6659 2d0d 00       		.byte	0
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 118
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 118
 
 
  6660 2d0e 02       		.uleb128 0x2
@@ -7078,7 +7078,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  6714 2d7f A401     		.2byte	0x1a4
  6715 2d81 04010000 		.4byte	0x104
  6716 2d85 14       		.byte	0x14
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 119
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 119
 
 
  6717 2d86 0B       		.uleb128 0xb
@@ -7138,7 +7138,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  6771 2dfb 23       		.uleb128 0x23
  6772 2dfc 44435200 		.ascii	"DCR\000"
  6773 2e00 2A       		.byte	0x2a
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 120
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 120
 
 
  6774 2e01 AE01     		.2byte	0x1ae
@@ -7198,7 +7198,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  6828 2e76 04       		.byte	0x4
  6829 2e77 23       		.uleb128 0x23
  6830 2e78 63723200 		.ascii	"cr2\000"
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 121
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 121
 
 
  6831 2e7c 29       		.byte	0x29
@@ -7258,7 +7258,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  6885 2ef1 02       		.byte	0x2
  6886 2ef2 28       		.uleb128 0x28
  6887 2ef3 0A050000 		.4byte	.LASF658
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 122
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 122
 
 
  6888 2ef7 03       		.byte	0x3
@@ -7318,7 +7318,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  6942 2f68 01       		.byte	0x1
  6943 2f69 28       		.uleb128 0x28
  6944 2f6a D12A0000 		.4byte	.LASF669
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 123
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 123
 
 
  6945 2f6e 02       		.byte	0x2
@@ -7378,7 +7378,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  6999 2fe2 2C       		.byte	0x2c
  7000 2fe3 9C01     		.2byte	0x19c
  7001 2fe5 052F0000 		.4byte	0x2f05
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 124
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 124
 
 
  7002 2fe9 00       		.byte	0
@@ -7438,7 +7438,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  7056 305e 34       		.byte	0x34
  7057 305f 23       		.uleb128 0x23
  7058 3060 69326300 		.ascii	"i2c\000"
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 125
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 125
 
 
  7059 3064 2C       		.byte	0x2c
@@ -7498,7 +7498,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  7113 30d0 3D310000 		.4byte	0x313d
  7114 30d4 0B       		.uleb128 0xb
  7115 30d5 E4190000 		.4byte	.LASF544
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 126
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 126
 
 
  7116 30d9 2E       		.byte	0x2e
@@ -7558,7 +7558,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  7170 314a 4E310000 		.4byte	0x314e
  7171 314e 20       		.uleb128 0x20
  7172 314f 63310000 		.4byte	0x3163
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 127
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 127
 
 
  7173 3153 1B       		.uleb128 0x1b
@@ -7618,7 +7618,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  7227 31bf C3310000 		.4byte	0x31c3
  7228 31c3 2B       		.uleb128 0x2b
  7229 31c4 0C       		.uleb128 0xc
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 128
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 128
 
 
  7230 31c5 092C0000 		.4byte	.LASF697
@@ -7678,7 +7678,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  7284 3238 0D320000 		.4byte	0x320d
  7285 323c 00       		.byte	0
  7286 323d 0B       		.uleb128 0xb
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 129
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 129
 
 
  7287 323e B2200000 		.4byte	.LASF545
@@ -7738,7 +7738,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  7341 32b3 30       		.byte	0x30
  7342 32b4 2501     		.2byte	0x125
  7343 32b6 F9000000 		.4byte	0xf9
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 130
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 130
 
 
  7344 32ba 0C       		.uleb128 0xc
@@ -7798,7 +7798,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  7398 3330 04       		.byte	0x4
  7399 3331 0B       		.uleb128 0xb
  7400 3332 341A0000 		.4byte	.LASF649
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 131
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 131
 
 
  7401 3336 30       		.byte	0x30
@@ -7858,7 +7858,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  7455 33ad 18320000 		.4byte	0x3218
  7456 33b1 21       		.uleb128 0x21
  7457 33b2 00150000 		.4byte	.LASF716
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 132
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 132
 
 
  7458 33b6 30       		.byte	0x30
@@ -7918,7 +7918,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  7512 3423 08       		.uleb128 0x8
  7513 3424 3C1C0000 		.4byte	.LASF723
  7514 3428 31       		.byte	0x31
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 133
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 133
 
 
  7515 3429 7B       		.byte	0x7b
@@ -7978,7 +7978,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  7569 3494 6E       		.byte	0x6e
  7570 3495 41210000 		.4byte	0x2141
  7571 3499 08       		.byte	0x8
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 134
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 134
 
 
  7572 349a 16       		.uleb128 0x16
@@ -8038,7 +8038,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  7626 3506 8C030000 		.4byte	.LASF733
  7627 350a 00       		.byte	0
  7628 350b 28       		.uleb128 0x28
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 135
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 135
 
 
  7629 350c FC180000 		.4byte	.LASF734
@@ -8098,7 +8098,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  7683 357b 5E230000 		.4byte	0x235e
  7684 357f 18       		.byte	0x18
  7685 3580 08       		.uleb128 0x8
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 136
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 136
 
 
  7686 3581 A4210000 		.4byte	.LASF740
@@ -8158,7 +8158,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  7740 35f3 07       		.uleb128 0x7
  7741 35f4 08       		.byte	0x8
  7742 35f5 34       		.byte	0x34
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 137
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 137
 
 
  7743 35f6 CF       		.byte	0xcf
@@ -8218,7 +8218,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  7797 3665 34       		.byte	0x34
  7798 3666 EC       		.byte	0xec
  7799 3667 14230000 		.4byte	0x2314
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 138
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 138
 
 
  7800 366b 10       		.byte	0x10
@@ -8278,7 +8278,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  7854 36d8 03       		.byte	0x3
  7855 36d9 28       		.uleb128 0x28
  7856 36da DD160000 		.4byte	.LASF758
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 139
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 139
 
 
  7857 36de 04       		.byte	0x4
@@ -8338,7 +8338,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  7911 3752 0B       		.uleb128 0xb
  7912 3753 26020000 		.4byte	.LASF682
  7913 3757 36       		.byte	0x36
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 140
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 140
 
 
  7914 3758 DE01     		.2byte	0x1de
@@ -8398,7 +8398,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  7968 37cc 08       		.byte	0x8
  7969 37cd 23       		.uleb128 0x23
  7970 37ce 63723100 		.ascii	"cr1\000"
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 141
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 141
 
 
  7971 37d2 36       		.byte	0x36
@@ -8458,7 +8458,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  8025 384a 0A       		.byte	0xa
  8026 384b 23       		.uleb128 0x23
  8027 384c 65706300 		.ascii	"epc\000"
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 142
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 142
 
 
  8028 3850 38       		.byte	0x38
@@ -8518,7 +8518,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  8082 38c5 38       		.byte	0x38
  8083 38c6 B501     		.2byte	0x1b5
  8084 38c8 C3000000 		.4byte	0xc3
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 143
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 143
 
 
  8085 38cc 4E       		.byte	0x4e
@@ -8578,7 +8578,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  8139 393c C3000000 		.4byte	0xc3
  8140 3940 2A       		.uleb128 0x2a
  8141 3941 07       		.byte	0x7
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 144
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 144
 
 
  8142 3942 01       		.byte	0x1
@@ -8638,7 +8638,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  8196 39b1 00       		.byte	0
  8197 39b2 0C       		.uleb128 0xc
  8198 39b3 4F140000 		.4byte	.LASF798
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 145
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 145
 
 
  8199 39b7 37       		.byte	0x37
@@ -8698,7 +8698,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  8253 3a26 37       		.byte	0x37
  8254 3a27 3A01     		.2byte	0x13a
  8255 3a29 FD390000 		.4byte	0x39fd
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 146
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 146
 
 
  8256 3a2d 05       		.uleb128 0x5
@@ -8758,7 +8758,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  8310 3aa6 04       		.byte	0x4
  8311 3aa7 AB3A0000 		.4byte	0x3aab
  8312 3aab 1A       		.uleb128 0x1a
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 147
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 147
 
 
  8313 3aac E9220000 		.4byte	0x22e9
@@ -8818,7 +8818,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  8367 3b22 3A       		.byte	0x3a
  8368 3b23 04010000 		.4byte	0x104
  8369 3b27 0C       		.byte	0xc
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 148
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 148
 
 
  8370 3b28 08       		.uleb128 0x8
@@ -8878,7 +8878,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  8424 3b91 E7140000 		.4byte	.LASF826
  8425 3b95 39       		.byte	0x39
  8426 3b96 4C       		.byte	0x4c
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 149
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 149
 
 
  8427 3b97 04010000 		.4byte	0x104
@@ -8938,7 +8938,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  8481 3c03 08       		.byte	0x8
  8482 3c04 08       		.uleb128 0x8
  8483 3c05 E7140000 		.4byte	.LASF826
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 150
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 150
 
 
  8484 3c09 39       		.byte	0x39
@@ -8998,7 +8998,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  8538 3c75 6C       		.byte	0x6c
  8539 3c76 04010000 		.4byte	0x104
  8540 3c7a 08       		.byte	0x8
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 151
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 151
 
 
  8541 3c7b 08       		.uleb128 0x8
@@ -9058,7 +9058,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  8595 3ce7 08       		.uleb128 0x8
  8596 3ce8 93100000 		.4byte	.LASF847
  8597 3cec 39       		.byte	0x39
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 152
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 152
 
 
  8598 3ced 7A       		.byte	0x7a
@@ -9118,7 +9118,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  8652 3d5d 85       		.byte	0x85
  8653 3d5e 04010000 		.4byte	0x104
  8654 3d62 0404     		.2byte	0x404
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 153
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 153
 
 
  8655 3d64 18       		.uleb128 0x18
@@ -9178,7 +9178,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  8709 3dd8 18       		.uleb128 0x18
  8710 3dd9 74280000 		.4byte	.LASF864
  8711 3ddd 39       		.byte	0x39
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 154
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 154
 
 
  8712 3dde 94       		.byte	0x94
@@ -9238,7 +9238,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  8766 3e53 A1       		.byte	0xa1
  8767 3e54 04010000 		.4byte	0x104
  8768 3e58 2008     		.2byte	0x820
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 155
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 155
 
 
  8769 3e5a 18       		.uleb128 0x18
@@ -9298,7 +9298,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  8823 3ecf 18       		.uleb128 0x18
  8824 3ed0 BE140000 		.4byte	.LASF883
  8825 3ed4 39       		.byte	0x39
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 156
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 156
 
 
  8826 3ed5 AE       		.byte	0xae
@@ -9358,7 +9358,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  8880 3f4c AF       		.byte	0xaf
  8881 3f4d 00       		.byte	0
  8882 3f4e 06       		.uleb128 0x6
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 157
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 157
 
 
  8883 3f4f 3E3F0000 		.4byte	0x3f3e
@@ -9418,7 +9418,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  8937 3fd0 0A       		.uleb128 0xa
  8938 3fd1 B1000000 		.4byte	0xb1
  8939 3fd5 0F       		.byte	0xf
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 158
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 158
 
 
  8940 3fd6 00       		.byte	0
@@ -9478,7 +9478,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  8994 4046 CA       		.byte	0xca
  8995 4047 13400000 		.4byte	0x4013
  8996 404b 05       		.uleb128 0x5
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 159
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 159
 
 
  8997 404c 40400000 		.4byte	0x4040
@@ -9538,7 +9538,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  9051 40b2 00       		.byte	0
  9052 40b3 08       		.uleb128 0x8
  9053 40b4 2D160000 		.4byte	.LASF896
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 160
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 160
 
 
  9054 40b8 38       		.byte	0x38
@@ -9598,7 +9598,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  9108 411f D3200000 		.4byte	0x20d3
  9109 4123 1E       		.uleb128 0x1e
  9110 4124 04       		.byte	0x4
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 161
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 161
 
 
  9111 4125 38       		.byte	0x38
@@ -9658,7 +9658,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  9165 4194 45410000 		.4byte	0x4145
  9166 4198 0D       		.uleb128 0xd
  9167 4199 24       		.byte	0x24
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 162
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 162
 
 
  9168 419a 38       		.byte	0x38
@@ -9718,7 +9718,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  9222 420f 5001     		.2byte	0x150
  9223 4211 DE000000 		.4byte	0xde
  9224 4215 1C       		.byte	0x1c
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 163
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 163
 
 
  9225 4216 0B       		.uleb128 0xb
@@ -9778,7 +9778,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  9279 4287 41420000 		.4byte	0x4241
  9280 428b 05       		.uleb128 0x5
  9281 428c 7F420000 		.4byte	0x427f
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 164
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 164
 
 
  9282 4290 10       		.uleb128 0x10
@@ -9838,7 +9838,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  9336 4303 00       		.byte	0
  9337 4304 02       		.uleb128 0x2
  9338 4305 6A070000 		.4byte	.LASF925
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 165
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 165
 
 
  9339 4309 3A       		.byte	0x3a
@@ -9898,7 +9898,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  9393 4374 49440000 		.4byte	0x4449
  9394 4378 5401     		.2byte	0x154
  9395 437a 18       		.uleb128 0x18
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 166
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 166
 
 
  9396 437b B2200000 		.4byte	.LASF545
@@ -9958,7 +9958,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  9450 43e8 00       		.byte	0
  9451 43e9 08       		.uleb128 0x8
  9452 43ea 18050000 		.4byte	.LASF728
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 167
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 167
 
 
  9453 43ee 3A       		.byte	0x3a
@@ -10018,7 +10018,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  9507 445a 04       		.byte	0x4
  9508 445b CC430000 		.4byte	0x43cc
  9509 445f 25       		.uleb128 0x25
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 168
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 168
 
 
  9510 4460 CC160000 		.4byte	.LASF933
@@ -10078,7 +10078,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  9564 44d2 03       		.byte	0x3
  9565 44d3 00000000 		.4byte	suspended
  9566 44d7 2F       		.uleb128 0x2f
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 169
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 169
 
 
  9567 44d8 75070000 		.4byte	.LASF943
@@ -10106,7 +10106,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  9589 4509 30       		.uleb128 0x30
  9590 450a 09040000 		.4byte	.LASF949
  9591 450e 01       		.byte	0x1
- 9592 450f 0701     		.2byte	0x107
+ 9592 450f 0601     		.2byte	0x106
  9593 4511 DE000000 		.4byte	0xde
  9594 4515 00000000 		.4byte	.LFB270
  9595 4519 28000000 		.4byte	.LFE270-.LFB270
@@ -10120,7 +10120,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  9603 452d 32       		.uleb128 0x32
  9604 452e 692B0000 		.4byte	.LASF945
  9605 4532 01       		.byte	0x1
- 9606 4533 0301     		.2byte	0x103
+ 9606 4533 0201     		.2byte	0x102
  9607 4535 00000000 		.4byte	.LFB269
  9608 4539 2C000000 		.4byte	.LFE269-.LFB269
  9609 453d 01       		.uleb128 0x1
@@ -10133,12 +10133,12 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  9616 454d 33       		.uleb128 0x33
  9617 454e BA230000 		.4byte	.LASF946
  9618 4552 01       		.byte	0x1
- 9619 4553 FF       		.byte	0xff
+ 9619 4553 FE       		.byte	0xfe
  9620 4554 00000000 		.4byte	.LFB268
  9621 4558 2C000000 		.4byte	.LFE268-.LFB268
  9622 455c 01       		.uleb128 0x1
  9623 455d 9C       		.byte	0x9c
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 170
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 170
 
 
  9624 455e 6C450000 		.4byte	0x456c
@@ -10149,7 +10149,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  9629 456c 33       		.uleb128 0x33
  9630 456d A31A0000 		.4byte	.LASF947
  9631 4571 01       		.byte	0x1
- 9632 4572 F8       		.byte	0xf8
+ 9632 4572 F7       		.byte	0xf7
  9633 4573 00000000 		.4byte	.LFB267
  9634 4577 3C000000 		.4byte	.LFE267-.LFB267
  9635 457b 01       		.uleb128 0x1
@@ -10198,10 +10198,10 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  9678 45da 52       		.byte	0x52
  9679 45db 02       		.uleb128 0x2
  9680 45dc 08       		.byte	0x8
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 171
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 171
 
 
- 9681 45dd 4A       		.byte	0x4a
+ 9681 45dd 40       		.byte	0x40
  9682 45de 35       		.uleb128 0x35
  9683 45df 01       		.uleb128 0x1
  9684 45e0 53       		.byte	0x53
@@ -10258,7 +10258,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  9735 4646 E2       		.byte	0xe2
  9736 4647 C4010000 		.4byte	0x1c4
  9737 464b 01       		.byte	0x1
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 172
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 172
 
 
  9738 464c 5C460000 		.4byte	0x465c
@@ -10318,7 +10318,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  9792 46c7 F3       		.byte	0xf3
  9793 46c8 01       		.uleb128 0x1
  9794 46c9 50       		.byte	0x50
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 173
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 173
 
 
  9795 46ca 00       		.byte	0
@@ -10378,7 +10378,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  9849 4739 34       		.uleb128 0x34
  9850 473a 48000000 		.4byte	.LVL23
  9851 473e F84B0000 		.4byte	0x4bf8
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 174
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 174
 
 
  9852 4742 59470000 		.4byte	0x4759
@@ -10438,7 +10438,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  9906 478e 52       		.byte	0x52
  9907 478f 03       		.uleb128 0x3
  9908 4790 0A       		.byte	0xa
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 175
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 175
 
 
  9909 4791 9919     		.2byte	0x1999
@@ -10498,7 +10498,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  9963 47e4 C4000000 		.4byte	.LVL38
  9964 47e8 104C0000 		.4byte	0x4c10
  9965 47ec 02480000 		.4byte	0x4802
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 176
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 176
 
 
  9966 47f0 35       		.uleb128 0x35
@@ -10558,7 +10558,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  10020 4839 42       		.byte	0x42
  10021 483a 40       		.byte	0x40
  10022 483b 24       		.byte	0x24
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 177
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 177
 
 
  10023 483c 00       		.byte	0
@@ -10618,7 +10618,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  10077 4893 F3       		.byte	0xf3
  10078 4894 01       		.uleb128 0x1
  10079 4895 50       		.byte	0x50
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 178
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 178
 
 
  10080 4896 35       		.uleb128 0x35
@@ -10678,7 +10678,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  10134 4900 3E       		.uleb128 0x3e
  10135 4901 32150000 		.4byte	.LASF985
  10136 4905 01       		.byte	0x1
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 179
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 179
 
 
  10137 4906 1C       		.byte	0x1c
@@ -10738,7 +10738,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  10191 4987 00       		.sleb128 0
  10192 4988 35       		.uleb128 0x35
  10193 4989 01       		.uleb128 0x1
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 180
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 180
 
 
  10194 498a 51       		.byte	0x51
@@ -10798,7 +10798,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  10248 49ed 35       		.uleb128 0x35
  10249 49ee 01       		.uleb128 0x1
  10250 49ef 50       		.byte	0x50
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 181
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 181
 
 
  10251 49f0 02       		.uleb128 0x2
@@ -10858,7 +10858,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  10305 4a60 C8480000 		.4byte	0x48c8
  10306 4a64 A1020000 		.4byte	.LLST1
  10307 4a68 49       		.uleb128 0x49
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 182
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 182
 
 
  10308 4a69 D3480000 		.4byte	0x48d3
@@ -10918,7 +10918,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  10362 4ad8 66       		.sleb128 -26
  10363 4ad9 35       		.uleb128 0x35
  10364 4ada 01       		.uleb128 0x1
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 183
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 183
 
 
  10365 4adb 52       		.byte	0x52
@@ -10978,7 +10978,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  10419 4b36 75       		.byte	0x75
  10420 4b37 00       		.sleb128 0
  10421 4b38 35       		.uleb128 0x35
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 184
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 184
 
 
  10422 4b39 01       		.uleb128 0x1
@@ -11038,7 +11038,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  10476 4b9c 4E       		.uleb128 0x4e
  10477 4b9d 6B260000 		.4byte	.LASF964
  10478 4ba1 6B260000 		.4byte	.LASF964
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 185
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 185
 
 
  10479 4ba5 03       		.byte	0x3
@@ -11098,7 +11098,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  10533 4c21 8E090000 		.4byte	.LASF975
  10534 4c25 3F       		.byte	0x3f
  10535 4c26 DD05     		.2byte	0x5dd
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 186
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 186
 
 
  10536 4c28 4E       		.uleb128 0x4e
@@ -11158,7 +11158,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  10590 0015 00       		.byte	0
  10591 0016 03       		.uleb128 0x3
  10592 0017 0E       		.uleb128 0xe
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 187
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 187
 
 
  10593 0018 3A       		.uleb128 0x3a
@@ -11218,7 +11218,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  10647 004e 13       		.uleb128 0x13
  10648 004f 00       		.byte	0
  10649 0050 00       		.byte	0
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 188
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 188
 
 
  10650 0051 08       		.uleb128 0x8
@@ -11278,7 +11278,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  10704 0087 0B       		.uleb128 0xb
  10705 0088 3B       		.uleb128 0x3b
  10706 0089 05       		.uleb128 0x5
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 189
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 189
 
 
  10707 008a 49       		.uleb128 0x49
@@ -11338,7 +11338,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  10761 00c0 11       		.uleb128 0x11
  10762 00c1 0F       		.uleb128 0xf
  10763 00c2 00       		.byte	0
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 190
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 190
 
 
  10764 00c3 0B       		.uleb128 0xb
@@ -11398,7 +11398,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  10818 00f9 16       		.uleb128 0x16
  10819 00fa 0D       		.uleb128 0xd
  10820 00fb 00       		.byte	0
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 191
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 191
 
 
  10821 00fc 03       		.uleb128 0x3
@@ -11458,7 +11458,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  10875 0132 49       		.uleb128 0x49
  10876 0133 13       		.uleb128 0x13
  10877 0134 01       		.uleb128 0x1
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 192
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 192
 
 
  10878 0135 13       		.uleb128 0x13
@@ -11518,7 +11518,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  10932 016b 0D       		.uleb128 0xd
  10933 016c 00       		.byte	0
  10934 016d 03       		.uleb128 0x3
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 193
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 193
 
 
  10935 016e 0E       		.uleb128 0xe
@@ -11578,7 +11578,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  10989 01a4 0B       		.uleb128 0xb
  10990 01a5 3B       		.uleb128 0x3b
  10991 01a6 05       		.uleb128 0x5
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 194
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 194
 
 
  10992 01a7 49       		.uleb128 0x49
@@ -11638,7 +11638,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  11046 01dd 00       		.byte	0
  11047 01de 27       		.uleb128 0x27
  11048 01df 04       		.uleb128 0x4
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 195
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 195
 
 
  11049 01e0 01       		.byte	0x1
@@ -11698,7 +11698,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  11103 0216 2B       		.uleb128 0x2b
  11104 0217 26       		.uleb128 0x26
  11105 0218 00       		.byte	0
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 196
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 196
 
 
  11106 0219 00       		.byte	0
@@ -11758,7 +11758,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  11160 024f 30       		.uleb128 0x30
  11161 0250 2E       		.uleb128 0x2e
  11162 0251 01       		.byte	0x1
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 197
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 197
 
 
  11163 0252 3F       		.uleb128 0x3f
@@ -11818,7 +11818,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  11217 028c 01       		.uleb128 0x1
  11218 028d 13       		.uleb128 0x13
  11219 028e 00       		.byte	0
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 198
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 198
 
 
  11220 028f 00       		.byte	0
@@ -11878,7 +11878,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  11274 02cb 0B       		.uleb128 0xb
  11275 02cc 3B       		.uleb128 0x3b
  11276 02cd 0B       		.uleb128 0xb
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 199
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 199
 
 
  11277 02ce 27       		.uleb128 0x27
@@ -11938,7 +11938,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  11331 0308 0B       		.uleb128 0xb
  11332 0309 27       		.uleb128 0x27
  11333 030a 19       		.uleb128 0x19
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 200
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 200
 
 
  11334 030b 49       		.uleb128 0x49
@@ -11998,7 +11998,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  11388 0344 3B       		.uleb128 0x3b
  11389 0345 0B       		.uleb128 0xb
  11390 0346 49       		.uleb128 0x49
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 201
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 201
 
 
  11391 0347 13       		.uleb128 0x13
@@ -12058,7 +12058,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  11445 037e 01       		.uleb128 0x1
  11446 037f 13       		.uleb128 0x13
  11447 0380 00       		.byte	0
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 202
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 202
 
 
  11448 0381 00       		.byte	0
@@ -12118,7 +12118,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  11502 03b9 01       		.uleb128 0x1
  11503 03ba 13       		.uleb128 0x13
  11504 03bb 00       		.byte	0
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 203
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 203
 
 
  11505 03bc 00       		.byte	0
@@ -12178,7 +12178,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  11559 03f3 31       		.uleb128 0x31
  11560 03f4 13       		.uleb128 0x13
  11561 03f5 02       		.uleb128 0x2
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 204
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 204
 
 
  11562 03f6 18       		.uleb128 0x18
@@ -12238,7 +12238,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  11616 042c 00       		.byte	0
  11617 042d 4F       		.uleb128 0x4f
  11618 042e 2E       		.uleb128 0x2e
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 205
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 205
 
 
  11619 042f 00       		.byte	0
@@ -12298,7 +12298,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  11673 0058 0100     		.2byte	0x1
  11674 005a 50       		.byte	0x50
  11675 005b 2D000000 		.4byte	.LVL60-1
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 206
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 206
 
 
  11676 005f 2E000000 		.4byte	.LVL60
@@ -12358,7 +12358,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  11730 00e7 50       		.byte	0x50
  11731 00e8 C3000000 		.4byte	.LVL38-1
  11732 00ec C4000000 		.4byte	.LVL38
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 207
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 207
 
 
  11733 00f0 0400     		.2byte	0x4
@@ -12418,7 +12418,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  11787 016e 00000000 		.4byte	0
  11788              	.LLST5:
  11789 0172 0C000000 		.4byte	.LVL17
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 208
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 208
 
 
  11790 0176 16000000 		.4byte	.LVL19
@@ -12478,7 +12478,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  11844 020a 0100     		.2byte	0x1
  11845 020c 50       		.byte	0x50
  11846 020d 32010000 		.4byte	.LVL48
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 209
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 209
 
 
  11847 0211 42010000 		.4byte	.LVL49
@@ -12538,7 +12538,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  11901 029d 00000000 		.4byte	0
  11902              	.LLST1:
  11903 02a1 0A000000 		.4byte	.LVL1
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 210
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 210
 
 
  11904 02a5 10000000 		.4byte	.LVL2
@@ -12598,7 +12598,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  11958 032f 50       		.byte	0x50
  11959 0330 9F       		.byte	0x9f
  11960 0331 00000000 		.4byte	0
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 211
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 211
 
 
  11961 0335 00000000 		.4byte	0
@@ -12658,7 +12658,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  12015 004c 00000000 		.4byte	0
  12016 0050 00000000 		.4byte	.LFB261
  12017 0054 60000000 		.4byte	.LFE261
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 212
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 212
 
 
  12018 0058 00000000 		.4byte	.LFB262
@@ -12718,7 +12718,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  12054      00
  12055              	.LASF957:
  12056 0045 56687653 		.ascii	"VhvSettings\000"
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 213
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 213
 
 
  12056      65747469 
@@ -12778,7 +12778,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  12080      00
  12081              	.LASF454:
  12082 00eb 63665F6F 		.ascii	"cf_off_time\000"
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 214
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 214
 
 
  12082      66665F74 
@@ -12838,7 +12838,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  12110 0179 424C4B5F 		.ascii	"BLK_UNINIT\000"
  12110      554E494E 
  12110      495400
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 215
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 215
 
 
  12111              	.LASF693:
@@ -12898,7 +12898,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  12142      6C657300 
  12143              	.LASF849:
  12144 0200 47434346 		.ascii	"GCCFG\000"
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 216
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 216
 
 
  12144      4700
@@ -12958,7 +12958,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  12174 028f 5F637674 		.ascii	"_cvtlen\000"
  12174      6C656E00 
  12175              	.LASF970:
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 217
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 217
 
 
  12176 0297 564C3533 		.ascii	"VL53L0X_StartMeasurement\000"
@@ -13018,7 +13018,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  12204      53544F50 
  12204      00
  12205              	.LASF227:
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 218
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 218
 
 
  12206 0323 5F756E75 		.ascii	"_unused\000"
@@ -13078,7 +13078,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  12233              	.LASF702:
  12234 03c2 70776D73 		.ascii	"pwmstate_t\000"
  12234      74617465 
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 219
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 219
 
 
  12234      5F7400
@@ -13138,7 +13138,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  12263              	.LASF663:
  12264 0465 69326366 		.ascii	"i2cflags_t\000"
  12264      6C616773 
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 220
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 220
 
 
  12264      5F7400
@@ -13198,7 +13198,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  12292      7472696E 
  12292      6700
  12293              	.LASF676:
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 221
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 221
 
 
  12294 0500 49324344 		.ascii	"I2CDriver\000"
@@ -13258,7 +13258,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  12322      656C5F73 
  12322      74617473 
  12322      5F7400
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 222
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 222
 
 
  12323              	.LASF470:
@@ -13318,7 +13318,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  12347              	.LASF238:
  12348 0626 72747469 		.ascii	"rttime_t\000"
  12348      6D655F74 
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 223
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 223
 
 
  12348      00
@@ -13378,7 +13378,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  12376      6500
  12377              	.LASF655:
  12378 06c4 4932435F 		.ascii	"I2C_UNINIT\000"
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 224
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 224
 
 
  12378      554E494E 
@@ -13438,7 +13438,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  12404      75747963 
  12404      79636C65 
  12404      5F7400
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 225
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 225
 
 
  12405              	.LASF925:
@@ -13498,7 +13498,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  12428      7400
  12429              	.LASF146:
  12430 083e 5F5F746D 		.ascii	"__tm_yday\000"
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 226
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 226
 
 
  12430      5F796461 
@@ -13558,7 +13558,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  12456      6D4D6561 
  12457              	.LASF493:
  12458 08e2 424C4B5F 		.ascii	"BLK_READY\000"
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 227
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 227
 
 
  12458      52454144 
@@ -13618,7 +13618,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  12484      656600
  12485              	.LASF96:
  12486 0975 5369676E 		.ascii	"SignalRateMeasFixed400mm\000"
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 228
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 228
 
 
  12486      616C5261 
@@ -13678,7 +13678,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  12512 0a1f 5F64736F 		.ascii	"_dso_handle\000"
  12512      5F68616E 
  12512      646C6500 
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 229
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 229
 
 
  12513              	.LASF691:
@@ -13738,7 +13738,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  12540 0ab5 63685468 		.ascii	"chThdCreateStatic\000"
  12540      64437265 
  12540      61746553 
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 230
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 230
 
 
  12540      74617469 
@@ -13798,7 +13798,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  12566      73626366 
  12566      6700
  12567              	.LASF221:
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 231
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 231
 
 
  12568 0b50 5F6D6273 		.ascii	"_mbsrtowcs_state\000"
@@ -13858,7 +13858,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  12598      52454144 
  12598      5900
  12599              	.LASF314:
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 232
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 232
 
 
  12600 0bd7 4A4F4652 		.ascii	"JOFR1\000"
@@ -13918,7 +13918,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  12630 0c55 75736265 		.ascii	"usbeventcb_t\000"
  12630      76656E74 
  12630      63625F74 
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 233
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 233
 
 
  12630      00
@@ -13978,7 +13978,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  12655              	.LASF974:
  12656 0cf7 564C3533 		.ascii	"VL53L0X_SetVcselPulsePeriod\000"
  12656      4C30585F 
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 234
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 234
 
 
  12656      53657456 
@@ -14038,7 +14038,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  12682      746F626A 
  12682      7000
  12683              	.LASF321:
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 235
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 235
 
 
  12684 0da2 4A535152 		.ascii	"JSQR\000"
@@ -14098,7 +14098,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  12710      00
  12711              	.LASF700:
  12712 0e34 50574D5F 		.ascii	"PWM_STOP\000"
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 236
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 236
 
 
  12712      53544F50 
@@ -14158,7 +14158,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  12740      6172616D 
  12740      65746572 
  12740      7300
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 237
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 237
 
 
  12741              	.LASF351:
@@ -14218,7 +14218,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  12772 0f56 725F6F6C 		.ascii	"r_older\000"
  12772      64657200 
  12773              	.LASF253:
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 238
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 238
 
 
  12774 0f5e 705F7072 		.ascii	"p_prev\000"
@@ -14278,7 +14278,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  12800      62756600 
  12801              	.LASF912:
  12802 0ff6 6F75745F 		.ascii	"out_state\000"
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 239
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 239
 
 
  12802      73746174 
@@ -14338,7 +14338,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  12828      64333000 
  12829              	.LASF127:
  12830 109b 5F5F7763 		.ascii	"__wchb\000"
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 240
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 240
 
 
  12830      686200
@@ -14398,7 +14398,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  12858 112b 5F6E696F 		.ascii	"_niobs\000"
  12858      627300
  12859              	.LASF449:
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 241
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 241
 
 
  12860 1132 63665F6F 		.ascii	"cf_off_stklimit\000"
@@ -14458,7 +14458,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  12875              	.LASF285:
  12876 12ac 725F6375 		.ascii	"r_current\000"
  12876      7272656E 
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 242
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 242
 
 
  12876      7400
@@ -14518,7 +14518,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  12905              	.LASF581:
  12906 1340 6572726F 		.ascii	"error_event\000"
  12906      725F6576 
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 243
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 243
 
 
  12906      656E7400 
@@ -14578,7 +14578,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  12932      63655061 
  12932      72616D65 
  12933              	.LASF706:
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 244
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 244
 
 
  12934 13f2 70776D63 		.ascii	"pwmcallback_t\000"
@@ -14638,7 +14638,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  12960 1489 67707463 		.ascii	"gptcallback_t\000"
  12960      616C6C62 
  12960      61636B5F 
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 245
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 245
 
 
  12960      7400
@@ -14698,7 +14698,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  12992 1515 705F6D70 		.ascii	"p_mpool\000"
  12992      6F6F6C00 
  12993              	.LASF373:
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 246
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 246
 
 
  12994 151d 4932435F 		.ascii	"I2C_TypeDef\000"
@@ -14758,7 +14758,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  13017              	.LASF239:
  13018 15c5 746D6F64 		.ascii	"tmode_t\000"
  13018      655F7400 
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 247
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 247
 
 
  13019              	.LASF534:
@@ -14818,7 +14818,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  13044 165d 52656647 		.ascii	"RefGoodSpadMap\000"
  13044      6F6F6453 
  13044      7061644D 
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 248
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 248
 
 
  13044      617000
@@ -14878,7 +14878,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  13074 16f1 725F6E65 		.ascii	"r_newer\000"
  13074      77657200 
  13075              	.LASF40:
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 249
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 249
 
 
  13076 16f9 44657669 		.ascii	"DeviceMode\000"
@@ -14938,7 +14938,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  13100      78697430 
  13100      00
  13101              	.LASF442:
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 250
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 250
 
 
  13102 17a5 63685F74 		.ascii	"ch_timesize\000"
@@ -14998,7 +14998,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  13127              	.LASF18:
  13128 183f 696E7431 		.ascii	"int16_t\000"
  13128      365F7400 
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 251
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 251
 
 
  13129              	.LASF629:
@@ -15058,7 +15058,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  13156      73656C50 
  13156      756C7365 
  13157              	.LASF707:
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 252
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 252
 
 
  13158 18e6 70776D6D 		.ascii	"pwmmode_t\000"
@@ -15118,7 +15118,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  13183              	.LASF452:
  13184 1977 63665F6F 		.ascii	"cf_off_refs\000"
  13184      66665F72 
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 253
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 253
 
 
  13184      65667300 
@@ -15178,7 +15178,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  13210      53545300 
  13211              	.LASF95:
  13212 1a1d 50617274 		.ascii	"PartUIDLower\000"
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 254
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 254
 
 
  13212      5549444C 
@@ -15238,7 +15238,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  13238      616E6365 
  13238      5F73656E 
  13238      736F725F 
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 255
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 255
 
 
  13238      73746F70 
@@ -15298,7 +15298,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  13264      00
  13265              	.LASF9:
  13266 1b4c 6C6F6E67 		.ascii	"long int\000"
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 256
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 256
 
 
  13266      20696E74 
@@ -15358,7 +15358,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  13292      3200
  13293              	.LASF569:
  13294 1be2 41444344 		.ascii	"ADCD3\000"
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 257
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 257
 
 
  13294      3300
@@ -15418,7 +15418,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  13328 1c63 4C434B52 		.ascii	"LCKR\000"
  13328      00
  13329              	.LASF951:
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 258
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 258
 
 
  13330 1c68 64697374 		.ascii	"distance_sensor_startMeasure\000"
@@ -15478,7 +15478,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  13356      6B5F7400 
  13357              	.LASF547:
  13358 1d05 64657074 		.ascii	"depth\000"
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 259
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 259
 
 
  13358      6800
@@ -15538,7 +15538,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  13384      65617375 
  13384      72656D65 
  13385              	.LASF800:
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 260
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 260
 
 
  13386 1dc6 5553425F 		.ascii	"USB_EVENT_ADDRESS\000"
@@ -15598,7 +15598,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  13414      41494C55 
  13414      524500
  13415              	.LASF103:
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 261
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 261
 
 
  13416 1e59 4C617374 		.ascii	"LastHistogramMeasure\000"
@@ -15658,7 +15658,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  13444 1ee5 636F6E66 		.ascii	"configuration\000"
  13444      69677572 
  13444      6174696F 
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 262
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 262
 
 
  13444      6E00
@@ -15718,7 +15718,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  13468      63746976 
  13468      65537061 
  13468      6452746E 
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 263
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 263
 
 
  13468      436F756E 
@@ -15778,7 +15778,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  13492      696E6F72 
  13493              	.LASF694:
  13494 2044 73697A65 		.ascii	"size\000"
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 264
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 264
 
 
  13494      00
@@ -15838,7 +15838,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  13520      6C756500 
  13521              	.LASF229:
  13522 20dc 5F5F6C6F 		.ascii	"__locale_t\000"
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 265
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 265
 
 
  13522      63616C65 
@@ -15898,7 +15898,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  13546      5F313242 
  13546      49545F52 
  13546      49474854 
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 266
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 266
 
 
  13547              	.LASF161:
@@ -15958,7 +15958,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  13574      494E5400 
  13575              	.LASF130:
  13576 2224 5F6D6273 		.ascii	"_mbstate_t\000"
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 267
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 267
 
 
  13576      74617465 
@@ -16018,7 +16018,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  13598      496E6974 
  13598      00
  13599              	.LASF10:
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 268
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 268
 
 
  13600 22db 5F5F7569 		.ascii	"__uint32_t\000"
@@ -16078,7 +16078,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  13625              	.LASF965:
  13626 2385 63685468 		.ascii	"chThdWait\000"
  13626      64576169 
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 269
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 269
 
 
  13626      7400
@@ -16138,7 +16138,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  13652      52564544 
  13652      3400
  13653              	.LASF349:
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 270
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 270
 
 
  13654 2426 52455345 		.ascii	"RESERVED5\000"
@@ -16198,7 +16198,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  13682 24b7 6932635F 		.ascii	"i2c_start\000"
  13682      73746172 
  13682      7400
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 271
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 271
 
 
  13683              	.LASF38:
@@ -16258,7 +16258,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  13706 2578 6F666673 		.ascii	"offset\000"
  13706      657400
  13707              	.LASF986:
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 272
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 272
 
 
  13708 257f 63685265 		.ascii	"chRegSetThreadName\000"
@@ -16318,7 +16318,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  13732      74657200 
  13733              	.LASF98:
  13734 2626 444D6178 		.ascii	"DMaxData\000"
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 273
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 273
 
 
  13734      44617461 
@@ -16378,7 +16378,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  13758      724D6F64 
  13758      657300
  13759              	.LASF80:
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 274
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 274
 
 
  13760 26dc 50696E30 		.ascii	"Pin0GpioFunctionality\000"
@@ -16438,7 +16438,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  13784      736D6974 
  13784      74696E67 
  13784      00
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 275
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 275
 
 
  13785              	.LASF625:
@@ -16498,7 +16498,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  13813              	.LASF131:
  13814 280c 5F666C6F 		.ascii	"_flock_t\000"
  13814      636B5F74 
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 276
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 276
 
 
  13814      00
@@ -16558,7 +16558,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  13842      657400
  13843              	.LASF12:
  13844 289f 6C6F6E67 		.ascii	"long long int\000"
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 277
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 277
 
 
  13844      206C6F6E 
@@ -16618,7 +16618,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  13868      65756500 
  13869              	.LASF756:
  13870 294a 5350495F 		.ascii	"SPI_READY\000"
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 278
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 278
 
 
  13870      52454144 
@@ -16678,7 +16678,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  13897              	.LASF848:
  13898 29dc 72657376 		.ascii	"resvd34\000"
  13898      64333400 
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 279
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 279
 
 
  13899              	.LASF652:
@@ -16738,7 +16738,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  13924 2a7a 64697374 		.ascii	"distance_sensor_getLastMeasure\000"
  13924      616E6365 
  13924      5F73656E 
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 280
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 280
 
 
  13924      736F725F 
@@ -16798,7 +16798,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  13951              	.LASF644:
  13952 2b1e 43434D52 		.ascii	"CCMR3\000"
  13952      3300
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 281
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 281
 
 
  13953              	.LASF15:
@@ -16858,7 +16858,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  13980      61636B5F 
  13980      7400
  13981              	.LASF164:
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 282
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 282
 
 
  13982 2bb5 5F726561 		.ascii	"_read\000"
@@ -16918,7 +16918,7 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  14010      61746500 
  14011              	.LASF698:
  14012 2c47 49325344 		.ascii	"I2SD2\000"
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 283
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 283
 
 
  14012      3200
@@ -16948,67 +16948,67 @@ ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 1
  14026      41435449 
  14026      564500
  14027              		.ident	"GCC: (GNU Tools for Arm Embedded Processors 7-2017-q4-major) 7.2.1 20170904 (release) [ARM
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 284
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 284
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 distance_sensor.c
-C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s:18     .text.distance_sensor_init:00000000 $t
-C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s:26     .text.distance_sensor_init:00000000 distance_sensor_init
-C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s:115    .text.distance_sensor_init:0000005c $d
-C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s:120    .text.distance_sensor_configAccuracy:00000000 $t
-C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s:128    .text.distance_sensor_configAccuracy:00000000 distance_sensor_configAccuracy
-C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s:166    .text.distance_sensor_configAccuracy:00000022 $d
-C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s:170    .text.distance_sensor_configAccuracy:00000026 $t
-C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s:353    .text.distance_sensor_configAccuracy:00000114 $d
-C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s:357    .text.distance_sensor_configAccuracy:00000124 $t
-C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s:404    .text.distance_sensor_configAccuracy:00000158 $d
-C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s:410    .text.distance_sensor_startMeasure:00000000 $t
-C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s:418    .text.distance_sensor_startMeasure:00000000 distance_sensor_startMeasure
-C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s:485    .text.distance_sensor_startMeasure:00000034 $d
-C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s:490    .text.VL53L0XThd:00000000 $t
-C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s:497    .text.VL53L0XThd:00000000 VL53L0XThd
-C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s:656    .text.VL53L0XThd:00000098 $d
-C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s:668    .text.distance_sensor_getLastMeasure:00000000 $t
-C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s:676    .text.distance_sensor_getLastMeasure:00000000 distance_sensor_getLastMeasure
-C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s:717    .text.distance_sensor_getLastMeasure:00000024 $d
-C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s:722    .text.distance_sensor_stopMeasure:00000000 $t
-C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s:730    .text.distance_sensor_stopMeasure:00000000 distance_sensor_stopMeasure
-C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s:769    .text.distance_sensor_stopMeasure:00000020 $d
-C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s:774    .text.distance_sensor_start:00000000 $t
-C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s:782    .text.distance_sensor_start:00000000 distance_sensor_start
-C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s:838    .text.distance_sensor_start:00000038 $d
-C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s:847    .text.distance_sensor_stop:00000000 $t
-C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s:855    .text.distance_sensor_stop:00000000 distance_sensor_stop
-C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s:912    .text.distance_sensor_stop:00000030 $d
-C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s:919    .text.distance_sensor_pause:00000000 $t
-C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s:927    .text.distance_sensor_pause:00000000 distance_sensor_pause
-C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s:967    .text.distance_sensor_pause:00000024 $d
-C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s:973    .text.distance_sensor_resume:00000000 $t
-C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s:981    .text.distance_sensor_resume:00000000 distance_sensor_resume
-C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s:1021   .text.distance_sensor_resume:00000024 $d
-C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s:1027   .text.distance_sensor_get_dist_mm:00000000 $t
-C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s:1035   .text.distance_sensor_get_dist_mm:00000000 distance_sensor_get_dist_mm
-C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s:1073   .text.distance_sensor_get_dist_mm:00000020 $d
-C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s:1082   .bss.VL53L0X_configured:00000000 VL53L0X_configured
-C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s:1083   .bss.VL53L0X_configured:00000000 $d
-C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s:1085   .bss.device.12790:00000000 $d
-C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s:1089   .bss.device.12790:00000000 device.12790
-C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s:1092   .bss.distThd:00000000 $d
-C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s:1096   .bss.distThd:00000000 distThd
-C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s:1099   .bss.dist_mm:00000000 $d
-C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s:1103   .bss.dist_mm:00000000 dist_mm
-C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s:1109   .bss.suspended:00000000 suspended
-C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s:1110   .bss.suspended:00000000 $d
-C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s:1112   .bss.waVL53L0XThd:00000000 $d
-C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s:1116   .bss.waVL53L0XThd:00000000 waVL53L0XThd
-C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s:1119   .rodata.VL53L0XThd.str1.4:00000000 $d
+C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s:18     .text.distance_sensor_init:00000000 $t
+C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s:26     .text.distance_sensor_init:00000000 distance_sensor_init
+C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s:115    .text.distance_sensor_init:0000005c $d
+C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s:120    .text.distance_sensor_configAccuracy:00000000 $t
+C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s:128    .text.distance_sensor_configAccuracy:00000000 distance_sensor_configAccuracy
+C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s:166    .text.distance_sensor_configAccuracy:00000022 $d
+C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s:170    .text.distance_sensor_configAccuracy:00000026 $t
+C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s:353    .text.distance_sensor_configAccuracy:00000114 $d
+C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s:357    .text.distance_sensor_configAccuracy:00000124 $t
+C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s:404    .text.distance_sensor_configAccuracy:00000158 $d
+C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s:410    .text.distance_sensor_startMeasure:00000000 $t
+C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s:418    .text.distance_sensor_startMeasure:00000000 distance_sensor_startMeasure
+C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s:485    .text.distance_sensor_startMeasure:00000034 $d
+C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s:490    .text.VL53L0XThd:00000000 $t
+C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s:497    .text.VL53L0XThd:00000000 VL53L0XThd
+C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s:656    .text.VL53L0XThd:00000098 $d
+C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s:668    .text.distance_sensor_getLastMeasure:00000000 $t
+C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s:676    .text.distance_sensor_getLastMeasure:00000000 distance_sensor_getLastMeasure
+C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s:717    .text.distance_sensor_getLastMeasure:00000024 $d
+C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s:722    .text.distance_sensor_stopMeasure:00000000 $t
+C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s:730    .text.distance_sensor_stopMeasure:00000000 distance_sensor_stopMeasure
+C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s:769    .text.distance_sensor_stopMeasure:00000020 $d
+C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s:774    .text.distance_sensor_start:00000000 $t
+C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s:782    .text.distance_sensor_start:00000000 distance_sensor_start
+C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s:838    .text.distance_sensor_start:00000038 $d
+C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s:847    .text.distance_sensor_stop:00000000 $t
+C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s:855    .text.distance_sensor_stop:00000000 distance_sensor_stop
+C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s:912    .text.distance_sensor_stop:00000030 $d
+C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s:919    .text.distance_sensor_pause:00000000 $t
+C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s:927    .text.distance_sensor_pause:00000000 distance_sensor_pause
+C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s:967    .text.distance_sensor_pause:00000024 $d
+C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s:973    .text.distance_sensor_resume:00000000 $t
+C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s:981    .text.distance_sensor_resume:00000000 distance_sensor_resume
+C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s:1021   .text.distance_sensor_resume:00000024 $d
+C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s:1027   .text.distance_sensor_get_dist_mm:00000000 $t
+C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s:1035   .text.distance_sensor_get_dist_mm:00000000 distance_sensor_get_dist_mm
+C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s:1073   .text.distance_sensor_get_dist_mm:00000020 $d
+C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s:1082   .bss.VL53L0X_configured:00000000 VL53L0X_configured
+C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s:1083   .bss.VL53L0X_configured:00000000 $d
+C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s:1085   .bss.device.12790:00000000 $d
+C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s:1089   .bss.device.12790:00000000 device.12790
+C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s:1092   .bss.distThd:00000000 $d
+C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s:1096   .bss.distThd:00000000 distThd
+C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s:1099   .bss.dist_mm:00000000 $d
+C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s:1103   .bss.dist_mm:00000000 dist_mm
+C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s:1109   .bss.suspended:00000000 suspended
+C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s:1110   .bss.suspended:00000000 $d
+C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s:1112   .bss.waVL53L0XThd:00000000 $d
+C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s:1116   .bss.waVL53L0XThd:00000000 waVL53L0XThd
+C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s:1119   .rodata.VL53L0XThd.str1.4:00000000 $d
 
 UNDEFINED SYMBOLS
 VL53L0X_DataInit
 VL53L0X_GetDeviceInfo
 VL53L0X_StaticInit
-ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccFojkQg.s 			page 285
+ARM GAS  C:\Users\hirtt\AppData\Local\Temp\ccAbDnYt.s 			page 285
 
 
 VL53L0X_PerformRefSpadManagement

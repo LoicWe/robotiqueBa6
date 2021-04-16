@@ -240,8 +240,7 @@ void distance_sensor_start(void) {
 
 	i2c_start();
 
-	distThd = chThdCreateStatic(waVL53L0XThd, sizeof(waVL53L0XThd),
-	NORMALPRIO + 10, VL53L0XThd,
+	distThd = chThdCreateStatic(waVL53L0XThd, sizeof(waVL53L0XThd),NORMALPRIO, VL53L0XThd,
 	NULL);
 }
 
