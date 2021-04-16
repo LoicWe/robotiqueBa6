@@ -9,6 +9,7 @@
 #include "parameter/parameter.h"
 #include <process_image.h>
 #include <communications.h>
+#include <body_led_thd.h>
 #include <leds.h>
 
 static float distance_cm = 0;
@@ -32,8 +33,7 @@ uint8_t extract_barcode(uint8_t *image){
 	uint32_t mean = calculate_mean(image);
 
 	// recherche du motif de démarrage
-
-	line = extract_line_width(image, line, mean);
+	line = extract_line_width(image, line, mean-5); /*-5 pour compenser la luminosité auto*/
 	if(line.found){
 		line2.begin_pos = line2.end_pos = line.end_pos;
 		line2.width = 0;
@@ -41,18 +41,18 @@ uint8_t extract_barcode(uint8_t *image){
 		line2 = extract_line_width(image, line2, mean);
 	}
 	if(line2.found){
-		interline = line2.begin_pos - line.end_pos;
+		interline = line2.begin_pos - line.end_pos + LINE_THRESHOLD;
 		if(line.width + LINE_THRESHOLD > START_LINE_WIDTH
 				&& line.width - LINE_THRESHOLD < START_LINE_WIDTH
 				&& line2.width + LINE_THRESHOLD > START_LINE_WIDTH
 				&& line2.width - LINE_THRESHOLD < START_LINE_WIDTH
 				&& interline + LINE_THRESHOLD > START_LINE_WIDTH
 				&& interline - LINE_THRESHOLD < START_LINE_WIDTH){
-
-			set_body_led(1);
-		}else{
-//			set_body_led(0);
+			// éclaire le robot en vert
+			barcode_validate();
 		}
+	}
+	else{
 	}
 	chprintf((BaseSequentialStream *)&SD3, "moyenne = %d\n", mean);
 	chprintf((BaseSequentialStream *)&SD3, "largeur ligne 1 = %d  et  départ1 = %d\n", line.width, line.begin_pos);
@@ -70,10 +70,10 @@ uint8_t extract_barcode(uint8_t *image){
  */
 struct Line extract_line_width(uint8_t *buffer, struct Line line, uint32_t mean){
 
-	uint16_t i = 0, begin = line.begin_pos, end = line.end_pos;
-	uint8_t stop = 0, line_not_found = 0;
+	uint16_t i = line.end_pos, begin = line.end_pos, end = line.end_pos;
+	uint8_t stop = 0, line_not_found = 0, wrong_line = 0;
 
-//	do{
+	do{
 		//search for a begin
 		while(stop == 0 && i < (IMAGE_BUFFER_SIZE - WIDTH_SLOPE))
 		{ 
@@ -110,16 +110,18 @@ struct Line extract_line_width(uint8_t *buffer, struct Line line, uint32_t mean)
 		{
 		    line_not_found = 1;
 		}
-//
-//		//if a line too small has been detected, continues the search
-//		if(!line_not_found && (end-begin) < MIN_LINE_WIDTH){
-//			i = end;
-//			begin = 0;
-//			end = 0;
-//			stop = 0;
-//			wrong_line = 1;
-//		}
-//	}while(wrong_line);
+
+		//if a line too small has been detected, continues the search
+		if(!line_not_found && (end-begin) < MIN_LINE_WIDTH){
+			i = end;
+			begin = 0;
+			end = 0;
+			stop = 0;
+			wrong_line = 1;
+		}else{
+			wrong_line = 0;
+		}
+	}while(wrong_line);
 
 	if(line_not_found){
 		line.found = false;

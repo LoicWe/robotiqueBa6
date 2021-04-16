@@ -11,7 +11,7 @@ typedef uint8_t logical;
 #define NO		1
 
 #define LINE_THRESHOLD 		5
-#define START_LINE_WIDTH	45
+#define START_LINE_WIDTH	38
 
 void capture_image(logical);
 uint16_t get_line_position(void);
@@ -22,7 +22,8 @@ uint32_t calculate_mean(uint8_t *buffer);
 
 
 struct Line{
-	uint8_t end_pos, begin_pos, width;
+	uint16_t end_pos, begin_pos;
+	uint8_t width;
 	bool found;
 };
 

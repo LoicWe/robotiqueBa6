@@ -13,7 +13,7 @@ extern "C" {
 #define PUCKY_SLEEP				1
 #define PUCKY_WAKE_UP			3
 
-#define min_dist_barcode		125
+#define min_dist_barcode		130
 #define max_dist_barcode		155
 
 /** Robot wide IPC bus. */

@@ -15,7 +15,8 @@ CSRC += ./main.c \
 		./fft.c \
 		./process_image.c \
 		./distance_sensor.c \
-
+		./body_led_thd.c \
+		
 #Header folders to include
 INCDIR += 
 

@@ -20,6 +20,7 @@
 #include <pi_regulator.h>
 #include <process_image.h>
 #include <distance_sensor.h>
+#include <body_led_thd.h>
 
 uint8_t pucky_state = PUCKY_PLAY;
 
@@ -96,6 +97,7 @@ int main(void) {
     dcmi_start();
 	po8030_start();
 	process_image_start();
+	body_led_thd_start();
 
 //    //starts timer 12
 //    timer12_start();
