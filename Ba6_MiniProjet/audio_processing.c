@@ -12,7 +12,7 @@
 #include <arm_math.h>
 
 //semaphore
-static BSEMAPHORE_DECL(sendToComputer_sem, TRUE);
+static BSEMAPHORE_DECL(sendToComputer_sem, TRUE); // @suppress("Field cannot be resolved")
 
 //2 times FFT_SIZE because these arrays contain complex numbers (real + imaginary)
 static float micBack_cmplx_input[2 * FFT_SIZE];
@@ -21,13 +21,13 @@ static float micBack_output[FFT_SIZE];
 
 #define MIN_VALUE_THRESHOLD	10000 
 #define MIN_FREQ		10	//we don't analyze before this index to not use resources for nothing
-#define MAX_FREQ		30	//we don't analyze after this index to not use resources for nothing
+#define MAX_FREQ		40	//we don't analyze after this index to not use resources for nothing
 #define FREQ_THRESHOLD	1
 #define NB_SOUND_ON		10	//nbr samples to get the mean
-#define NB_SOUND_OFF	5	//nbr sample to reset the mean
-#define ROTATION_COEFF	2
+#define NB_SOUND_OFF	10	//nbr sample to reset the mean				// -modif-
+#define ROTATION_COEFF	40												// -modif- augmentation sinon invisible
 
-#define SPEED	600				// TO BE CHANGED
+#define SPEED	600				// TO BE CHANGED 						// NO parfait
 
 /*
  *	Simple function used to detect the highest value in a buffer
@@ -40,7 +40,7 @@ void sound_remote(float* data) {
 	static uint8_t mode = SOUND_OFF;
 	float max_norm = MIN_VALUE_THRESHOLD;
 	int16_t max_norm_index = -1;
-	int16_t mean_freq;
+	static int16_t mean_freq = 0; 										//TIM -modif- ajout static sinon reset à chaque prise de son
 
 	//search for the highest peak
 	for (uint16_t i = MIN_FREQ; i <= MAX_FREQ; i++) {
@@ -51,23 +51,27 @@ void sound_remote(float* data) {
 	}
 	//determine if there was a value superior of the threshold
 	if (max_norm_index == -1) {
-		sound_on = 0;
 		sound_off++;
-		mean_freq = -1;
+		if(sound_off == NB_SOUND_OFF){									//TIM -ajout- sinon la mean était tout de suite reset
+			mean_freq = -1;
+			sound_on = 0;												//TIM -déplacement- voir au dessus
+		}
 		mode = SOUND_OFF;
 	} else {
-		sound_on++;
 		sound_off = 0;
-		if (sound_on == 1) {
+		if (sound_on == 0) {
 			mean_freq = max_norm_index;
 			mode = ANALYSING;
+			sound_on++;													//TIM -déplacement- déplacer sinon boucle à 0
 		} else if (sound_on < NB_SOUND_ON) {
 			mean_freq += max_norm_index;
 			mode = ANALYSING;
+			sound_on++;													//TIM -déplacement- déplacer sinon boucle à 0
 		} else if (sound_on == NB_SOUND_ON) {
 			mean_freq += max_norm_index;
 			mean_freq /= (NB_SOUND_ON + 1);
-			mode = ANALYSING;
+			mode = ANALYSING; 											//TIM -proposition- MOVING ici non ?
+			sound_on++;													//TIM -déplacement- déplacer sinon boucle à 0
 		} else {
 			mode = MOVING;
 		}
@@ -77,22 +81,32 @@ void sound_remote(float* data) {
 		error = max_norm_index - mean_freq;
 
 		//go forward
-		if (max_norm_index >= mean_freq - FREQ_THRESHOLD
-				&& max_norm_index <= mean_freq + FREQ_THRESHOLD) {
+		if (max_norm_index >= mean_freq - FREQ_THRESHOLD && max_norm_index <= mean_freq + FREQ_THRESHOLD) {
 			left_motor_set_speed(SPEED);
 			right_motor_set_speed(SPEED);
 		}
-		//turn left
-		else if (max_norm_index <= mean_freq - FREQ_THRESHOLD) {
+		else{
 			left_motor_set_speed(SPEED - ROTATION_COEFF * error);
 			right_motor_set_speed(SPEED + ROTATION_COEFF * error);
 		}
-		//turn right
-		else if (max_norm_index >= mean_freq + FREQ_THRESHOLD) {
-			left_motor_set_speed(SPEED + ROTATION_COEFF * error);
-			right_motor_set_speed(SPEED - ROTATION_COEFF * error);
-		}
+//		//turn left														//TIM -suppress- inutile ! l'erreur contient déjà le signe
+//		else if (max_norm_index <= mean_freq - FREQ_THRESHOLD) {
+//			left_motor_set_speed(SPEED - ROTATION_COEFF * error);
+//			right_motor_set_speed(SPEED + ROTATION_COEFF * error);
+//		}
+//		//turn right
+//		else if (max_norm_index >= mean_freq + FREQ_THRESHOLD) {
+//			left_motor_set_speed(SPEED - ROTATION_COEFF * error);
+//			right_motor_set_speed(SPEED + ROTATION_COEFF * error);
+//		}
+	}else{																//TIM -ajout- sinon il ne s'arrête jamais ;-)
+		left_motor_set_speed(0);
+		right_motor_set_speed(0);
 	}
+
+//	chprintf((BaseSequentialStream *) &SD3, "%d / %d    ", mean_freq, max_norm_index);
+
+
 }
 
 /*
@@ -166,6 +180,6 @@ void wait_send_to_computer(void) {
 	chBSemWait(&sendToComputer_sem);
 }
 
-float* get_audio_buffer_ptr() {
+float* get_audio_buffer_ptr(void) {
 	return micBack_output;
 }

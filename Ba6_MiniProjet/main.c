@@ -99,10 +99,10 @@ int main(void) {
 	process_image_start();
 	body_led_thd_start();
 
-//    //starts timer 12
-//    timer12_start();
-//    //inits the motors
-//    motors_init();
+    //starts timer 12
+    timer12_start();
+    //inits the motors
+    motors_init();
 	distance_sensor_start();
 	uint16_t distance = 0;
 
@@ -115,9 +115,9 @@ int main(void) {
 //    //to avoid modifications of the buffer while sending it
 //    static float send_tab[FFT_SIZE];
 
-//    //starts the microphones processing thread.
-//    //it calls the callback given in parameter when samples are ready
-//    mic_start(&processAudioData);
+    //starts the microphones processing thread.
+    //it calls the callback given in parameter when samples are ready
+    mic_start(&processAudioData);
 
 	/* Infinite loop. */
 	while (1) {

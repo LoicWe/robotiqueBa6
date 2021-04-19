@@ -27,6 +27,6 @@ void wait_send_to_computer(void);
 /*
 *	Returns the pointer to the BUFFER_NAME_t buffer asked
 */
-float* get_audio_buffer_ptr();
+float* get_audio_buffer_ptr(void);
 
 #endif /* AUDIO_PROCESSING_H */
