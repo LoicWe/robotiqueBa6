@@ -9,7 +9,7 @@ extern "C" {
 #include "msgbus/messagebus.h"
 #include "parameter/parameter.h"
 
-#define PUCKY_PLAY				0
+#define PUCKY_PLAY				0		//TODO: ENUM
 #define PUCKY_SLEEP				1
 #define PUCKY_WAKE_UP			3
 

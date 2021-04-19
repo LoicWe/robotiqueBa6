@@ -25,6 +25,9 @@ static float micBack_output[FFT_SIZE];
 #define FREQ_THRESHOLD	1
 #define NB_SOUND_ON		10	//nbr samples to get the mean
 #define NB_SOUND_OFF	5	//nbr sample to reset the mean
+#define ROTATION_COEFF	2
+
+#define SPEED	600				// TO BE CHANGED
 
 /*
  *	Simple function used to detect the highest value in a buffer
@@ -33,6 +36,7 @@ static float micBack_output[FFT_SIZE];
 void sound_remote(float* data) {
 	static uint8_t sound_on = 0;
 	static uint8_t sound_off = 0;
+	float error = 0;
 	static uint8_t mode = SOUND_OFF;
 	float max_norm = MIN_VALUE_THRESHOLD;
 	int16_t max_norm_index = -1;
@@ -70,20 +74,23 @@ void sound_remote(float* data) {
 	}
 
 	if (mode == MOVING) {
+		error = max_norm_index - mean_freq;
+
 		//go forward
-		if (max_norm_index >= mean_freq-FREQ_THRESHOLD && max_norm_index <= mean_freq+FREQ_THRESHOLD) {
-			left_motor_set_speed(600);
-			right_motor_set_speed(600);
+		if (max_norm_index >= mean_freq - FREQ_THRESHOLD
+				&& max_norm_index <= mean_freq + FREQ_THRESHOLD) {
+			left_motor_set_speed(SPEED);
+			right_motor_set_speed(SPEED);
 		}
 		//turn left
-		else if (max_norm_index <= mean_freq-FREQ_THRESHOLD) {
-			left_motor_set_speed(-600);
-			right_motor_set_speed(600);
+		else if (max_norm_index <= mean_freq - FREQ_THRESHOLD) {
+			left_motor_set_speed(SPEED - ROTATION_COEFF * error);
+			right_motor_set_speed(SPEED + ROTATION_COEFF * error);
 		}
 		//turn right
-		else if (max_norm_index >= mean_freq+FREQ_THRESHOLD) {
-			left_motor_set_speed(600);
-			right_motor_set_speed(-600);
+		else if (max_norm_index >= mean_freq + FREQ_THRESHOLD) {
+			left_motor_set_speed(SPEED + ROTATION_COEFF * error);
+			right_motor_set_speed(SPEED - ROTATION_COEFF * error);
 		}
 	}
 }
