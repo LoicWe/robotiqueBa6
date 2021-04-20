@@ -103,7 +103,7 @@ int main(void) {
     timer12_start();
     //inits the motors
     motors_init();
-    VL53L0X_start();
+//    VL53L0X_start();
 	uint16_t distance = 0;
 
 	chThdCreateStatic(waThdPotentiometer, sizeof(waThdPotentiometer),NORMALPRIO, ThdPotentiometer, NULL);
@@ -131,12 +131,12 @@ int main(void) {
 
 
 			//laser
-			distance = VL53L0X_get_dist_mm();
-			chprintf((BaseSequentialStream *) &SD3, "distance %d    ", distance);
+//			distance = VL53L0X_get_dist_mm();
+//			chprintf((BaseSequentialStream *) &SD3, "distance %d    ", distance);
+			distance = 140;
 			if (distance > min_dist_barcode && distance < max_dist_barcode){
 				get_images();
 				set_led(LED5, 1);
-				chprintf((BaseSequentialStream *) &SD3, "TEST");
 			}else{
 				stop_images();
 				set_led(LED5, 0);

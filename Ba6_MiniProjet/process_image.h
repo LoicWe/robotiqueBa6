@@ -3,7 +3,7 @@
 
 #define IMAGE_BUFFER_SIZE		640
 #define MIN_LINE_WIDTH			10
-#define WIDTH_SLOPE				8
+#define WIDTH_SLOPE				5
 #define PXTOCM					1570.0f //experimental value
 
 typedef uint8_t logical;
@@ -17,8 +17,9 @@ enum ratio{
 };
 
 #define LINE_THRESHOLD 		5
-#define START_LINE_WIDTH	50
+#define START_LINE_WIDTH	44
 #define IMAGE_BUFFER_SIZE_DIV_3	213
+#define NB_LINE_BARCODE		5
 
 void get_images(void);
 void stop_images(void);

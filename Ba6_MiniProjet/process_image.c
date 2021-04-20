@@ -12,7 +12,6 @@
 #include <body_led_thd.h>
 #include <leds.h>
 
-static float distance_cm = 0;
 static uint8_t suspended = 1;
 static uint16_t line_position = IMAGE_BUFFER_SIZE / 2;	//middle
 //static uint8_t code = 0;
@@ -23,112 +22,78 @@ static BSEMAPHORE_DECL(start_imaging_sem, FALSE); // @suppress("Field cannot be 
 
 uint8_t extract_barcode(uint8_t *image) {
 
-	uint8_t digit[3] = { 0, 0, 0 };
+	int8_t digit[NB_LINE_BARCODE] = { -1, -1, -1, -1, -1};
 	uint8_t code = 0;
 	uint8_t mean[3]; /* width divided into 3 segments because of auto brightness causing a n shape*/
 
 	// déclaration d'une ligne
 	struct Line line;
-	struct Line line2;
-	line.end_pos = line.width = 0;
+	line.end_pos = line.width = line.begin_pos = 0;
 	line.found = false;
-	uint8_t interline = 0;
-	uint8_t validate_step = 0;
+	uint8_t width = 0;
+	uint16_t end_last_line = 0;
 	uint8_t width_unit = 0;
+
+
+	/***********************************
+	 *  recherche du motif de démarrage
+	 ***********************************/
 
 	calculate_mean(image, mean);
 
-	uint8_t width = 0;
-	uint16_t end_last_line = 0;
-
-	/*** recherche du motif de démarrage ***/
-	// première ligne, on cherche la bonne taille
+	//***** FIRST LINE ligne*****
 	do {
 		line = line_find_next(image, end_last_line, mean[0]);
 		end_last_line = line.end_pos;
 		width = line.width;
 
-		// si trouvée mais pas les bonnes dimensions, on recommence jusqu'à la fin du buffer
+		// si trouvée mais pas les bonnes dimensions, on recherche plus loin
 		if (line.found && !(width > START_LINE_WIDTH - LINE_THRESHOLD && width < START_LINE_WIDTH + LINE_THRESHOLD)) {
 			line.found = false;
 		}
-
 	} while (line.found == false && end_last_line != IMAGE_BUFFER_SIZE);
-//	chprintf((BaseSequentialStream *) &SD3, "width = %d  ", width);
 
-	// seconde ligne, on cherche également la bonne taille
+	//***** SECONDE LINE *****
 	if (line.found) {
 		line = line_find_next(image, end_last_line, mean[0]);
+
+		// on vérifie la dimension et l'écart avec la première ligne
+		if (line.found && (!(line.width > width - LINE_THRESHOLD && line.width < width + LINE_THRESHOLD) || !(line.begin_pos - end_last_line < width))) {
+			line.found = false;
+		} else {
+			// base de comparaison des tailles des lignes codantes
+			width_unit = (width + line.width) / 2;
+		}
 	}
+//	 chprintf((BaseSequentialStream *) &SD3, "%d %d    %d %d   %d | ", width, line.width, end_last_line, line.begin_pos, mean[0]);
+
+
+	/***********************************
+	 *  recherche des 5 lignes suivantes
+	 ***********************************/
 
 	if (line.found) {
-		interline = line.begin_pos - end_last_line;
-		width = (width + line.width + interline) / 3;
-		chprintf((BaseSequentialStream *) &SD3, "%d %d %d    %d %d   %d | ", width, interline, line.width, end_last_line, line.begin_pos, mean[0]);
+		for (int i = 0; i < NB_LINE_BARCODE && line.found; i++) {
+			line = line_find_next(image, line.end_pos, (i < 3 ? mean[1]:mean[2]));
+			digit[i] = line_classify(line, width_unit);
+			// si la ligne n'est pas reconnu, arrêt
+			if(digit[i] == 0){
+				line.found = false;
+				break;
+			}
+		}
 	}
 
-//	chprintf((BaseSequentialStream *) &SD3, "!!!!!");
+	 /***********************************
+	 *  vérification du schéma de clôture
+	 ***********************************/
 
-	/*if (line.found) {
-	 line2.begin_pos = line2.end_pos = line.end_pos;
-	 line2.width = 0;
-	 line2.found = false;
-	 line2 = line_find_next(image, line2, mean);
+	 if(line.found){
+		 // avant dernière ligne = petite, dernière = moyenne
+		 if(digit[NB_LINE_BARCODE-2] == SMALL && digit[NB_LINE_BARCODE-1] == MEDIUM){
+			 chprintf((BaseSequentialStream *) &SD3, "code = %d %d %d\n", digit[0], digit[1], digit[2]);
+		 }
 	 }
-	 if (line2.found) {
-	 interline = line2.begin_pos - line.end_pos + LINE_THRESHOLD;
-	 if (line.width + LINE_THRESHOLD > START_LINE_WIDTH && line.width - LINE_THRESHOLD < START_LINE_WIDTH && line2.width + LINE_THRESHOLD > START_LINE_WIDTH
-	 && line2.width - LINE_THRESHOLD < START_LINE_WIDTH && interline + LINE_THRESHOLD > START_LINE_WIDTH && interline - LINE_THRESHOLD < START_LINE_WIDTH) {
-
-	 validate_step = 1;
-	 }
-	 }
-
-	 width_unit = (line.width + line2.width) / 2;
-	 chprintf((BaseSequentialStream *) &SD3, "%d %d %d\n", line.width, line2.width, width_unit);
-	 */
-	/*
-
-	 // cherche le code situé dans les 3 lignes suivantes
-	 int j = 0;
-	 while (validate_step && j < 3) {
-	 validate_step = 0;
-	 line2 = line_find_next(image, line2, mean);
-	 validate_step = line2.found;
-	 if (validate_step) {
-	 digit[j] = line_classify(line2, width_unit);
-	 }
-	 j++;
-	 }
-
-	 // cherche le motif de fin pour valider
-	 validate_step = 0;
-	 line2 = line_find_next(image, line2, mean);
-	 validate_step = line2.found;
-	 if (validate_step && line_classify(line2, width_unit) == SMALL) {
-	 validate_step = 0;
-	 line2 = line_find_next(image, line2, mean);
-	 validate_step = line2.found;
-	 }
-	 if (validate_step && line_classify(line2, width_unit) == MEDIUM) {
-	 validate_step = 1;
-	 } else {
-	 validate_step = 0;
-	 }
-
-	 if (validate_step) {
-	 barcode_validate();
-	 code = digit[0] + digit[1] * 4 + digit[2] * 16;
-	 } else {
-	 code = 0;
-	 }
-
-	 //	chprintf((BaseSequentialStream *) &SD3, "moyenne = %d\n", mean);
-	 //	chprintf((BaseSequentialStream *) &SD3, "largeur ligne 1 = %d  et  départ1 = %d\n", line.width, line.begin_pos);
-	 //	chprintf((BaseSequentialStream *) &SD3, "largeur ligne 2 = %d  et  départ2 = %d\n", line2.width, line2.begin_pos);
-	 //	chprintf((BaseSequentialStream *) &SD3, "largeur interli = %d\n", interline);
-	 chprintf((BaseSequentialStream *) &SD3, "code = %d %d %d\n", digit[0], digit[1], digit[2]);
-	 */
 
 	return code;
 }
@@ -136,11 +101,13 @@ uint8_t extract_barcode(uint8_t *image) {
 uint8_t line_classify(struct Line line, uint8_t width_unit) {
 
 	uint8_t ratio = 0;
+	uint8_t half_line = width_unit / 2;
+
 	if (line.width + LINE_THRESHOLD > width_unit && line.width - LINE_THRESHOLD < width_unit) {
 		ratio = MEDIUM;
-	} else if (line.width + LINE_THRESHOLD > width_unit * 2 && line.width - LINE_THRESHOLD < width_unit * 2) {
+	} else if (line.width + LINE_THRESHOLD > width_unit + half_line && line.width - LINE_THRESHOLD < width_unit + half_line) {
 		ratio = LARGE;
-	} else if (line.width + LINE_THRESHOLD > width_unit / 2 && line.width - LINE_THRESHOLD < width_unit / 2) {
+	} else if (line.width + LINE_THRESHOLD > width_unit - half_line && line.width - LINE_THRESHOLD < width_unit - half_line) {
 		ratio = SMALL;
 	}
 //	uint8_t ratio = ((n + d/2)/d);
@@ -292,7 +259,7 @@ static THD_FUNCTION(ProcessImage, arg) {
 		if (send_to_computer == 20) {
 			send_to_computer = 0;
 			//sends to the computer the image
-			SendUint8ToComputer(image, IMAGE_BUFFER_SIZE);
+//			SendUint8ToComputer(image, IMAGE_BUFFER_SIZE);
 		}
 //invert the bool
 		send_to_computer++;
