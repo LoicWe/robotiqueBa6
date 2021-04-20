@@ -3050,7 +3050,7 @@ Disassembly of section .text:
  80023ea:	f7ff ff61 	bl	80022b0 <__stack_chk_fail>
  80023ee:	bf00      	nop
  80023f0:	20000b00 	.word	0x20000b00
- 80023f4:	447a0000 	.word	0x447a0000
+ 80023f4:	461c4000 	.word	0x461c4000
  80023f8:	20004a71 	.word	0x20004a71
  80023fc:	20004a70 	.word	0x20004a70
  8002400:	20001a68 	.word	0x20001a68
@@ -13250,7 +13250,7 @@ Disassembly of section .text:
  8008b0a:	f886 31bf 	strb.w	r3, [r6, #447]	; 0x1bf
  8008b0e:	f7ff feef 	bl	80088f0 <VL53L0X_init>
  8008b12:	b950      	cbnz	r0, 8008b2a <VL53L0XThd+0x3a>
- 8008b14:	2103      	movs	r1, #3
+ 8008b14:	4601      	mov	r1, r0
  8008b16:	4630      	mov	r0, r6
  8008b18:	f7ff ff1a 	bl	8008950 <VL53L0X_configAccuracy>
  8008b1c:	4d1b      	ldr	r5, [pc, #108]	; (8008b8c <VL53L0XThd+0x9c>)
