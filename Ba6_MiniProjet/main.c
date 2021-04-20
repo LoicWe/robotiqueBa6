@@ -17,10 +17,10 @@
 #include <fft.h>
 #include <communications.h>
 #include <arm_math.h>
-#include <pi_regulator.h>
 #include <process_image.h>
 #include <sensors/VL53L0X/VL53L0X.h>
 #include <body_led_thd.h>
+#include "move.h"
 
 uint8_t pucky_state = PUCKY_PLAY;
 

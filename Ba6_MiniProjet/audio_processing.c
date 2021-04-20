@@ -4,12 +4,12 @@
 #include <usbcfg.h>
 #include <chprintf.h>
 
-#include <motors.h>
+#include <move.h>
 #include <audio/microphone.h>
 #include <audio_processing.h>
-#include <communications.h>
-#include <fft.h>
+#include <fft.h>					// A NETTOYER LA FONCTION NON OPTI NAN ?
 #include <arm_math.h>
+#include <communications.h>			// POSSIBLEMENT A ENLEVER
 
 //semaphore
 static BSEMAPHORE_DECL(sendToComputer_sem, TRUE); // @suppress("Field cannot be resolved")
@@ -26,7 +26,6 @@ static float micBack_output[FFT_SIZE];
 #define NB_SOUND_ON		10	//nbr samples to get the mean
 #define NB_SOUND_OFF	10	//nbr sample to reset the mean
 #define ROTATION_COEFF	40
-#define SPEED	600				// TO BE CHANGED
 
 /*
  *	Simple function used to detect the highest value in a buffer
@@ -81,17 +80,14 @@ void sound_remote(float* data) {
 
 		//go forward
 		if (max_norm_index >= mean_freq - FREQ_THRESHOLD && max_norm_index <= mean_freq + FREQ_THRESHOLD) {
-			left_motor_set_speed(SPEED);
-			right_motor_set_speed(SPEED);
+			move(0);
 		}
 		else{
-			left_motor_set_speed(SPEED - ROTATION_COEFF * error);
-			right_motor_set_speed(SPEED + ROTATION_COEFF * error);
+			move(ROTATION_COEFF * error);
 		}
 
 	}else{
-		left_motor_set_speed(0);
-		right_motor_set_speed(0);
+		move_stop();
 	}
 
 //	chprintf((BaseSequentialStream *) &SD3, "%d / %d    ", mean_freq, max_norm_index);
