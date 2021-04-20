@@ -24,10 +24,9 @@ static float micBack_output[FFT_SIZE];
 #define MAX_FREQ		40	//we don't analyze after this index to not use resources for nothing
 #define FREQ_THRESHOLD	1
 #define NB_SOUND_ON		10	//nbr samples to get the mean
-#define NB_SOUND_OFF	10	//nbr sample to reset the mean				// -modif-
-#define ROTATION_COEFF	40												// -modif- augmentation sinon invisible
-
-#define SPEED	600				// TO BE CHANGED 						// NO parfait
+#define NB_SOUND_OFF	10	//nbr sample to reset the mean
+#define ROTATION_COEFF	40
+#define SPEED	600				// TO BE CHANGED
 
 /*
  *	Simple function used to detect the highest value in a buffer
@@ -40,7 +39,7 @@ void sound_remote(float* data) {
 	static uint8_t mode = SOUND_OFF;
 	float max_norm = MIN_VALUE_THRESHOLD;
 	int16_t max_norm_index = -1;
-	static int16_t mean_freq = 0; 										//TIM -modif- ajout static sinon reset à chaque prise de son
+	static int16_t mean_freq = 0;
 
 	//search for the highest peak
 	for (uint16_t i = MIN_FREQ; i <= MAX_FREQ; i++) {
@@ -52,9 +51,9 @@ void sound_remote(float* data) {
 	//determine if there was a value superior of the threshold
 	if (max_norm_index == -1) {
 		sound_off++;
-		if(sound_off == NB_SOUND_OFF){									//TIM -ajout- sinon la mean était tout de suite reset
+		if(sound_off == NB_SOUND_OFF){
 			mean_freq = -1;
-			sound_on = 0;												//TIM -déplacement- voir au dessus
+			sound_on = 0;
 		}
 		mode = SOUND_OFF;
 	} else {
@@ -62,17 +61,14 @@ void sound_remote(float* data) {
 		if (sound_on == 0) {
 			mean_freq = max_norm_index;
 			mode = ANALYSING;
-			sound_on++;													//TIM -déplacement- déplacer sinon boucle à 0
+			sound_on++;
 		} else if (sound_on < NB_SOUND_ON) {
 			mean_freq += max_norm_index;
 			mode = ANALYSING;
-			sound_on++;													//TIM -déplacement- déplacer sinon boucle à 0
+			sound_on++;
 		} else if (sound_on == NB_SOUND_ON) {
 			mean_freq += max_norm_index;
 			mean_freq /= (NB_SOUND_ON + 1);
-			mode = ANALYSING; 											//TIM -proposition- MOVING ici non ?
-			sound_on++;													//TIM -déplacement- déplacer sinon boucle à 0
-		} else {
 			mode = MOVING;
 		}
 	}
@@ -89,17 +85,8 @@ void sound_remote(float* data) {
 			left_motor_set_speed(SPEED - ROTATION_COEFF * error);
 			right_motor_set_speed(SPEED + ROTATION_COEFF * error);
 		}
-//		//turn left														//TIM -suppress- inutile ! l'erreur contient déjà le signe
-//		else if (max_norm_index <= mean_freq - FREQ_THRESHOLD) {
-//			left_motor_set_speed(SPEED - ROTATION_COEFF * error);
-//			right_motor_set_speed(SPEED + ROTATION_COEFF * error);
-//		}
-//		//turn right
-//		else if (max_norm_index >= mean_freq + FREQ_THRESHOLD) {
-//			left_motor_set_speed(SPEED - ROTATION_COEFF * error);
-//			right_motor_set_speed(SPEED + ROTATION_COEFF * error);
-//		}
-	}else{																//TIM -ajout- sinon il ne s'arrête jamais ;-)
+
+	}else{
 		left_motor_set_speed(0);
 		right_motor_set_speed(0);
 	}
