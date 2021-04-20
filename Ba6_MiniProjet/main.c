@@ -132,9 +132,11 @@ int main(void) {
 
 			//laser
 			distance = VL53L0X_get_dist_mm();
+			chprintf((BaseSequentialStream *) &SD3, "distance %d    ", distance);
 			if (distance > min_dist_barcode && distance < max_dist_barcode){
 				get_images();
 				set_led(LED5, 1);
+				chprintf((BaseSequentialStream *) &SD3, "TEST");
 			}else{
 				stop_images();
 				set_led(LED5, 0);
