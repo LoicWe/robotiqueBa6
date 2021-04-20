@@ -13,8 +13,6 @@
 #include <leds.h>
 
 static uint8_t suspended = 1;
-static uint16_t line_position = IMAGE_BUFFER_SIZE / 2;	//middle
-//static uint8_t code = 0;
 
 //semaphore
 static BSEMAPHORE_DECL(image_ready_sem, TRUE); // @suppress("Field cannot be resolved")
@@ -22,7 +20,7 @@ static BSEMAPHORE_DECL(start_imaging_sem, FALSE); // @suppress("Field cannot be 
 
 uint8_t extract_barcode(uint8_t *image) {
 
-	int8_t digit[NB_LINE_BARCODE] = { -1, -1, -1, -1, -1};
+	int8_t digit[NB_LINE_BARCODE] = { -1, -1, -1, -1, -1 };
 	uint8_t code = 0;
 	uint8_t mean[3]; /* width divided into 3 segments because of auto brightness causing a n shape*/
 
@@ -33,7 +31,6 @@ uint8_t extract_barcode(uint8_t *image) {
 	uint8_t width = 0;
 	uint16_t end_last_line = 0;
 	uint8_t width_unit = 0;
-
 
 	/***********************************
 	 *  recherche du motif de démarrage
@@ -65,8 +62,6 @@ uint8_t extract_barcode(uint8_t *image) {
 			width_unit = (width + line.width) / 2;
 		}
 	}
-//	 chprintf((BaseSequentialStream *) &SD3, "%d %d    %d %d   %d | ", width, line.width, end_last_line, line.begin_pos, mean[0]);
-
 
 	/***********************************
 	 *  recherche des 5 lignes suivantes
@@ -74,26 +69,28 @@ uint8_t extract_barcode(uint8_t *image) {
 
 	if (line.found) {
 		for (int i = 0; i < NB_LINE_BARCODE && line.found; i++) {
-			line = line_find_next(image, line.end_pos, (i < 3 ? mean[1]:mean[2]));
+			line = line_find_next(image, line.end_pos, (i < 3 ? mean[1] : mean[2]));
 			digit[i] = line_classify(line, width_unit);
 			// si la ligne n'est pas reconnu, arrêt
-			if(digit[i] == 0){
+			if (digit[i] == 0) {
 				line.found = false;
 				break;
 			}
 		}
 	}
 
-	 /***********************************
+	/***********************************
 	 *  vérification du schéma de clôture
 	 ***********************************/
 
-	 if(line.found){
-		 // avant dernière ligne = petite, dernière = moyenne
-		 if(digit[NB_LINE_BARCODE-2] == SMALL && digit[NB_LINE_BARCODE-1] == MEDIUM){
-			 chprintf((BaseSequentialStream *) &SD3, "code = %d %d %d\n", digit[0], digit[1], digit[2]);
-		 }
-	 }
+	if (line.found) {
+		// avant dernière ligne = petite, dernière = moyenne
+		if (digit[NB_LINE_BARCODE - 2] == SMALL && digit[NB_LINE_BARCODE - 1] == MEDIUM) {
+			// assemblage des digits en base 3 -> 26 possibilités
+			code = 9 * digit[0] + 3 * digit[1] + digit[2];
+//			 chprintf((BaseSequentialStream *) &SD3, "code = %d %d %d\n", digit[0], digit[1], digit[2]);
+		}
+	}
 
 	return code;
 }
@@ -110,7 +107,6 @@ uint8_t line_classify(struct Line line, uint8_t width_unit) {
 	} else if (line.width + LINE_THRESHOLD > width_unit - half_line && line.width - LINE_THRESHOLD < width_unit - half_line) {
 		ratio = SMALL;
 	}
-//	uint8_t ratio = ((n + d/2)/d);
 
 	return ratio;
 }
@@ -177,14 +173,15 @@ struct Line line_find_next(uint8_t *buffer, uint16_t start_position, uint32_t me
 		line.end_pos = end;
 		line.begin_pos = begin;
 		line.found = true;
-		line_position = (begin + end) / 2; //gives the line position.
 	}
 	return line;
 }
 
 void calculate_mean(uint8_t *buffer, uint8_t *mean) {
 
-	//performs an average per 3 segments, because of auto brightness
+	/*performs an average for each 3 segments third, because of auto brightness
+	 * causing the values to shape a n. It gets dimmer on the sides
+	 */
 
 	uint16_t sum = 0;
 	uint16_t i;
@@ -193,12 +190,44 @@ void calculate_mean(uint8_t *buffer, uint8_t *mean) {
 		sum = 0;
 		for (i = IMAGE_BUFFER_SIZE_DIV_3 * j; i < IMAGE_BUFFER_SIZE_DIV_3 * (j + 1); i++) {
 			sum += buffer[i];
-
 		}
 		mean[j] = sum / IMAGE_BUFFER_SIZE_DIV_3;
-//		chprintf((BaseSequentialStream *) &SD3, "mean = %d  ", mean[j]);
 
 	}
+}
+
+void demo_led(uint8_t code) {
+
+	switch (code) {
+	case 14:
+		set_body_led(2);
+		break;
+	case 16:
+		set_led(LED3, 2);
+		break;
+	case 21:
+		set_front_led(2);
+		break;
+	case 24:
+		clear_leds();
+		set_front_led(0);
+		set_body_led(0);
+		break;
+	case 32:
+		set_led(LED7, 2);
+		break;
+	case 33:
+		for (int i = 0; i < 4; i++) {
+			set_led(i, 1);
+		}
+		set_front_led(1);
+		set_body_led(1);
+		break;
+	default:
+		break;
+	}
+	chThdSleepMilliseconds(500);
+
 }
 
 static THD_WORKING_AREA(waCaptureImage, 256);
@@ -207,7 +236,7 @@ static THD_FUNCTION(CaptureImage, arg) {
 	chRegSetThreadName(__FUNCTION__);
 	(void) arg;
 
-	//Takes pixels 0 to IMAGE_BUFFER_SIZE of the line 250 + 251 (minimum 2 lines because reasons)
+//Takes pixels 0 to IMAGE_BUFFER_SIZE of the line 250 + 251 (minimum 2 lines because reasons)
 	po8030_advanced_config(FORMAT_RGB565, 0, 250, IMAGE_BUFFER_SIZE, 2, SUBSAMPLING_X1, SUBSAMPLING_X1);
 	dcmi_enable_double_buffering();
 	dcmi_set_capture_mode(CAPTURE_ONE_SHOT);
@@ -255,11 +284,15 @@ static THD_FUNCTION(ProcessImage, arg) {
 
 		//search for a line in the image and gets its width in pixels
 		code = extract_barcode(image);
+		if (code != 0) {
+			chprintf((BaseSequentialStream *) &SD3, "code = %d\n", code);
+			demo_led(code);
+		}
 
 		if (send_to_computer == 20) {
 			send_to_computer = 0;
 			//sends to the computer the image
-//			SendUint8ToComputer(image, IMAGE_BUFFER_SIZE);
+			SendUint8ToComputer(image, IMAGE_BUFFER_SIZE);
 		}
 //invert the bool
 		send_to_computer++;
@@ -273,10 +306,6 @@ void get_images(void) {
 
 void stop_images(void) {
 	suspended = 1;
-}
-
-uint16_t get_line_position(void) {
-	return line_position;
 }
 
 void process_image_start(void) {
