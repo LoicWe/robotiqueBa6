@@ -3,7 +3,7 @@
 
 #define IMAGE_BUFFER_SIZE		640
 #define MIN_LINE_WIDTH			10
-#define WIDTH_SLOPE				5
+#define WIDTH_SLOPE				8
 #define PXTOCM					1570.0f //experimental value
 
 typedef uint8_t logical;
@@ -17,15 +17,17 @@ enum ratio{
 };
 
 #define LINE_THRESHOLD 		5
-#define START_LINE_WIDTH	38
+#define START_LINE_WIDTH	50
+#define IMAGE_BUFFER_SIZE_DIV_3	213
 
-void capture_image(logical);
+void get_images(void);
+void stop_images(void);
 uint16_t get_line_position(void);
 void process_image_start(void);
-struct Line extract_line(uint8_t *buffer, struct Line line, uint32_t mean);
+struct Line line_find_next(uint8_t *buffer, uint16_t start_position, uint32_t mean);
 uint8_t extract_barcode(uint8_t *image);
-uint32_t calculate_mean(uint8_t *buffer);
-uint8_t line_width_analyse(struct Line line, uint8_t width_unit);
+void calculate_mean(uint8_t *buffer, uint8_t *mean);
+uint8_t line_classify(struct Line line, uint8_t width_unit);
 
 struct Line{
 	uint16_t end_pos, begin_pos;

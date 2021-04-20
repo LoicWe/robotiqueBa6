@@ -133,10 +133,10 @@ int main(void) {
 			//laser
 			distance = VL53L0X_get_dist_mm();
 			if (distance > min_dist_barcode && distance < max_dist_barcode){
-				capture_image(YES);
+				get_images();
 				set_led(LED5, 1);
 			}else{
-				capture_image(NO);
+				stop_images();
 				set_led(LED5, 0);
 			}
 //			        //waits until a result must be sent to the computer
@@ -154,6 +154,7 @@ int main(void) {
 			set_led(LED1, 1);
 			set_body_led(0);
 			set_front_led(0);
+			stop_images();
 			break;
 
 			// sort du mode pause, redémarre les threads
@@ -166,7 +167,7 @@ int main(void) {
 			break;
 		}
     	//waits 1 second
-        chThdSleepMilliseconds(1000);
+        chThdSleepMilliseconds(100);
 	}
 }
 
