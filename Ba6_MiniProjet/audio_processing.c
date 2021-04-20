@@ -19,7 +19,7 @@ static float micBack_cmplx_input[2 * FFT_SIZE];
 //Arrays containing the computed magnitude of the complex numbers
 static float micBack_output[FFT_SIZE];
 
-#define MIN_VALUE_THRESHOLD	10000 
+#define MIN_VALUE_THRESHOLD	1000
 #define MIN_FREQ		10	//we don't analyze before this index to not use resources for nothing
 #define MAX_FREQ		40	//we don't analyze after this index to not use resources for nothing
 #define FREQ_THRESHOLD	1
@@ -69,6 +69,9 @@ void sound_remote(float* data) {
 		} else if (sound_on == NB_SOUND_ON) {
 			mean_freq += max_norm_index;
 			mean_freq /= (NB_SOUND_ON + 1);
+			mode = ANALYSING;
+			sound_on++;
+		}else{
 			mode = MOVING;
 		}
 	}

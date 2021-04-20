@@ -19,7 +19,7 @@
 #include <arm_math.h>
 #include <pi_regulator.h>
 #include <process_image.h>
-#include <distance_sensor.h>
+#include <sensors/VL53L0X/VL53L0X.h>
 #include <body_led_thd.h>
 
 uint8_t pucky_state = PUCKY_PLAY;
@@ -103,7 +103,7 @@ int main(void) {
     timer12_start();
     //inits the motors
     motors_init();
-	distance_sensor_start();
+    VL53L0X_start();
 	uint16_t distance = 0;
 
 	chThdCreateStatic(waThdPotentiometer, sizeof(waThdPotentiometer),NORMALPRIO, ThdPotentiometer, NULL);
@@ -131,7 +131,7 @@ int main(void) {
 
 
 			//laser
-			distance = distance_sensor_get_dist_mm();
+			distance = VL53L0X_get_dist_mm();
 			if (distance > min_dist_barcode && distance < max_dist_barcode){
 				capture_image(YES);
 				set_led(LED5, 1);
@@ -154,13 +154,11 @@ int main(void) {
 			set_led(LED1, 1);
 			set_body_led(0);
 			set_front_led(0);
-			distance_sensor_pause();
 			break;
 
 			// sort du mode pause, redémarre les threads
 		case PUCKY_WAKE_UP:
 			set_led(LED1, 0);
-			distance_sensor_resume();
 			pucky_state = PUCKY_PLAY;
 			break;
 
