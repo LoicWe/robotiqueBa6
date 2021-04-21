@@ -12,8 +12,8 @@ static float speed = 600;
 
 void move(float rotation) {
 
-	left_motor_set_speed(speed - rotation);
-	right_motor_set_speed(speed + rotation);
+	left_motor_set_speed(speed + rotation);
+	right_motor_set_speed(speed - rotation);
 }
 
 void move_stop(void) {
