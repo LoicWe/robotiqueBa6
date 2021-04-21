@@ -106,6 +106,7 @@ int main(void) {
     VL53L0X_start();
 	uint16_t distance = 0;
 
+
 	chThdCreateStatic(waThdPotentiometer, sizeof(waThdPotentiometer),NORMALPRIO, ThdPotentiometer, NULL);
 
 //    //temp tab used to store values in complex_float format
@@ -132,11 +133,12 @@ int main(void) {
 
 			//laser
 			distance = VL53L0X_get_dist_mm();
+//			chprintf((BaseSequentialStream *) &SD3, "distance %d    ", distance);
 			if (distance > min_dist_barcode && distance < max_dist_barcode){
-				capture_image(YES);
+				get_images();
 				set_led(LED5, 1);
 			}else{
-				capture_image(NO);
+				stop_images();
 				set_led(LED5, 0);
 			}
 //			        //waits until a result must be sent to the computer
@@ -154,6 +156,7 @@ int main(void) {
 			set_led(LED1, 1);
 			set_body_led(0);
 			set_front_led(0);
+			stop_images();
 			break;
 
 			// sort du mode pause, redémarre les threads
@@ -166,7 +169,7 @@ int main(void) {
 			break;
 		}
     	//waits 1 second
-        chThdSleepMilliseconds(1000);
+        chThdSleepMilliseconds(100);
 	}
 }
 
