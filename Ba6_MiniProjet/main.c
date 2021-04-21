@@ -6,7 +6,6 @@
 #include "hal.h"
 #include "memory_protection.h"
 #include "leds.h"
-#include "selector.h"
 #include <usbcfg.h>
 #include <main.h>
 #include <chprintf.h>
@@ -20,50 +19,10 @@
 #include <process_image.h>
 #include <sensors/VL53L0X/VL53L0X.h>
 #include <body_led_thd.h>
+#include <potentiometer.h>
 #include "move.h"
 
-uint8_t pucky_state = PUCKY_PLAY;
 
-
-
-static THD_WORKING_AREA(waThdPotentiometer, 128);
-static THD_FUNCTION(ThdPotentiometer, arg) {
-
-	chRegSetThreadName(__FUNCTION__);
-	(void) arg;
-
-	static uint8_t selector;
-	static uint8_t old_selector;
-	static bool loopback;
-	selector = get_selector();
-	old_selector = selector;
-
-	while (1) {
-		selector = get_selector();
-		loopback = (old_selector == 0 || old_selector == 15) ? 1 : 0;
-		if (!loopback) {
-			// si tourne dans le sens des aiguilles d'une montre - arrêt
-			if (old_selector < selector && selector < old_selector + 3) {
-				pucky_state = PUCKY_SLEEP;
-			} else if (old_selector > selector && selector > old_selector - 3) {
-				pucky_state = PUCKY_WAKE_UP;
-			}
-		} else {
-			if (old_selector == 0 && selector != 0 && selector < 3) {
-				pucky_state = PUCKY_SLEEP;
-			} else if (old_selector == 0 && selector != 0 && selector > 13) {
-				pucky_state = PUCKY_WAKE_UP;
-			} else if (old_selector == 15 && selector != 15 && selector < 2) {
-				pucky_state = PUCKY_SLEEP;
-			} else if (old_selector == 15 && selector != 15 && selector > 12) {
-				pucky_state = PUCKY_WAKE_UP;
-			}
-		}
-
-		old_selector = selector;
-		chThdSleepMilliseconds(1000);
-	}
-}
 
 static void serial_start(void) {
 	static SerialConfig ser_cfg = { 115200, 0, 0, 0, };
@@ -98,6 +57,7 @@ int main(void) {
 	po8030_start();
 	process_image_start();
 	body_led_thd_start();
+	init_potentiometer();
 
     //starts timer 12
     timer12_start();
@@ -106,7 +66,6 @@ int main(void) {
     VL53L0X_start();
 	uint16_t distance = 0;
 
-	chThdCreateStatic(waThdPotentiometer, sizeof(waThdPotentiometer),NORMALPRIO, ThdPotentiometer, NULL);
 
 //    //temp tab used to store values in complex_float format
 //    //needed bx doFFT_c
@@ -122,8 +81,8 @@ int main(void) {
 	/* Infinite loop. */
 	while (1) {
 
-		switch (pucky_state) {
-		case PUCKY_PLAY:
+		switch (get_punky_state()) {
+		case PUNKY_PLAY:
 
 			//audio processing
 
@@ -149,7 +108,7 @@ int main(void) {
 
 			// éteind les LED sauf la 1 (témoins de pause)
 			// met en pause les threads pour économie d'énergie
-		case PUCKY_SLEEP:
+		case PUNKY_SLEEP:
 			clear_leds();
 			set_led(LED1, 1);
 			set_body_led(0);
@@ -157,9 +116,9 @@ int main(void) {
 			break;
 
 			// sort du mode pause, redémarre les threads
-		case PUCKY_WAKE_UP:
+		case PUNKY_WAKE_UP:
 			set_led(LED1, 0);
-			pucky_state = PUCKY_PLAY;
+			set_punky_state(PUNKY_PLAY);
 			break;
 
 		default:
