@@ -11,6 +11,8 @@
 #include <communications.h>
 #include <body_led_thd.h>
 #include <leds.h>
+#include "spi_comm.h"
+
 
 static uint8_t suspended = 1;
 
@@ -88,7 +90,7 @@ uint8_t extract_barcode(uint8_t *image) {
 		if (digit[NB_LINE_BARCODE - 2] == SMALL && digit[NB_LINE_BARCODE - 1] == MEDIUM) {
 			// assemblage des digits en base 3 -> 26 possibilités
 			code = 9 * digit[0] + 3 * digit[1] + digit[2];
-//			 chprintf((BaseSequentialStream *) &SD3, "code = %d %d %d\n", digit[0], digit[1], digit[2]);
+			barcode_validate();
 		}
 	}
 
@@ -200,28 +202,26 @@ void demo_led(uint8_t code) {
 
 	switch (code) {
 	case 14:
-		set_body_led(2);
+		set_rgb_led(LED2, 10,0,0);
+//		toggle_rgb_led(LED2, RED_LED, 100);
 		break;
 	case 16:
 		set_led(LED3, 2);
 		break;
 	case 21:
-		set_front_led(2);
+		set_rgb_led(LED4, 10,0,0);
+//		toggle_rgb_led(LED4, RED_LED, 100);
 		break;
 	case 24:
-		clear_leds();
-		set_front_led(0);
-		set_body_led(0);
+		set_rgb_led(LED6, 10,0,0);
+//		toggle_rgb_led(LED6, RED_LED, 100);
 		break;
 	case 32:
 		set_led(LED7, 2);
 		break;
 	case 33:
-		for (int i = 0; i < 4; i++) {
-			set_led(i, 1);
-		}
-		set_front_led(1);
-		set_body_led(1);
+		set_rgb_led(LED8, 10,0,0);
+//		toggle_rgb_led(LED8, RED_LED, 100);
 		break;
 	default:
 		break;
