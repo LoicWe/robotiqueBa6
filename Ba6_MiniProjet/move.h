@@ -5,8 +5,8 @@
 void move(float rotation);
 void move_stop(void);
 
-#define MAX_SPEED 	1100	//100%
-#define MIN_SPEED	220		//20%
+#define MAX_SPEED 	900	//100%
+#define MIN_SPEED	200		//20%
 
 // Set a new speed
 void set_speed(float new_speed);

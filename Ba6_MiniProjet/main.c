@@ -70,8 +70,6 @@ int main(void) {
 	//start the spi for the rgb leds
 	spi_comm_start();
 
-	chThdCreateStatic(waThdPotentiometer, sizeof(waThdPotentiometer), NORMALPRIO, ThdPotentiometer, NULL);
-
 	//starts the microphones processing thread.
 	//it calls the callback given in parameter when samples are ready
 	mic_start(&processAudioData);

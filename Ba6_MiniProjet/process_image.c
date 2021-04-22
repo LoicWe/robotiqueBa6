@@ -212,7 +212,12 @@ void calculate_mean(uint8_t *buffer, uint8_t *mean) {
 
 void demo_led(uint8_t code) {
 
-	clear_leds();
+	set_led(LED3, 0);
+	set_led(LED7, 0);
+	set_rgb_led(LED2, 0,0,0);
+	set_rgb_led(LED4, 0,0,0);
+	set_rgb_led(LED6, 0,0,0);
+	set_rgb_led(LED8, 0,0,0);
 
 	switch (code) {
 	case 14:
