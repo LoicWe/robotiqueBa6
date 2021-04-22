@@ -11,7 +11,6 @@
 #include <communications.h>
 #include <body_led_thd.h>
 #include <leds.h>
-#include "spi_comm.h"
 
 
 static uint8_t suspended = 1;
@@ -200,27 +199,29 @@ void calculate_mean(uint8_t *buffer, uint8_t *mean) {
 
 void demo_led(uint8_t code) {
 
+	clear_leds();
+
 	switch (code) {
 	case 14:
-		set_rgb_led(LED2, 10,0,0);
+		set_rgb_led(LED2, 100,0,0);
 //		toggle_rgb_led(LED2, RED_LED, 100);
 		break;
 	case 16:
 		set_led(LED3, 2);
 		break;
 	case 21:
-		set_rgb_led(LED4, 10,0,0);
+		set_rgb_led(LED4, 100,0,0);
 //		toggle_rgb_led(LED4, RED_LED, 100);
 		break;
 	case 24:
-		set_rgb_led(LED6, 10,0,0);
+		set_rgb_led(LED6, 100,0,0);
 //		toggle_rgb_led(LED6, RED_LED, 100);
 		break;
 	case 32:
 		set_led(LED7, 2);
 		break;
 	case 33:
-		set_rgb_led(LED8, 10,0,0);
+		set_rgb_led(LED8, 100,0,0);
 //		toggle_rgb_led(LED8, RED_LED, 100);
 		break;
 	default:

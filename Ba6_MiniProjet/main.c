@@ -21,6 +21,7 @@
 #include <sensors/VL53L0X/VL53L0X.h>
 #include <body_led_thd.h>
 #include "move.h"
+#include "spi_comm.h"
 
 uint8_t pucky_state = PUCKY_PLAY;
 
@@ -97,14 +98,18 @@ int main(void) {
     dcmi_start();
 	po8030_start();
 	process_image_start();
+	//start the bodyled thread
 	body_led_thd_start();
 
     //starts timer 12
     timer12_start();
     //inits the motors
     motors_init();
+    //start the ToF distance sensor
     VL53L0X_start();
 	uint16_t distance = 0;
+	//start the spi for the rgb leds
+	spi_comm_start();
 
 
 	chThdCreateStatic(waThdPotentiometer, sizeof(waThdPotentiometer),NORMALPRIO, ThdPotentiometer, NULL);
