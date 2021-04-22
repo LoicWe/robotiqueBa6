@@ -21,5 +21,6 @@ void deactivate_motors(void);
 void init_pi_regulator(void);
 
 void start_pi_regulator(void);		//TODO: public func
+void stop_pi_regulator(void);
 
 #endif /* MOVE_H */
