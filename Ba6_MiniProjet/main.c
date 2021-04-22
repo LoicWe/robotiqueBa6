@@ -67,6 +67,7 @@ int main(void) {
     motors_init();
     //start the ToF distance sensor
     VL53L0X_start();
+    init_pi_regulator();
 	uint16_t distance = 0;
 	//start the spi for the rgb leds
 	spi_comm_start();
@@ -97,12 +98,18 @@ int main(void) {
 			//laser
 			distance = VL53L0X_get_dist_mm();
 //			chprintf((BaseSequentialStream *) &SD3, "distance %d    ", distance);
-			if (distance > min_dist_barcode && distance < max_dist_barcode){
+			if (distance < max_dist_barcode) {
+				set_rgb_led(LED8, 0, 100, 0);
 				get_images();
 				set_led(LED5, 1);
+				deactivate_motors();
+				start_pi_regulator();
 			}else{
+				set_rgb_led(LED8, 100, 0, 0);
 				stop_images();
 				set_led(LED5, 0);
+				stop_pi_regulator();
+				activate_motors();
 			}
 //			        //waits until a result must be sent to the computer
 //			        wait_send_to_computer();
@@ -143,7 +150,7 @@ int main(void) {
 			break;
 		}
     	//waits 0.5 second
-        chThdSleepMilliseconds(500);
+        chThdSleepMilliseconds(100);
 	}
 }
 

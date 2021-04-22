@@ -40,11 +40,11 @@ void deactivate_motors(void) {
 }
 
 //Régulateur PI afin d'approcher un code barre
-int16_t pi_regulator(float distance, float goal) {
-	float error = 0;
-	float speed = 0;
+int16_t pi_regulator(uint16_t distance, uint8_t goal) {
+	int16_t error = 0;
+	int16_t speed = 0;
 
-	static float sum_error = 0;
+	static int16_t sum_error = 0;
 
 	error = distance - goal;
 
@@ -64,7 +64,7 @@ int16_t pi_regulator(float distance, float goal) {
 		sum_error = -MAX_SUM_ERROR;
 	}
 
-	speed = KP * error + KI * sum_error;
+	speed = KP * error; //+ KI * sum_error;			// tuning of Kp
 
 	return (int16_t) speed;
 }
@@ -93,7 +93,7 @@ static THD_FUNCTION(PiRegulator, arg) {
 			left_motor_set_speed(speed);
 
 			//100Hz
-			chThdSleepUntilWindowed(time, time + MS2ST(10));
+			chThdSleepUntilWindowed(time, time + MS2ST(10));		//TODO: test 20, 30, 50 ms
 		} else {
 			chBSemWait(&start_pi_reg);
 		}
