@@ -13,6 +13,8 @@
 #include <leds.h>
 
 
+
+
 static uint8_t suspended = 1;
 
 //semaphore
@@ -24,6 +26,8 @@ uint8_t extract_barcode(uint8_t *image) {
 	int8_t digit[NB_LINE_BARCODE] = { -1, -1, -1, -1, -1 };
 	uint8_t code = 0;
 	uint8_t mean[3]; /* width divided into 3 segments because of auto brightness causing a n shape*/
+//	uint8_t data[13];
+
 
 	// déclaration d'une ligne
 	struct Line line;
@@ -44,6 +48,7 @@ uint8_t extract_barcode(uint8_t *image) {
 		line = line_find_next(image, end_last_line, mean[0]);
 		end_last_line = line.end_pos;
 		width = line.width;
+//		data[0] = width; 						/*** debug ****/
 
 		// si trouvée mais pas les bonnes dimensions, on recherche plus loin
 		if (line.found && !(width > START_LINE_WIDTH - LINE_THRESHOLD && width < START_LINE_WIDTH + LINE_THRESHOLD)) {
@@ -61,6 +66,10 @@ uint8_t extract_barcode(uint8_t *image) {
 		} else {
 			// base de comparaison des tailles des lignes codantes
 			width_unit = (width + line.width) / 2;
+//			data[1] = line.begin_pos - end_last_line; 			/*** debug ****/
+//			data[2] = line.width; 								/*** debug ****/
+			end_last_line = line.end_pos;
+
 		}
 	}
 
@@ -72,8 +81,11 @@ uint8_t extract_barcode(uint8_t *image) {
 		for (int i = 0; i < NB_LINE_BARCODE && line.found; i++) {
 			line = line_find_next(image, line.end_pos, (i < 3 ? mean[1] : mean[2]));
 			digit[i] = line_classify(line, width_unit);
+//			data[3+2*i] = line.begin_pos - end_last_line; /*** debug ****/
+//			data[3+2*i+1] = line.width; /*** debug ****/
+			end_last_line = line.end_pos;
 			// si la ligne n'est pas reconnu, arrêt
-			if (digit[i] == 0) {
+			if (digit[i] == 0 || !(line.begin_pos - end_last_line < width_unit)) {
 				line.found = false;
 				break;
 			}
@@ -90,6 +102,7 @@ uint8_t extract_barcode(uint8_t *image) {
 			// assemblage des digits en base 3 -> 26 possibilités
 			code = 9 * digit[0] + 3 * digit[1] + digit[2];
 			barcode_validate();
+//			chprintf((BaseSequentialStream *) &SD3, "codebarre = %d %d %d %d %d %d %d %d %d %d %d %d %d\n", data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9], data[10], data[11], data[12]);
 		}
 	}
 
@@ -293,7 +306,7 @@ static THD_FUNCTION(ProcessImage, arg) {
 		if (send_to_computer == 20) {
 			send_to_computer = 0;
 			//sends to the computer the image
-			SendUint8ToComputer(image, IMAGE_BUFFER_SIZE);
+//			SendUint8ToComputer(image, IMAGE_BUFFER_SIZE);
 		}
 //invert the bool
 		send_to_computer++;
