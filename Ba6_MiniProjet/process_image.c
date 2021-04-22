@@ -13,6 +13,8 @@
 #include <leds.h>
 
 
+
+
 static uint8_t suspended = 1;
 
 //semaphore
@@ -61,6 +63,7 @@ uint8_t extract_barcode(uint8_t *image) {
 		} else {
 			// base de comparaison des tailles des lignes codantes
 			width_unit = (width + line.width) / 2;
+			end_last_line = line.end_pos;
 		}
 	}
 
@@ -73,7 +76,7 @@ uint8_t extract_barcode(uint8_t *image) {
 			line = line_find_next(image, line.end_pos, (i < 3 ? mean[1] : mean[2]));
 			digit[i] = line_classify(line, width_unit);
 			// si la ligne n'est pas reconnu, arrêt
-			if (digit[i] == 0) {
+			if (digit[i] == 0){ // || !(line.begin_pos - end_last_line < width_unit)) {
 				line.found = false;
 				break;
 			}
