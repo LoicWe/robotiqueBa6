@@ -5,7 +5,11 @@
 void move(float rotation);
 void move_stop(void);
 
+#define MAX_SPEED 	1100	//100%
+#define MIN_SPEED	220		//20%
+
 // Set a new speed
 void set_speed(float new_speed);
+int16_t convert_speed(uint8_t code);
 
 #endif /* MOVE_H */
