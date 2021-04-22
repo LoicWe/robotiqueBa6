@@ -9,9 +9,9 @@
 #include <move.h>
 
 static float speed = 600;
+static bool move_on = true;
 
 void move(float rotation) {
-
 	left_motor_set_speed(speed + rotation);
 	right_motor_set_speed(speed - rotation);
 }
@@ -23,4 +23,12 @@ void move_stop(void) {
 
 void set_speed(float new_speed) {
 	speed = new_speed;
+}
+
+void activate_motors(void){
+	move_on = true;
+}
+
+void deactivate_motors(void){
+	move_on = false;
 }
