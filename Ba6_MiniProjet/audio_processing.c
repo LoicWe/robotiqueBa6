@@ -34,8 +34,8 @@ static float micBack_output[FFT_SIZE];
 void sound_remote(float* data) {
 	static uint8_t sound_on = 0;
 	static uint8_t sound_off = 0;
-	float error = 0;
-	static uint8_t mode = SOUND_OFF;
+	uint16_t error = 0;
+	static uint8_t mode = SOUND_OFF;				//To change
 	float max_norm = MIN_VALUE_THRESHOLD;
 	int16_t max_norm_index = -1;
 	static int16_t mean_freq = 0;
