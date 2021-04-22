@@ -9,9 +9,6 @@ extern "C" {
 #include "msgbus/messagebus.h"
 #include "parameter/parameter.h"
 
-#define PUCKY_PLAY				0		//TODO: ENUM
-#define PUCKY_SLEEP				1
-#define PUCKY_WAKE_UP			3
 
 #define min_dist_barcode		100
 #define max_dist_barcode		155

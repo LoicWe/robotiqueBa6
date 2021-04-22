@@ -8,4 +8,7 @@ void move_stop(void);
 // Set a new speed
 void set_speed(float new_speed);
 
+void activate_motors(void);
+void deactivate_motors(void);
+
 #endif /* MOVE_H */
