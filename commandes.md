@@ -19,6 +19,10 @@ git branch
 # Supprimer une ancienne branche local
 git branch -d branch_name
 
+# merge une branche sur master
+git pull (si conflits et résoudre les conflits)
+git push
+
 vim save : :wq
 
 vim quit : :q!
