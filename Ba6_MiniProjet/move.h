@@ -12,4 +12,7 @@ void move_stop(void);
 void set_speed(float new_speed);
 int16_t convert_speed(uint8_t code);
 
+void activate_motors(void);
+void deactivate_motors(void);
+
 #endif /* MOVE_H */

@@ -9,12 +9,16 @@
 #include <move.h>
 
 static float speed = 600;
+static bool move_on = true;
 
 
 void move(float rotation) {
-
-	left_motor_set_speed(speed - rotation);
-	right_motor_set_speed(speed + rotation);
+	if (move_on) {
+		left_motor_set_speed(speed - rotation);
+		right_motor_set_speed(speed + rotation);
+	} else {
+		move_stop();
+	}
 }
 
 void move_stop(void) {
@@ -35,8 +39,14 @@ int16_t convert_speed(uint8_t code){
 	}else{
 		speed = -73*code-2045; //vitesse entre -20 et -100%
 	}
-
 //	chprintf((BaseSequentialStream *) &SD3, "vitesse = %d\n", speed);
-
 	return speed;
+}
+
+void activate_motors(void){
+	move_on = true;
+}
+
+void deactivate_motors(void){
+	move_on = false;
 }
