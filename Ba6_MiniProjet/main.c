@@ -82,8 +82,7 @@ int main(void) {
 	while (1) {
 
 		switch (get_punky_state()) {
-		case PUNKY_PLAY:
-
+		case PUNKY_DEMO:
 			//audio processing
 
 			//code barre
@@ -108,24 +107,35 @@ int main(void) {
 
 			// éteind les LED sauf la 1 (témoins de pause)
 			// met en pause les threads pour économie d'énergie
-		case PUNKY_SLEEP:
+		case PUNKY_DEBUG:
 			clear_leds();
-			set_led(LED1, 1);
+			set_led(LED3, 1);
 			set_body_led(0);
 			set_front_led(0);
 			break;
 
 			// sort du mode pause, redémarre les threads
+		case PUNKY_SLEEP:
+			clear_leds();
+			set_led(LED1, 1);
+			set_body_led(0);
+			set_front_led(0);
+			deactivate_motors();
+			break;
+
 		case PUNKY_WAKE_UP:
-			set_led(LED1, 0);
-			set_punky_state(PUNKY_PLAY);
+			activate_motors();
+			clear_leds();
+			set_body_led(0);
+			set_front_led(0);
+			set_punky_state(PUNKY_DEMO);
 			break;
 
 		default:
 			break;
 		}
     	//waits 1 second
-        chThdSleepMilliseconds(1000);
+        chThdSleepMilliseconds(500);
 	}
 }
 

@@ -2,10 +2,17 @@
 #define POTENTIOMETER_H
 
 typedef enum {
-	PUNKY_PLAY = 0,
+	PUNKY_DEMO = 0,
+	PUNKY_DEBUG,
 	PUNKY_SLEEP,
 	PUNKY_WAKE_UP
 }PUNKY_STATE;
+
+typedef enum {
+	STAY = 0,
+	RIGHT,
+	LEFT
+}CHANGE_STATE;
 
 void init_potentiometer(void);
 

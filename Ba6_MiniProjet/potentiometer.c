@@ -8,7 +8,7 @@
 #include <main.h>
 #include <potentiometer.h>
 
-uint8_t punky_state = PUNKY_PLAY;
+static uint8_t punky_state = PUNKY_DEMO;
 
 static THD_WORKING_AREA(waThdPotentiometer, 128);
 static THD_FUNCTION(ThdPotentiometer, arg) {
@@ -23,29 +23,58 @@ static THD_FUNCTION(ThdPotentiometer, arg) {
 	old_selector = selector;
 
 	while (1) {
+		uint8_t change_state = STAY;
 		selector = get_selector();
 		loopback = (old_selector == 0 || old_selector == 15) ? 1 : 0;
 		if (!loopback) {
-			// si tourne dans le sens des aiguilles d'une montre - arrêt
 			if (old_selector < selector && selector < old_selector + 3) {
-				punky_state = PUNKY_SLEEP;
+				change_state = RIGHT;
 			} else if (old_selector > selector && selector > old_selector - 3) {
-				punky_state = PUNKY_WAKE_UP;
+				change_state = LEFT;
 			}
 		} else {
 			if (old_selector == 0 && selector != 0 && selector < 3) {
-				punky_state = PUNKY_SLEEP;
+				change_state = RIGHT;
 			} else if (old_selector == 0 && selector != 0 && selector > 13) {
-				punky_state = PUNKY_WAKE_UP;
+				change_state = LEFT;
 			} else if (old_selector == 15 && selector != 15 && selector < 2) {
-				punky_state = PUNKY_SLEEP;
+				change_state = RIGHT;
 			} else if (old_selector == 15 && selector != 15 && selector > 12) {
+				change_state = LEFT;
+			}
+		}
+		switch (change_state) {
+		case STAY:
+			break;
+
+		case RIGHT:
+			switch (punky_state) {
+			case PUNKY_DEMO:
+				punky_state = PUNKY_SLEEP;
+				break;
+			case PUNKY_DEBUG:
 				punky_state = PUNKY_WAKE_UP;
+				break;
+			default:
+				break;
+			}
+			break;
+
+		case LEFT:
+			switch (punky_state) {
+			case PUNKY_DEMO:
+				punky_state = PUNKY_DEBUG;
+				break;
+			case PUNKY_SLEEP:
+				punky_state = PUNKY_WAKE_UP;
+				break;
+			default:
+				break;
 			}
 		}
 
 		old_selector = selector;
-		chThdSleepMilliseconds(1000);
+		chThdSleepMilliseconds(500);
 	}
 }
 
@@ -53,11 +82,11 @@ void init_potentiometer(void) {
 	chThdCreateStatic(waThdPotentiometer, sizeof(waThdPotentiometer), NORMALPRIO, ThdPotentiometer, NULL);
 }
 
-void set_punky_state(uint8_t new_punky_state){
+void set_punky_state(uint8_t new_punky_state) {
 	punky_state = new_punky_state;
 }
 
-uint8_t get_punky_state(void){
+uint8_t get_punky_state(void) {
 	return punky_state;
 }
 
