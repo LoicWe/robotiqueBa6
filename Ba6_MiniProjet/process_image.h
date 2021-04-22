@@ -24,9 +24,11 @@ struct Line{
 
 void get_images(void);
 void stop_images(void);
+uint8_t get_code(void);
+void set_code(uint8_t code_p);
 void process_image_start(void);
 struct Line line_find_next(uint8_t *buffer, uint16_t start_position, uint32_t mean);
-uint8_t extract_barcode(uint8_t *image);
+void extract_barcode(uint8_t *image);
 void calculate_mean(uint8_t *buffer, uint8_t *mean);
 uint8_t line_classify(struct Line line, uint8_t width_unit);
 void demo_led(uint8_t code);

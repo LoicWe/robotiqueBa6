@@ -23,8 +23,6 @@
 #include "move.h"
 #include "spi_comm.h"
 
-
-
 static void serial_start(void) {
 	static SerialConfig ser_cfg = { 115200, 0, 0, 0, };
 
@@ -53,63 +51,52 @@ int main(void) {
 	serial_start();
 	//starts the USB communication
 	usb_start();
-    //starts the camera
-    dcmi_start();
+	//starts the camera
+	dcmi_start();
 	po8030_start();
 	process_image_start();
 	//start the bodyled thread
 	body_led_thd_start();
 	init_potentiometer();
 
-    //starts timer 12
-    timer12_start();
-    //inits the motors
-    motors_init();
-    //start the ToF distance sensor
-    VL53L0X_start();
+	//starts timer 12
+	timer12_start();
+	//inits the motors
+	motors_init();
+	//start the ToF distance sensor
+	VL53L0X_start();
 	uint16_t distance = 0;
+	uint8_t code = 0;
 	//start the spi for the rgb leds
 	spi_comm_start();
 
+	chThdCreateStatic(waThdPotentiometer, sizeof(waThdPotentiometer), NORMALPRIO, ThdPotentiometer, NULL);
 
-
-//    //temp tab used to store values in complex_float format
-//    //needed bx doFFT_c
-//    static complex_float temp_tab[FFT_SIZE];
-//    //send_tab is used to save the state of the buffer to send (double buffering)
-//    //to avoid modifications of the buffer while sending it
-//    static float send_tab[FFT_SIZE];
-
-    //starts the microphones processing thread.
-    //it calls the callback given in parameter when samples are ready
-    mic_start(&processAudioData);
+	//starts the microphones processing thread.
+	//it calls the callback given in parameter when samples are ready
+	mic_start(&processAudioData);
 
 	/* Infinite loop. */
 	while (1) {
 
+
 		switch (get_punky_state()) {
 		case PUNKY_DEMO:
-			//audio processing
 
-			//code barre
-
-
-			//laser
 			distance = VL53L0X_get_dist_mm();
-//			chprintf((BaseSequentialStream *) &SD3, "distance %d    ", distance);
-			if (distance > min_dist_barcode && distance < max_dist_barcode){
+			if (distance > min_dist_barcode && distance < max_dist_barcode) {
 				get_images();
+				code = get_code();
+				if (code != 0) {
+					demo_led(code);
+					set_speed(convert_speed(code));
+				}
 				set_led(LED5, 1);
-			}else{
+			}
+			else {
 				stop_images();
 				set_led(LED5, 0);
 			}
-//			        //waits until a result must be sent to the computer
-//			        wait_send_to_computer();
-//			        //we copy the buffer to avoid conflicts
-//			        arm_copy_f32(get_audio_buffer_ptr(LEFT_OUTPUT), send_tab, FFT_SIZE);
-//			        SendFloatToComputer((BaseSequentialStream *) &SD3, send_tab, FFT_SIZE);
-
 			break;
 
 			// éteind les LED sauf la 1 (témoins de pause)
@@ -142,6 +129,7 @@ int main(void) {
 		default:
 			break;
 		}
+
     	//waits 0.5 second
         chThdSleepMilliseconds(500);
 	}
