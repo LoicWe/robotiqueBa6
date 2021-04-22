@@ -21,6 +21,7 @@
 #include <body_led_thd.h>
 #include <potentiometer.h>
 #include "move.h"
+#include "spi_comm.h"
 
 
 
@@ -56,6 +57,7 @@ int main(void) {
     dcmi_start();
 	po8030_start();
 	process_image_start();
+	//start the bodyled thread
 	body_led_thd_start();
 	init_potentiometer();
 
@@ -63,8 +65,12 @@ int main(void) {
     timer12_start();
     //inits the motors
     motors_init();
+    //start the ToF distance sensor
     VL53L0X_start();
 	uint16_t distance = 0;
+	//start the spi for the rgb leds
+	spi_comm_start();
+
 
 
 //    //temp tab used to store values in complex_float format
@@ -90,11 +96,12 @@ int main(void) {
 
 			//laser
 			distance = VL53L0X_get_dist_mm();
+//			chprintf((BaseSequentialStream *) &SD3, "distance %d    ", distance);
 			if (distance > min_dist_barcode && distance < max_dist_barcode){
-				capture_image(YES);
+				get_images();
 				set_led(LED5, 1);
 			}else{
-				capture_image(NO);
+				stop_images();
 				set_led(LED5, 0);
 			}
 //			        //waits until a result must be sent to the computer
@@ -112,6 +119,7 @@ int main(void) {
 			set_led(LED3, 1);
 			set_body_led(0);
 			set_front_led(0);
+			stop_images();
 			break;
 
 			// sort du mode pause, redémarre les threads
@@ -134,7 +142,7 @@ int main(void) {
 		default:
 			break;
 		}
-    	//waits 1 second
+    	//waits 0.5 second
         chThdSleepMilliseconds(500);
 	}
 }
