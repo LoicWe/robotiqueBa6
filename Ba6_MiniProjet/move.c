@@ -100,7 +100,7 @@ static THD_FUNCTION(PiRegulator, arg) {
 			left_motor_set_speed(speed);
 
 			//100Hz
-			chThdSleepUntilWindowed(time, time + MS2ST(20));		//TODO: test 20, 30, 50 ms
+			chThdSleepUntilWindowed(time, time + MS2ST(10));		//TODO: test 20, 30, 50 ms
 		} else {
 			chBSemWait(&start_pi_reg);
 		}

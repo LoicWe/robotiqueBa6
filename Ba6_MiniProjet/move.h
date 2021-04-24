@@ -5,8 +5,8 @@
 #define GOAL_DISTANCE 			150
 #define MAX_DISTANCE_DETECTED	200
 #define MIN_DISTANCE_DETECTED	50
-#define KP						400
-#define KI 						8	//must not be zero
+#define KP						50
+#define KI 						16	//must not be zero
 #define MAX_SUM_ERROR 			(MOTOR_SPEED_LIMIT/KI)
 
 // Fonction to control the robot with the sound
