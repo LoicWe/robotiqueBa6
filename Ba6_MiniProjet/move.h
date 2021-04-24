@@ -1,10 +1,12 @@
 #ifndef MOVE_H
 #define MOVE_H
 
-#define ERROR_THRESHOLD			0.1f
-#define GOAL_DISTANCE 			15
-#define KP						800.0f
-#define KI 						3.5f	//must not be zero
+#define ERROR_THRESHOLD			14
+#define GOAL_DISTANCE 			150
+#define MAX_DISTANCE_DETECTED	200
+#define MIN_DISTANCE_DETECTED	50
+#define KP						400
+#define KI 						8	//must not be zero
 #define MAX_SUM_ERROR 			(MOTOR_SPEED_LIMIT/KI)
 
 // Fonction to control the robot with the sound

@@ -8,6 +8,7 @@
 #include <main.h>
 #include <motors.h>
 #include <move.h>
+#include <potentiometer.h>
 
 static BSEMAPHORE_DECL(start_pi_reg, FALSE); // @suppress("Field cannot be resolved")
 
@@ -64,7 +65,7 @@ int16_t pi_regulator(uint16_t distance, uint8_t goal) {
 		sum_error = -MAX_SUM_ERROR;
 	}
 
-	speed = KP * error; //+ KI * sum_error;			// tuning of Kp
+	speed = KP * error + KI * sum_error;
 
 	return (int16_t) speed;
 }
@@ -83,17 +84,23 @@ static THD_FUNCTION(PiRegulator, arg) {
 		if (!sleep_mode) {
 
 			time = chVTGetSystemTime();
+			uint8_t distance = VL53L0X_get_dist_mm();
+			if (get_punky_state() == PUNKY_DEBUG) chprintf((BaseSequentialStream *)&SD3, "\r distance:  %d \r", distance);
+
+			//if distance is too big we remarked some problem with the sensors so we take of too big and too small values
+			distance = distance > MAX_DISTANCE_DETECTED ? GOAL_DISTANCE : distance;
+			distance = distance < MIN_DISTANCE_DETECTED ? GOAL_DISTANCE : distance;
 
 			//computes the speed to give to the motors
 			//distance_cm is modified by the image processing thread
-			speed = pi_regulator(VL53L0X_get_dist_mm(), GOAL_DISTANCE);
+			speed = pi_regulator(distance, GOAL_DISTANCE);
 
 			//applies the speed from the PI regulator
 			right_motor_set_speed(speed);
 			left_motor_set_speed(speed);
 
 			//100Hz
-			chThdSleepUntilWindowed(time, time + MS2ST(10));		//TODO: test 20, 30, 50 ms
+			chThdSleepUntilWindowed(time, time + MS2ST(20));		//TODO: test 20, 30, 50 ms
 		} else {
 			chBSemWait(&start_pi_reg);
 		}
