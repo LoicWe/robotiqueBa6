@@ -65,14 +65,13 @@ int main(void) {
 	motors_init();
 	//start the ToF distance sensor
 	VL53L0X_start();
-  //init the PI regulator
+	//init the PI regulator
 	pi_regulator_init();
 
 	uint16_t distance = 0;
 	uint8_t code = 0;
 	//start the spi for the rgb leds
 	spi_comm_start();
-
 
 //    //temp tab used to store values in complex_float format
 //    //needed bx doFFT_c
@@ -85,10 +84,8 @@ int main(void) {
 	//it calls the callback given in parameter when samples are ready
 	mic_start(&processAudioData);
 
-
 	/* Infinite loop. */
 	while (1) {
-
 
 		switch (get_punky_state()) {
 		case PUNKY_DEMO:
@@ -100,7 +97,7 @@ int main(void) {
 			//laser
 			distance = VL53L0X_get_dist_mm();
 			if (distance > MIN_DISTANCE_DETECTED && distance < MAX_DISTANCE_DETECTED) {
-        set_rgb_led(LED8, 0, 100, 0);
+				set_rgb_led(LED8, 0, 100, 0);
 
 				get_images();
 				code = get_code();
@@ -113,18 +110,16 @@ int main(void) {
 				pi_regulator_start();
 			} else {
 				set_rgb_led(LED8, 100, 0, 0);
-				 stop_images();
-				 set_led(LED5, 0);
-				 pi_regulator_stop();
-				 activate_motors();
+				stop_images();
+				set_led(LED5, 0);
+				pi_regulator_stop();
+				activate_motors();
 			}
 //			        //waits until a result must be sent to the computer
 //			        wait_send_to_computer();
 //			        //we copy the buffer to avoid conflicts
 //			        arm_copy_f32(get_audio_buffer_ptr(LEFT_OUTPUT), send_tab, FFT_SIZE);
 //			        SendFloatToComputer((BaseSequentialStream *) &SD3, send_tab, FFT_SIZE);
-
-
 
 			break;
 
