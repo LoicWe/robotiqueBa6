@@ -99,7 +99,7 @@ int main(void) {
 
 			//laser
 			distance = VL53L0X_get_dist_mm();
-			if (distance > min_dist_barcode && distance < max_dist_barcode) {
+			if (distance > MIN_DISTANCE_DETECTED && distance < MAX_DISTANCE_DETECTED) {
         set_rgb_led(LED8, 0, 100, 0);
 
 				get_images();
