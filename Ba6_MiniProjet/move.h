@@ -13,8 +13,14 @@
 void move(uint16_t rotation);
 void move_stop(void);
 
+#define MAX_SPEED 	900	//100%
+#define MIN_SPEED	200		//20%
+
 // Set a new speed
 void set_speed(int16_t new_speed);
+
+int16_t convert_speed(uint8_t code);
+
 
 void activate_motors(void);
 void deactivate_motors(void);

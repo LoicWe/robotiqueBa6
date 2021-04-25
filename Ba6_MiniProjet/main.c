@@ -65,10 +65,14 @@ int main(void) {
 	motors_init();
 	//start the ToF distance sensor
 	VL53L0X_start();
+  //init the PI regulator
 	pi_regulator_init();
+
 	uint16_t distance = 0;
+	uint8_t code = 0;
 	//start the spi for the rgb leds
 	spi_comm_start();
+
 
 //    //temp tab used to store values in complex_float format
 //    //needed bx doFFT_c
@@ -79,23 +83,31 @@ int main(void) {
 
 	//starts the microphones processing thread.
 	//it calls the callback given in parameter when samples are ready
-//	mic_start(&processAudioData);
+	mic_start(&processAudioData);
+
 
 	/* Infinite loop. */
 	while (1) {
 
+
 		switch (get_punky_state()) {
 		case PUNKY_DEMO:
-			set_rgb_led(LED8, 0, 100, 0);
 
 			//audio processing
 
 			//code barre
 
 			//laser
-			if (distance < max_dist_barcode) {
-				set_rgb_led(LED8, 0, 100, 0);
+			distance = VL53L0X_get_dist_mm();
+			if (distance > min_dist_barcode && distance < max_dist_barcode) {
+        set_rgb_led(LED8, 0, 100, 0);
+
 				get_images();
+				code = get_code();
+				if (code != 0) {
+					demo_led(code);
+					set_speed(convert_speed(code));
+				}
 				set_led(LED5, 1);
 				deactivate_motors();
 				pi_regulator_start();
@@ -113,10 +125,11 @@ int main(void) {
 //			        SendFloatToComputer((BaseSequentialStream *) &SD3, send_tab, FFT_SIZE);
 
 
+
 			break;
 
-			// éteind les LED sauf la 1 (témoins de pause)
-			// met en pause les threads pour économie d'énergie
+			// Ã©teind les LED sauf la 1 (tÃ©moins de pause)
+			// met en pause les threads pour Ã©conomie d'Ã©nergie
 		case PUNKY_DEBUG:
 			clear_leds();
 			set_led(LED3, 1);
@@ -125,7 +138,7 @@ int main(void) {
 			stop_images();
 			break;
 
-			// sort du mode pause, redémarre les threads
+			// sort du mode pause, redÃ©marre les threads
 		case PUNKY_SLEEP:
 			clear_leds();
 			set_led(LED1, 1);
@@ -147,6 +160,7 @@ int main(void) {
 		default:
 			break;
 		}
+
 		//waits 0.5 second
 		chThdSleepMilliseconds(500);
 	}

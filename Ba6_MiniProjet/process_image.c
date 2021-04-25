@@ -15,16 +15,17 @@
 
 
 
-static uint8_t suspended = 1;
+static bool sleep_mode = 1;
+static uint8_t code = 0;
 
 //semaphore
 static BSEMAPHORE_DECL(image_ready_sem, TRUE); // @suppress("Field cannot be resolved")
 static BSEMAPHORE_DECL(start_imaging_sem, FALSE); // @suppress("Field cannot be resolved")
 
-uint8_t extract_barcode(uint8_t *image) {
+void extract_barcode(uint8_t *image) {
 
 	int8_t digit[NB_LINE_BARCODE] = { -1, -1, -1, -1, -1 };
-	uint8_t code = 0;
+//	uint8_t code = 0;
 	uint8_t mean[3]; /* width divided into 3 segments because of auto brightness causing a n shape*/
 //	uint8_t data[13];
 
@@ -100,13 +101,12 @@ uint8_t extract_barcode(uint8_t *image) {
 		// avant dernière ligne = petite, dernière = moyenne
 		if (digit[NB_LINE_BARCODE - 2] == SMALL && digit[NB_LINE_BARCODE - 1] == MEDIUM) {
 			// assemblage des digits en base 3 -> 26 possibilités
-			code = 9 * digit[0] + 3 * digit[1] + digit[2];
+			set_code(9 * digit[0] + 3 * digit[1] + digit[2]);
 			barcode_validate();
 //			chprintf((BaseSequentialStream *) &SD3, "codebarre = %d %d %d %d %d %d %d %d %d %d %d %d %d\n", data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9], data[10], data[11], data[12]);
+//			chprintf((BaseSequentialStream *) &SD3, "code = %d\n", code);
 		}
 	}
-
-	return code;
 }
 
 uint8_t line_classify(struct Line line, uint8_t width_unit) {
@@ -212,7 +212,12 @@ void calculate_mean(uint8_t *buffer, uint8_t *mean) {
 
 void demo_led(uint8_t code) {
 
-	clear_leds();
+	set_led(LED3, 0);
+	set_led(LED7, 0);
+	set_rgb_led(LED2, 0,0,0);
+	set_rgb_led(LED4, 0,0,0);
+	set_rgb_led(LED6, 0,0,0);
+	set_rgb_led(LED8, 0,0,0);
 
 	switch (code) {
 	case 14:
@@ -257,7 +262,7 @@ static THD_FUNCTION(CaptureImage, arg) {
 	dcmi_prepare();
 
 	while (1) {
-		if (!suspended) {
+		if (!sleep_mode) {
 			//starts a capture
 			dcmi_capture_start();
 			//waits for the capture to be done
@@ -297,11 +302,7 @@ static THD_FUNCTION(ProcessImage, arg) {
 		}
 
 		//search for a line in the image and gets its width in pixels
-		code = extract_barcode(image);
-		if (code != 0) {
-			chprintf((BaseSequentialStream *) &SD3, "code = %d\n", code);
-			demo_led(code);
-		}
+		extract_barcode(image);
 
 		if (send_to_computer == 20) {
 			send_to_computer = 0;
@@ -314,12 +315,22 @@ static THD_FUNCTION(ProcessImage, arg) {
 }
 
 void get_images(void) {
-	suspended = 0;
-	chBSemSignal(&start_imaging_sem);
+	if(sleep_mode == 1){
+		chBSemSignal(&start_imaging_sem);
+	}
+	sleep_mode = 0;
 }
 
 void stop_images(void) {
-	suspended = 1;
+	sleep_mode = 1;
+}
+
+void set_code(uint8_t code_p){
+	code = code_p;
+}
+
+uint8_t get_code(void){
+	return code;
 }
 
 void process_image_start(void) {
