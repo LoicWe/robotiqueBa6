@@ -65,7 +65,7 @@ int main(void) {
 	motors_init();
 	//start the ToF distance sensor
 	VL53L0X_start();
-	init_pi_regulator();
+	pi_regulator_init();
 	uint16_t distance = 0;
 	//start the spi for the rgb leds
 	spi_comm_start();
@@ -98,12 +98,12 @@ int main(void) {
 				get_images();
 				set_led(LED5, 1);
 				deactivate_motors();
-				start_pi_regulator();
+				pi_regulator_start();
 			} else {
 				set_rgb_led(LED8, 100, 0, 0);
 				 stop_images();
 				 set_led(LED5, 0);
-				 stop_pi_regulator();
+				 pi_regulator_stop();
 				 activate_motors();
 			}
 //			        //waits until a result must be sent to the computer
@@ -132,12 +132,12 @@ int main(void) {
 			set_body_led(0);
 			set_front_led(0);
 			deactivate_motors();
-			stop_pi_regulator();
+			pi_regulator_stop();
 			break;
 
 		case PUNKY_WAKE_UP:
 			activate_motors();
-			start_pi_regulator();
+			pi_regulator_start();
 			clear_leds();
 			set_body_led(0);
 			set_front_led(0);

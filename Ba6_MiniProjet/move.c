@@ -107,15 +107,15 @@ static THD_FUNCTION(PiRegulator, arg) {
 	}
 }
 
-void init_pi_regulator(void) {
+void pi_regulator_init(void) {
 	chThdCreateStatic(waPiRegulator, sizeof(waPiRegulator), NORMALPRIO, PiRegulator, NULL);
 }
 
-void start_pi_regulator(void) {
+void pi_regulator_start(void) {
 	if (sleep_mode) chBSemSignal(&start_pi_reg);
 	sleep_mode = false;
 }
 
-void stop_pi_regulator(void){
+void pi_regulator_stop(void){
 	sleep_mode = true;
 }

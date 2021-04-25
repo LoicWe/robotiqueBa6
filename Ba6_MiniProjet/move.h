@@ -22,9 +22,9 @@ void deactivate_motors(void);
 int16_t pi_regulator(uint16_t distance, uint8_t goal);
 
 //start the PI regulator thread
-void init_pi_regulator(void);
+void pi_regulator_init(void);
 
-void start_pi_regulator(void);		//TODO: public func
-void stop_pi_regulator(void);
+void pi_regulator_start(void);		//TODO: public func
+void pi_regulator_stop(void);
 
 #endif /* MOVE_H */
