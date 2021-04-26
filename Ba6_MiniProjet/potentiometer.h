@@ -14,7 +14,7 @@ typedef enum {
 	LEFT
 }CHANGE_STATE;
 
-void init_potentiometer(void);
+void potentiometer_init(void);
 
 void set_punky_state(uint8_t new_punky_state);
 uint8_t get_punky_state(void);
