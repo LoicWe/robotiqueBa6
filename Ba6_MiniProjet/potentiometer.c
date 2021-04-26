@@ -78,7 +78,7 @@ static THD_FUNCTION(ThdPotentiometer, arg) {
 	}
 }
 
-void init_potentiometer(void) {
+void potentiometer_init(void) {
 	chThdCreateStatic(waThdPotentiometer, sizeof(waThdPotentiometer), NORMALPRIO, ThdPotentiometer, NULL);
 }
 

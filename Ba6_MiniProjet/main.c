@@ -57,7 +57,7 @@ int main(void) {
 	process_image_start();
 	//start the bodyled thread
 	body_led_thd_start();
-	init_potentiometer();
+	potentiometer_init();
 
 	//starts timer 12
 	timer12_start();
