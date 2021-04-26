@@ -10,9 +10,6 @@ extern "C" {
 #include "parameter/parameter.h"
 
 
-#define min_dist_barcode		100
-#define max_dist_barcode		155
-
 /** Robot wide IPC bus. */
 extern messagebus_t bus;
 

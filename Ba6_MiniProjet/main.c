@@ -23,8 +23,6 @@
 #include "move.h"
 #include "spi_comm.h"
 
-
-
 static void serial_start(void) {
 	static SerialConfig ser_cfg = { 115200, 0, 0, 0, };
 
@@ -53,25 +51,27 @@ int main(void) {
 	serial_start();
 	//starts the USB communication
 	usb_start();
-    //starts the camera
-    dcmi_start();
+	//starts the camera
+	dcmi_start();
 	po8030_start();
 	process_image_start();
 	//start the bodyled thread
 	body_led_thd_start();
 	potentiometer_init();
 
-    //starts timer 12
-    timer12_start();
-    //inits the motors
-    motors_init();
-    //start the ToF distance sensor
-    VL53L0X_start();
+	//starts timer 12
+	timer12_start();
+	//inits the motors
+	motors_init();
+	//start the ToF distance sensor
+	VL53L0X_start();
+	//init the PI regulator
+	pi_regulator_init();
+
 	uint16_t distance = 0;
+	uint8_t code = 0;
 	//start the spi for the rgb leds
 	spi_comm_start();
-
-
 
 //    //temp tab used to store values in complex_float format
 //    //needed bx doFFT_c
@@ -80,29 +80,40 @@ int main(void) {
 //    //to avoid modifications of the buffer while sending it
 //    static float send_tab[FFT_SIZE];
 
-    //starts the microphones processing thread.
-    //it calls the callback given in parameter when samples are ready
-    mic_start(&processAudioData);
+	//starts the microphones processing thread.
+	//it calls the callback given in parameter when samples are ready
+	mic_start(&processAudioData);
 
 	/* Infinite loop. */
 	while (1) {
 
 		switch (get_punky_state()) {
 		case PUNKY_DEMO:
+
 			//audio processing
 
 			//code barre
 
-
 			//laser
 			distance = VL53L0X_get_dist_mm();
-//			chprintf((BaseSequentialStream *) &SD3, "distance %d    ", distance);
-			if (distance > min_dist_barcode && distance < max_dist_barcode){
+			if (distance > MIN_DISTANCE_DETECTED && distance < MAX_DISTANCE_DETECTED) {
+				set_rgb_led(LED8, 0, 100, 0);
+
 				get_images();
+				code = get_code();
+				if (code != 0) {
+					demo_led(code);
+					set_speed(convert_speed(code));
+				}
 				set_led(LED5, 1);
-			}else{
+				deactivate_motors();
+				pi_regulator_start();
+			} else {
+				set_rgb_led(LED8, 100, 0, 0);
 				stop_images();
 				set_led(LED5, 0);
+				pi_regulator_stop();
+				activate_motors();
 			}
 //			        //waits until a result must be sent to the computer
 //			        wait_send_to_computer();
@@ -112,8 +123,8 @@ int main(void) {
 
 			break;
 
-			// éteind les LED sauf la 1 (témoins de pause)
-			// met en pause les threads pour économie d'énergie
+			// Ã©teind les LED sauf la 1 (tÃ©moins de pause)
+			// met en pause les threads pour Ã©conomie d'Ã©nergie
 		case PUNKY_DEBUG:
 			clear_leds();
 			set_led(LED3, 1);
@@ -122,17 +133,19 @@ int main(void) {
 			stop_images();
 			break;
 
-			// sort du mode pause, redémarre les threads
+			// sort du mode pause, redÃ©marre les threads
 		case PUNKY_SLEEP:
 			clear_leds();
 			set_led(LED1, 1);
 			set_body_led(0);
 			set_front_led(0);
 			deactivate_motors();
+			pi_regulator_stop();
 			break;
 
 		case PUNKY_WAKE_UP:
 			activate_motors();
+			pi_regulator_start();
 			clear_leds();
 			set_body_led(0);
 			set_front_led(0);
@@ -142,8 +155,9 @@ int main(void) {
 		default:
 			break;
 		}
-    	//waits 0.5 second
-        chThdSleepMilliseconds(500);
+
+		//waits 0.5 second
+		chThdSleepMilliseconds(500);
 	}
 }
 
