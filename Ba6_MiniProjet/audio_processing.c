@@ -27,6 +27,8 @@ static float micBack_output[FFT_SIZE];
 #define NB_SOUND_OFF	10	//nbr sample to reset the mean
 #define ROTATION_COEFF	40
 
+static bool sleep_mode = true;
+
 /*
  *	Simple function used to detect the highest value in a buffer
  *	and to execute a motor command depending on it
@@ -50,7 +52,7 @@ void sound_remote(float* data) {
 	//determine if there was a value superior of the threshold
 	if (max_norm_index == -1) {
 		sound_off++;
-		if(sound_off == NB_SOUND_OFF){
+		if (sound_off == NB_SOUND_OFF) {
 			mean_freq = -1;
 			sound_on = 0;
 		}
@@ -70,7 +72,7 @@ void sound_remote(float* data) {
 			mean_freq /= (NB_SOUND_ON + 1);
 			mode = ANALYSING;
 			sound_on++;
-		}else{
+		} else {
 			mode = MOVING;
 		}
 	}
@@ -81,17 +83,15 @@ void sound_remote(float* data) {
 		//go forward
 		if (max_norm_index >= mean_freq - FREQ_THRESHOLD && max_norm_index <= mean_freq + FREQ_THRESHOLD) {
 			move(0);
-		}
-		else{
+		} else {
 			move(ROTATION_COEFF * error);
 		}
 
-	}else{
+	} else {
 		move_stop();
 	}
 
 //	chprintf((BaseSequentialStream *) &SD3, "%d / %d    ", mean_freq, max_norm_index);
-
 
 }
 
@@ -117,48 +117,51 @@ void processAudioData(int16_t *data, uint16_t num_samples) {
 	static uint16_t nb_samples = 0;
 	static uint8_t mustSend = 0;
 
-	//loop to fill the buffers
-	for (uint16_t i = 0; i < num_samples; i += 4) {
-		//construct an array of complex numbers. Put 0 to the imaginary part
-		micBack_cmplx_input[nb_samples] = (float) data[i + MIC_BACK];
-		nb_samples++;
-		micBack_cmplx_input[nb_samples++] = 0;					// to be tested
+	if (!sleep_mode) {
 
-		//stop when buffer is full
+		//loop to fill the buffers
+		for (uint16_t i = 0; i < num_samples; i += 4) {
+			//construct an array of complex numbers. Put 0 to the imaginary part
+			micBack_cmplx_input[nb_samples] = (float) data[i + MIC_BACK];
+			nb_samples++;
+			micBack_cmplx_input[nb_samples++] = 0;					// to be tested
+
+			//stop when buffer is full
+			if (nb_samples >= (2 * FFT_SIZE)) {
+				break;
+			}
+		}
+
 		if (nb_samples >= (2 * FFT_SIZE)) {
-			break;
+			/*	FFT processing
+			 *
+			 *	This FFT function stores the results in the input buffer given.
+			 *	This is an "In Place" function.
+			 */
+
+			doFFT_optimized(FFT_SIZE, micBack_cmplx_input);
+
+			/*	Magnitude processing
+			 *
+			 *	Computes the magnitude of the complex numbers and
+			 *	stores them in a buffer of FFT_SIZE because it only contains
+			 *	real numbers.
+			 *
+			 */
+			arm_cmplx_mag_f32(micBack_cmplx_input, micBack_output, FFT_SIZE);
+
+			//sends only one FFT result over 10 for 1 mic to not flood the computer
+			//sends to UART3
+			if (mustSend > 8) {
+				//signals to send the result to the computer
+				chBSemSignal(&sendToComputer_sem);
+				mustSend = 0;
+			}
+			nb_samples = 0;
+			mustSend++;
+
+			sound_remote(micBack_output);
 		}
-	}
-
-	if (nb_samples >= (2 * FFT_SIZE)) {
-		/*	FFT processing
-		 *
-		 *	This FFT function stores the results in the input buffer given.
-		 *	This is an "In Place" function.
-		 */
-
-		doFFT_optimized(FFT_SIZE, micBack_cmplx_input);
-
-		/*	Magnitude processing
-		 *
-		 *	Computes the magnitude of the complex numbers and
-		 *	stores them in a buffer of FFT_SIZE because it only contains
-		 *	real numbers.
-		 *
-		 */
-		arm_cmplx_mag_f32(micBack_cmplx_input, micBack_output, FFT_SIZE);
-
-		//sends only one FFT result over 10 for 1 mic to not flood the computer
-		//sends to UART3
-		if (mustSend > 8) {
-			//signals to send the result to the computer
-			chBSemSignal(&sendToComputer_sem);
-			mustSend = 0;
-		}
-		nb_samples = 0;
-		mustSend++;
-
-		sound_remote(micBack_output);
 	}
 }
 

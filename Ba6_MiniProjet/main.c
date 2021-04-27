@@ -83,7 +83,8 @@ int main(void) {
 	//starts the microphones processing thread.
 	//it calls the callback given in parameter when samples are ready
 	mic_start(&processAudioData);
-
+	clear_leds();
+	set_rgb_led(LED8, 0, 0, 100);
 	/* Infinite loop. */
 	while (1) {
 
@@ -97,17 +98,16 @@ int main(void) {
 			//laser
 			distance = VL53L0X_get_dist_mm();
 			if (distance > MIN_DISTANCE_DETECTED && distance < MAX_DISTANCE_DETECTED) {
-				set_rgb_led(LED8, 0, 100, 0);
+				pi_regulator_start();
 
 				get_images();
 				code = get_code();
-				if (code != 0) {
-					demo_led(code);
-					set_speed(convert_speed(code));
-				}
+//				if (code != 0) {
+//					demo_led(code);
+//					set_speed(convert_speed(code));
+//				}
 				set_led(LED5, 1);
 				deactivate_motors();
-				pi_regulator_start();
 			} else {
 				set_rgb_led(LED8, 100, 0, 0);
 				stop_images();

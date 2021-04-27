@@ -9,8 +9,9 @@
 #include <motors.h>
 #include <move.h>
 #include <potentiometer.h>
+#include <leds.h>
 
-static BSEMAPHORE_DECL(start_pi_reg, FALSE); // @suppress("Field cannot be resolved")
+//static BSEMAPHORE_DECL(start_pi_reg, FALSE); // @suppress("Field cannot be resolved")
 
 static int16_t speed = 600;
 static bool move_on = true;
@@ -97,6 +98,7 @@ static THD_FUNCTION(PiRegulator, arg) {
 
 	while (1) {
 		if (!sleep_mode) {
+			set_rgb_led(LED8, 0, 100, 0);
 
 			time = chVTGetSystemTime();
 			uint8_t distance = VL53L0X_get_dist_mm();
@@ -113,22 +115,23 @@ static THD_FUNCTION(PiRegulator, arg) {
 			//applies the speed from the PI regulator
 			right_motor_set_speed(speed);
 			left_motor_set_speed(speed);
+//			set_rgb_led(LED8, 100, 100, 0);
 
 			//100Hz
-			chThdSleepMilliseconds(10);
-//			chThdSleepUntilWindowed(time, time + MS2ST(10));		//TODO: test 20, 30, 50 ms
-		} else {
-			chBSemWait(&start_pi_reg);
+//			chThdSleepMilliseconds(10);
+			chThdSleepUntilWindowed(time, time + MS2ST(10));		//TODO: test 20, 30, 50 ms
+//		} else {
+//			chBSemWait(&start_pi_reg);
 		}
 	}
 }
 
 void pi_regulator_init(void) {
-	chThdCreateStatic(waPiRegulator, sizeof(waPiRegulator), NORMALPRIO, PiRegulator, NULL);
+	chThdCreateStatic(waPiRegulator, sizeof(waPiRegulator), NORMALPRIO+10, PiRegulator, NULL);
 }
 
 void pi_regulator_start(void) {
-	if (sleep_mode) chBSemSignal(&start_pi_reg);
+//	if (sleep_mode) chBSemSignal(&start_pi_reg);
 	sleep_mode = false;
 }
 
