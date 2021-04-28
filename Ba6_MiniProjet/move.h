@@ -16,17 +16,25 @@ void move_stop(void);
 #define MAX_SPEED 	900	//100%
 #define MIN_SPEED	200	//20%
 
+
+// ************************************************************************//
+// ************* fonction en mode décection de codebarre ******************//
+// ************************************************************************//
 void set_speed(int16_t new_speed);
 int16_t convert_speed(uint8_t code);
-
 void motor_control_start(void);
 void motor_control_stop(void);
 
+
+// ************************************************************************//
+// ************* fonction en mode décection de codebarre ******************//
+// ************************************************************************//
 
 //start the PI regulator thread
 void pi_regulator_init(void);
 void pi_regulator_start(void);
 void pi_regulator_stop(void);
 int16_t pi_regulator(uint16_t distance, uint8_t goal);
+
 
 #endif /* MOVE_H */
