@@ -10,7 +10,7 @@
 #include <fft.h>					// A NETTOYER LA FONCTION NON OPTI NAN ?
 #include <arm_math.h>
 #include <communications.h>			// POSSIBLEMENT A ENLEVER
-#include <leds.h>
+#include <led_animation.h>
 
 //semaphore
 static BSEMAPHORE_DECL(sendToComputer_sem, TRUE); // @suppress("Field cannot be resolved")
@@ -58,7 +58,9 @@ void sound_remote(float* data) {
 			sound_on = 0;
 		}
 		mode = SOUND_OFF;
+		anim_clear();
 	} else {
+		anim_clear();
 		sound_off = 0;
 		if (sound_on == 0) {
 			mean_freq = max_norm_index;
@@ -75,6 +77,7 @@ void sound_remote(float* data) {
 			sound_on++;
 		} else {
 			mode = MOVING;
+			anim_start_freq();
 		}
 	}
 

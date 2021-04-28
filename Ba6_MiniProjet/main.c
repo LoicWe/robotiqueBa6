@@ -18,7 +18,6 @@
 #include <arm_math.h>
 #include <process_image.h>
 #include <sensors/VL53L0X/VL53L0X.h>
-#include <body_led_thd.h>
 #include <potentiometer.h>
 #include "move.h"
 #include "spi_comm.h"
@@ -46,6 +45,8 @@ int main(void) {
 	halInit();
 	chSysInit();
 	mpu_init();
+
+	anim_clear();
 
 	//starts the serial communication
 	serial_start();
@@ -88,7 +89,6 @@ int main(void) {
 		punky_state = get_punky_state();
 
 		if (punky_state == PUNKY_DEMO) {
-			chprintf((BaseSequentialStream *) &SD3, "** DEMO *** \r");
 
 			distance = VL53L0X_get_dist_mm();
 
@@ -102,7 +102,6 @@ int main(void) {
 				code = get_code();
 
 				if (code != 0) {
-					demo_led(code);
 					set_speed(convert_speed(code));
 				}
 
@@ -116,26 +115,15 @@ int main(void) {
 
 		// d�sactivation de toutes les fonctions
 		else if (punky_state == PUNKY_SLEEP) {
-			chprintf((BaseSequentialStream *) &SD3, "** SLEEP *** \r");
 
 			get_image_stop();
 			pi_regulator_stop();
 			microphone_stop();
 			motor_control_stop();
-			set_rgb_led(LED2, 50, 50, 0);
-			set_rgb_led(LED4, 50, 50, 0);
-			set_rgb_led(LED6, 50, 50, 0);
-			set_rgb_led(LED8, 50, 50, 0);
 		}
 
 		// r�veil de punky
 		else if (punky_state == PUNKY_WAKE_UP){
-			chprintf((BaseSequentialStream *) &SD3, "** WAKE�UP *** \r");
-
-			set_rgb_led(LED2, 0, 0, 0);
-			set_rgb_led(LED4, 0, 0, 0);
-			set_rgb_led(LED6, 0, 0, 0);
-			set_rgb_led(LED8, 0, 0, 0);
 			set_punky_state(PUNKY_DEMO);
 		}
 

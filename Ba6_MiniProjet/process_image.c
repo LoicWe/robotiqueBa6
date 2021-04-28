@@ -9,9 +9,7 @@
 #include "parameter/parameter.h"
 #include <process_image.h>
 #include <communications.h>
-#include <body_led_thd.h>
-#include <leds.h>
-
+#include <led_animation.h>
 
 
 static bool sleep_mode = 1;
@@ -101,7 +99,7 @@ void extract_barcode(uint8_t *image) {
 		if (digit[NB_LINE_BARCODE - 2] == SMALL && digit[NB_LINE_BARCODE - 1] == MEDIUM) {
 			// assemblage des digits en base 3 -> 26 possibilités
 			set_code(9 * digit[0] + 3 * digit[1] + digit[2]);
-			barcode_validate();
+			anim_barcode();
 //			chprintf((BaseSequentialStream *) &SD3, "codebarre = %d %d %d %d %d %d %d %d %d %d %d %d %d\n", data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9], data[10], data[11], data[12]);
 //			chprintf((BaseSequentialStream *) &SD3, "code = %d\n", code);
 		}
@@ -209,7 +207,7 @@ void calculate_mean(uint8_t *buffer, uint8_t *mean) {
 	}
 }
 
-void demo_led(uint8_t code) {
+/*void demo_led(uint8_t code) {
 
 	set_led(LED3, 0);
 	set_led(LED7, 0);
@@ -246,7 +244,7 @@ void demo_led(uint8_t code) {
 	}
 	chThdSleepMilliseconds(500);
 
-}
+}*/
 
 static THD_WORKING_AREA(waCaptureImage, 256);
 static THD_FUNCTION(CaptureImage, arg) {
