@@ -10,6 +10,7 @@
 #include <fft.h>					// A NETTOYER LA FONCTION NON OPTI NAN ?
 #include <arm_math.h>
 #include <communications.h>			// POSSIBLEMENT A ENLEVER
+#include <leds.h>
 
 //semaphore
 static BSEMAPHORE_DECL(sendToComputer_sem, TRUE); // @suppress("Field cannot be resolved")
@@ -19,7 +20,7 @@ static float micBack_cmplx_input[2 * FFT_SIZE];
 //Arrays containing the computed magnitude of the complex numbers
 static float micBack_output[FFT_SIZE];
 
-#define MIN_VALUE_THRESHOLD	10000
+#define MIN_VALUE_THRESHOLD	15000
 #define MIN_FREQ		10	//we don't analyze before this index to not use resources for nothing
 #define MAX_FREQ		40	//we don't analyze after this index to not use resources for nothing
 #define FREQ_THRESHOLD	1
@@ -36,7 +37,7 @@ static bool sleep_mode = true;
 void sound_remote(float* data) {
 	static uint8_t sound_on = 0;
 	static uint8_t sound_off = 0;
-	uint16_t error = 0;
+	int16_t error = 0;
 	static uint8_t mode = SOUND_OFF;				//To change
 	float max_norm = MIN_VALUE_THRESHOLD;
 	int16_t max_norm_index = -1;
@@ -90,9 +91,6 @@ void sound_remote(float* data) {
 	} else {
 		move_stop();
 	}
-
-//	chprintf((BaseSequentialStream *) &SD3, "%d / %d    ", mean_freq, max_norm_index);
-
 }
 
 /*
@@ -171,4 +169,12 @@ void wait_send_to_computer(void) {
 
 float* get_audio_buffer_ptr(void) {
 	return micBack_output;
+}
+
+void microphone_start(void) {
+	sleep_mode = false;
+}
+
+void microphone_stop(void) {
+	sleep_mode = true;
 }

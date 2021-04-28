@@ -47,19 +47,16 @@ int main(void) {
 	chSysInit();
 	mpu_init();
 
-	chThdSleepMilliseconds(1000);
-
-
 	//starts the serial communication
 	serial_start();
 	//starts the USB communication
 	usb_start();
 	//starts the camera
-//	dcmi_start();
-//	po8030_start();
-//	process_image_start();
+	dcmi_start();
+	po8030_start();
+	process_image_start();
 	//start the bodyled thread
-//	body_led_thd_start();
+	body_led_thd_start();
 
 	//starts timer 12
 	timer12_start();
@@ -75,7 +72,7 @@ int main(void) {
 	//start the spi for the rgb leds
 	//starts the microphones processing thread.
 	//it calls the callback given in parameter when samples are ready
-//	mic_start(&processAudioData);
+	mic_start(&processAudioData);
 
 	chprintf((BaseSequentialStream *) &SD3, "initalisation -->  ok \r");
 
@@ -83,64 +80,32 @@ int main(void) {
 	/* Infinite loop. */
 	while (1) {
 
-//			chprintf((BaseSequentialStream *) &SD3, "start main \r");
-
-			//laser
 			distance = VL53L0X_get_dist_mm();
 
-//			chprintf((BaseSequentialStream *) &SD3, "get distance \r");
-
 			if (distance > MIN_DISTANCE_DETECTED && distance < MAX_DISTANCE_DETECTED) {
+
+				microphone_stop();
+				motor_control_stop();
 				pi_regulator_start();
-
-				get_images();
-
-//				chprintf((BaseSequentialStream *) &SD3, "valide 2 \r");
+				get_image_start();
 
 				code = get_code();
 
-//				chprintf((BaseSequentialStream *) &SD3, "valide 3 \r");
+				if (code != 0) {
+					demo_led(code);
+					set_speed(convert_speed(code));
+				}
 
-//				if (code != 0) {
-//					demo_led(code);
-//					set_speed(convert_speed(code));
-//				}
-				set_led(LED5, 1);
-
-//				chprintf((BaseSequentialStream *) &SD3, "valide 4 \r");
-
-				deactivate_motors();
-
-//				chprintf((BaseSequentialStream *) &SD3, "valide 5 \r");
 
 			} else {
-//				chprintf((BaseSequentialStream *) &SD3, "refus 1 \r");
-
-				stop_images();
-
-//				chprintf((BaseSequentialStream *) &SD3, "refus 2 \r");
-
-				set_led(LED5, 0);
-
-//				chprintf((BaseSequentialStream *) &SD3, "refus 3 \r");
-
+				get_image_stop();
 				pi_regulator_stop();
-
-//				chprintf((BaseSequentialStream *) &SD3, "refus 4 \r");
-
-				activate_motors();
-
-//				chprintf((BaseSequentialStream *) &SD3, "refus 5 \r");
-
+				motor_control_start();
+				microphone_start();
 			}
-
-//			chprintf((BaseSequentialStream *) &SD3, "distance = %d \r", distance);
 
 		//waits 0.5 second
 		chThdSleepMilliseconds(500);
-
-//		chprintf((BaseSequentialStream *) &SD3, "reboucle \r");
-
 	}
 }
 

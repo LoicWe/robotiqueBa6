@@ -10,14 +10,12 @@
 #include <move.h>
 #include <leds.h>
 
-//static BSEMAPHORE_DECL(start_pi_reg, FALSE); // @suppress("Field cannot be resolved")
-
 static int16_t speed = 600;
 static bool move_on = true;
 static bool sleep_mode = false;
 
 
-void move(uint16_t rotation) {
+void move(int16_t rotation) {
 	if (move_on) {
 		left_motor_set_speed(speed + rotation);
 		right_motor_set_speed(speed - rotation);
@@ -43,15 +41,14 @@ int16_t convert_speed(uint8_t code){
 	}else{
 		speed = (-MAX_SPEED + MIN_SPEED)/12*code+2*MAX_SPEED-MIN_SPEED; //vitesse entre -20 et -100%
 	}
-//	chprintf((BaseSequentialStream *) &SD3, "vitesse = %d\n", speed);
 	return speed;
 }
 
-void activate_motors(void){
+void motor_control_start(void){
 	move_on = true;
 }
 
-void deactivate_motors(void) {
+void motor_control_stop(void) {
 	move_on = false;
 }
 
@@ -86,12 +83,7 @@ int16_t pi_regulator(uint16_t distance, uint8_t goal) {
 		sum_error = -MAX_SUM_ERROR;
 	}
 
-//	chprintf((BaseSequentialStream *) &SD3, "error = %d \r", error);
-//	chprintf((BaseSequentialStream *) &SD3, "sum_error = %d \r", sum_error);
-
-
 	speed = (KP * error + KI * sum_error)/4;
-//	chprintf((BaseSequentialStream *) &SD3, "speed = %d \r", speed);
 
 	return (int16_t) speed;
 }
@@ -102,17 +94,16 @@ static THD_FUNCTION(PiRegulator, arg) {
 	chRegSetThreadName(__FUNCTION__);
 	(void) arg;
 
-	systime_t time;
+	systime_t time = 0;
 	uint16_t distance;
-
 	int16_t speed = 0;
 
 	while (1) {
 
-		// Ce if prend 2.1 milliseconde pour être effectué
 		if (!sleep_mode) {
 
 			time = chVTGetSystemTime();
+//			chprintf((BaseSequentialStream *) &SD3, "temps = %d \r", time);
 			distance = VL53L0X_get_dist_mm();
 
 			//if distance is too big we remarked some problem with the sensors so we take of too big and too small values
@@ -127,30 +118,25 @@ static THD_FUNCTION(PiRegulator, arg) {
 			right_motor_set_speed(speed);
 			left_motor_set_speed(speed);
 
-			//100Hz
-//			chThdSleepMilliseconds(10);
-//			chprintf((BaseSequentialStream *) &SD3, "temps = %d \r", time);
+			//100Hz plus mainteant !!!!!
+			time = chVTGetSystemTime();
+//			chprintf((BaseSequentialStream *) &SD3, "temps 2 = %d \r", time);
+//			chprintf((BaseSequentialStream *) &SD3, "temps = %d \r", (uint32_t) (chVTGetSystemTime() - time));
 
-			chThdSleepUntilWindowed(time, time + MS2ST(50));		//TODO: test 20, 30, 50 ms
-//		} else {
-//			chBSemWait(&start_pi_reg);
+			chThdSleepUntilWindowed(time, time + MS2ST(50));		//TODO: test 20, 30, 50 ms;
 		}else{
 			chThdSleepMilliseconds(500);
-			chprintf((BaseSequentialStream *) &SD3, "lol \r");
 		}
 
 	}
 }
 
 void pi_regulator_init(void) {
-	// ne pas changer la priorité sinon freeze
-	chThdCreateStatic(waPiRegulator, sizeof(waPiRegulator), HIGHPRIO, PiRegulator, NULL);
+	chThdCreateStatic(waPiRegulator, sizeof(waPiRegulator), NORMALPRIO+2, PiRegulator, NULL);
 }
 
 void pi_regulator_start(void) {
-//	if (sleep_mode) chBSemSignal(&start_pi_reg);
 	sleep_mode = false;
-	if(sleep_mode) chprintf((BaseSequentialStream *) &SD3, "pi regulator started -->  ok \r");
 }
 
 void pi_regulator_stop(void){

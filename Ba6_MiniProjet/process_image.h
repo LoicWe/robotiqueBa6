@@ -22,8 +22,8 @@ struct Line{
 	bool found;
 };
 
-void get_images(void);
-void stop_images(void);
+void get_image_start(void);
+void get_image_stop(void);
 uint8_t get_code(void);
 void set_code(uint8_t code_p);
 void process_image_start(void);
