@@ -8,7 +8,6 @@
 #include <main.h>
 #include <motors.h>
 #include <move.h>
-#include <potentiometer.h>
 #include <leds.h>
 
 //static BSEMAPHORE_DECL(start_pi_reg, FALSE); // @suppress("Field cannot be resolved")
@@ -56,10 +55,12 @@ void deactivate_motors(void) {
 	move_on = false;
 }
 
-//Rï¿½gulateur PI afin d'approcher un code barre
+//Régulateur PI afin d'approcher un code barre
 int16_t pi_regulator(uint16_t distance, uint8_t goal) {
 	int16_t error = 0;
 	int16_t speed = 0;
+	systime_t time;
+
 
 	static int16_t sum_error = 0;
 
@@ -68,9 +69,13 @@ int16_t pi_regulator(uint16_t distance, uint8_t goal) {
 	//disables the PI regulator if the error is to small
 	//this avoids to always move as we cannot exactly be where we want and
 	//the camera is a bit noisy
+
+//	time = chVTGetSystemTime();
 	if (fabs(error) < ERROR_THRESHOLD) {
 		return 0;
 	}
+//	chprintf((BaseSequentialStream *) &SD3, "temps = %d \r", chVTGetSystemTime - time);
+
 
 	sum_error += error;
 
@@ -81,7 +86,12 @@ int16_t pi_regulator(uint16_t distance, uint8_t goal) {
 		sum_error = -MAX_SUM_ERROR;
 	}
 
-	speed = KP * error + KI * sum_error;
+//	chprintf((BaseSequentialStream *) &SD3, "error = %d \r", error);
+//	chprintf((BaseSequentialStream *) &SD3, "sum_error = %d \r", sum_error);
+
+
+	speed = (KP * error + KI * sum_error)/4;
+//	chprintf((BaseSequentialStream *) &SD3, "speed = %d \r", speed);
 
 	return (int16_t) speed;
 }
@@ -93,16 +103,17 @@ static THD_FUNCTION(PiRegulator, arg) {
 	(void) arg;
 
 	systime_t time;
+	uint16_t distance;
 
 	int16_t speed = 0;
 
 	while (1) {
+
+		// Ce if prend 2.1 milliseconde pour être effectué
 		if (!sleep_mode) {
-			set_rgb_led(LED8, 0, 100, 0);
 
 			time = chVTGetSystemTime();
-			uint8_t distance = VL53L0X_get_dist_mm();
-			if (get_punky_state() == PUNKY_DEBUG) chprintf((BaseSequentialStream *)&SD3, "\r distance:  %d \r", distance);
+			distance = VL53L0X_get_dist_mm();
 
 			//if distance is too big we remarked some problem with the sensors so we take of too big and too small values
 			distance = distance > MAX_DISTANCE_DETECTED ? GOAL_DISTANCE : distance;
@@ -115,24 +126,31 @@ static THD_FUNCTION(PiRegulator, arg) {
 			//applies the speed from the PI regulator
 			right_motor_set_speed(speed);
 			left_motor_set_speed(speed);
-//			set_rgb_led(LED8, 100, 100, 0);
 
 			//100Hz
 //			chThdSleepMilliseconds(10);
-			chThdSleepUntilWindowed(time, time + MS2ST(10));		//TODO: test 20, 30, 50 ms
+//			chprintf((BaseSequentialStream *) &SD3, "temps = %d \r", time);
+
+			chThdSleepUntilWindowed(time, time + MS2ST(50));		//TODO: test 20, 30, 50 ms
 //		} else {
 //			chBSemWait(&start_pi_reg);
+		}else{
+			chThdSleepMilliseconds(500);
+			chprintf((BaseSequentialStream *) &SD3, "lol \r");
 		}
+
 	}
 }
 
 void pi_regulator_init(void) {
-	chThdCreateStatic(waPiRegulator, sizeof(waPiRegulator), NORMALPRIO+10, PiRegulator, NULL);
+	// ne pas changer la priorité sinon freeze
+	chThdCreateStatic(waPiRegulator, sizeof(waPiRegulator), HIGHPRIO, PiRegulator, NULL);
 }
 
 void pi_regulator_start(void) {
 //	if (sleep_mode) chBSemSignal(&start_pi_reg);
 	sleep_mode = false;
+	if(sleep_mode) chprintf((BaseSequentialStream *) &SD3, "pi regulator started -->  ok \r");
 }
 
 void pi_regulator_stop(void){
