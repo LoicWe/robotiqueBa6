@@ -84,7 +84,7 @@ int main(void) {
 	/* Infinite loop. */
 	while (1) {
 
-		// état du robot, actif, inactif, en réveil
+		// ï¿½tat du robot, actif, inactif, en rï¿½veil
 		punky_state = get_punky_state();
 
 		if (punky_state == PUNKY_DEMO) {
@@ -114,7 +114,7 @@ int main(void) {
 			}
 		}
 
-		// désactivation de toutes les fonctions
+		// dï¿½sactivation de toutes les fonctions
 		else if (punky_state == PUNKY_SLEEP) {
 			chprintf((BaseSequentialStream *) &SD3, "** SLEEP *** \r");
 
@@ -128,9 +128,9 @@ int main(void) {
 			set_rgb_led(LED8, 50, 50, 0);
 		}
 
-		// réveil de punky
+		// rï¿½veil de punky
 		else if (punky_state == PUNKY_WAKE_UP){
-			chprintf((BaseSequentialStream *) &SD3, "** WAKE UP *** \r");
+			chprintf((BaseSequentialStream *) &SD3, "** WAKEï¿½UP *** \r");
 
 			set_rgb_led(LED2, 0, 0, 0);
 			set_rgb_led(LED4, 0, 0, 0);
