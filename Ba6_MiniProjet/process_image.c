@@ -14,7 +14,6 @@
 
 
 
-
 static bool sleep_mode = 1;
 static uint8_t code = 0;
 
@@ -255,7 +254,7 @@ static THD_FUNCTION(CaptureImage, arg) {
 	chRegSetThreadName(__FUNCTION__);
 	(void) arg;
 
-//Takes pixels 0 to IMAGE_BUFFER_SIZE of the line 250 + 251 (minimum 2 lines because reasons)
+	//Takes pixels 0 to IMAGE_BUFFER_SIZE of the line 250 + 251 (minimum 2 lines because reasons)
 	po8030_advanced_config(FORMAT_RGB565, 0, 250, IMAGE_BUFFER_SIZE, 2, SUBSAMPLING_X1, SUBSAMPLING_X1);
 	dcmi_enable_double_buffering();
 	dcmi_set_capture_mode(CAPTURE_ONE_SHOT);
@@ -284,8 +283,6 @@ static THD_FUNCTION(ProcessImage, arg) {
 	uint8_t *img_buff_ptr;
 	uint8_t image[IMAGE_BUFFER_SIZE] = { 0 };
 	uint16_t lineWidth = 0;
-	uint8_t code = 0;
-
 	uint8_t send_to_computer = 0;
 
 	while (1) {
@@ -301,27 +298,25 @@ static THD_FUNCTION(ProcessImage, arg) {
 			image[i / 2] = (uint8_t) img_buff_ptr[i] & 0xF8;
 		}
 
-		//search for a line in the image and gets its width in pixels
 		extract_barcode(image);
 
-		if (send_to_computer == 20) {
+		// slow send to not flood computer
+		if (send_to_computer == 15) {
 			send_to_computer = 0;
-			//sends to the computer the image
 //			SendUint8ToComputer(image, IMAGE_BUFFER_SIZE);
 		}
-//invert the bool
 		send_to_computer++;
 	}
 }
 
-void get_images(void) {
+void get_image_run(void) {
 	if(sleep_mode == 1){
 		chBSemSignal(&start_imaging_sem);
 	}
 	sleep_mode = 0;
 }
 
-void stop_images(void) {
+void get_image_stop(void) {
 	sleep_mode = 1;
 }
 
@@ -336,5 +331,4 @@ uint8_t get_code(void){
 void process_image_start(void) {
 	chThdCreateStatic(waProcessImage, sizeof(waProcessImage), NORMALPRIO, ProcessImage, NULL);
 	chThdCreateStatic(waCaptureImage, sizeof(waCaptureImage), NORMALPRIO, CaptureImage, NULL);
-
 }

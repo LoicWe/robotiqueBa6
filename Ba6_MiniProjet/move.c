@@ -8,16 +8,18 @@
 #include <main.h>
 #include <motors.h>
 #include <move.h>
-#include <potentiometer.h>
-
-static BSEMAPHORE_DECL(start_pi_reg, FALSE); // @suppress("Field cannot be resolved")
+#include <leds.h>
 
 static int16_t speed = 600;
 static bool move_on = true;
 static bool sleep_mode = false;
 
 
-void move(uint16_t rotation) {
+// *************************************************************************//
+// ************* fonction en mode détection de fréquences ******************//
+// *************************************************************************//
+
+void move(int16_t rotation) {
 	if (move_on) {
 		left_motor_set_speed(speed + rotation);
 		right_motor_set_speed(speed - rotation);
@@ -33,7 +35,6 @@ void set_speed(int16_t new_speed) {
 	speed = new_speed;
 }
 
-
 int16_t convert_speed(uint8_t code){
 
 	int16_t speed = 0;
@@ -41,24 +42,31 @@ int16_t convert_speed(uint8_t code){
 	if(code > 25){
 		speed = (MAX_SPEED - MIN_SPEED)/13*code+3*MIN_SPEED-2*MAX_SPEED; //vitesse entre 20 et 100%
 	}else{
-		speed = (-MAX_SPEED + MIN_SPEED)/12*code+2*MAX_SPEED-MIN_SPEED; //vitesse entre -20 et -100%
+		speed = -( (-MAX_SPEED + MIN_SPEED)/12*code+2*MAX_SPEED-MIN_SPEED); //vitesse entre -20 et -100%
 	}
-//	chprintf((BaseSequentialStream *) &SD3, "vitesse = %d\n", speed);
 	return speed;
 }
 
-void activate_motors(void){
+void motor_control_run(void){
 	move_on = true;
 }
 
-void deactivate_motors(void) {
+void motor_control_stop(void) {
 	move_on = false;
 }
 
-//Rï¿½gulateur PI afin d'approcher un code barre
+
+
+// ************************************************************************//
+// ************* fonction en mode décection de codebarre ******************//
+// ************************************************************************//
+
+//Régulateur PI afin d'approcher un code barre
 int16_t pi_regulator(uint16_t distance, uint8_t goal) {
 	int16_t error = 0;
 	int16_t speed = 0;
+//	systime_t time;
+
 
 	static int16_t sum_error = 0;
 
@@ -67,9 +75,13 @@ int16_t pi_regulator(uint16_t distance, uint8_t goal) {
 	//disables the PI regulator if the error is to small
 	//this avoids to always move as we cannot exactly be where we want and
 	//the camera is a bit noisy
+
+//	time = chVTGetSystemTime();
 	if (fabs(error) < ERROR_THRESHOLD) {
 		return 0;
 	}
+//	chprintf((BaseSequentialStream *) &SD3, "temps = %d \r", chVTGetSystemTime - time);
+
 
 	sum_error += error;
 
@@ -80,10 +92,11 @@ int16_t pi_regulator(uint16_t distance, uint8_t goal) {
 		sum_error = -MAX_SUM_ERROR;
 	}
 
-	speed = KP * error + KI * sum_error;
+	speed = (KP * error + KI * sum_error)/4;
 
 	return (int16_t) speed;
 }
+
 
 static THD_WORKING_AREA(waPiRegulator, 256);
 static THD_FUNCTION(PiRegulator, arg) {
@@ -91,16 +104,17 @@ static THD_FUNCTION(PiRegulator, arg) {
 	chRegSetThreadName(__FUNCTION__);
 	(void) arg;
 
-	systime_t time;
-
+	systime_t time = 0;
+	uint16_t distance;
 	int16_t speed = 0;
 
 	while (1) {
+
 		if (!sleep_mode) {
 
 			time = chVTGetSystemTime();
-			uint8_t distance = VL53L0X_get_dist_mm();
-			if (get_punky_state() == PUNKY_DEBUG) chprintf((BaseSequentialStream *)&SD3, "\r distance:  %d \r", distance);
+//			chprintf((BaseSequentialStream *) &SD3, "temps = %d \r", time);
+			distance = VL53L0X_get_dist_mm();
 
 			//if distance is too big we remarked some problem with the sensors so we take of too big and too small values
 			distance = distance > MAX_DISTANCE_DETECTED ? GOAL_DISTANCE : distance;
@@ -114,20 +128,24 @@ static THD_FUNCTION(PiRegulator, arg) {
 			right_motor_set_speed(speed);
 			left_motor_set_speed(speed);
 
-			//100Hz
-			chThdSleepUntilWindowed(time, time + MS2ST(10));		//TODO: test 20, 30, 50 ms
-		} else {
-			chBSemWait(&start_pi_reg);
+			//100Hz plus mainteant !!!!!
+			time = chVTGetSystemTime();
+//			chprintf((BaseSequentialStream *) &SD3, "temps 2 = %d \r", time);
+//			chprintf((BaseSequentialStream *) &SD3, "temps = %d \r", (uint32_t) (chVTGetSystemTime() - time));
+
+			chThdSleepUntilWindowed(time, time + MS2ST(50));		//TODO: test 20, 30, 50 ms;
+		}else{
+			chThdSleepMilliseconds(500);
 		}
+
 	}
 }
 
 void pi_regulator_init(void) {
-	chThdCreateStatic(waPiRegulator, sizeof(waPiRegulator), NORMALPRIO, PiRegulator, NULL);
+	chThdCreateStatic(waPiRegulator, sizeof(waPiRegulator), NORMALPRIO+2, PiRegulator, NULL);
 }
 
-void pi_regulator_start(void) {
-	if (sleep_mode) chBSemSignal(&start_pi_reg);
+void pi_regulator_run(void) {
 	sleep_mode = false;
 }
 

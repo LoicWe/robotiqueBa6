@@ -1,7 +1,6 @@
 #ifndef AUDIO_PROCESSING_H
 #define AUDIO_PROCESSING_H
 
-
 #define FFT_SIZE 	1024
 
 typedef enum {
@@ -28,5 +27,9 @@ void wait_send_to_computer(void);
 *	Returns the pointer to the BUFFER_NAME_t buffer asked
 */
 float* get_audio_buffer_ptr(void);
+
+void microphone_run(void);
+
+void microphone_stop(void);
 
 #endif /* AUDIO_PROCESSING_H */

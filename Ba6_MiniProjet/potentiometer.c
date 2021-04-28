@@ -19,11 +19,11 @@ static THD_FUNCTION(ThdPotentiometer, arg) {
 	static uint8_t selector;
 	static uint8_t old_selector;
 	static bool loopback;
-	selector = get_selector();
-	old_selector = selector;
+	uint8_t change_state;
+	old_selector = get_selector();
 
 	while (1) {
-		uint8_t change_state = STAY;
+		change_state = STAY;
 		selector = get_selector();
 		loopback = (old_selector == 0 || old_selector == 15) ? 1 : 0;
 		if (!loopback) {

@@ -10,6 +10,7 @@
 #include <fft.h>					// A NETTOYER LA FONCTION NON OPTI NAN ?
 #include <arm_math.h>
 #include <communications.h>			// POSSIBLEMENT A ENLEVER
+#include <leds.h>
 
 //semaphore
 static BSEMAPHORE_DECL(sendToComputer_sem, TRUE); // @suppress("Field cannot be resolved")
@@ -19,13 +20,15 @@ static float micBack_cmplx_input[2 * FFT_SIZE];
 //Arrays containing the computed magnitude of the complex numbers
 static float micBack_output[FFT_SIZE];
 
-#define MIN_VALUE_THRESHOLD	10000
+#define MIN_VALUE_THRESHOLD	15000
 #define MIN_FREQ		10	//we don't analyze before this index to not use resources for nothing
 #define MAX_FREQ		40	//we don't analyze after this index to not use resources for nothing
 #define FREQ_THRESHOLD	1
 #define NB_SOUND_ON		10	//nbr samples to get the mean
 #define NB_SOUND_OFF	10	//nbr sample to reset the mean
 #define ROTATION_COEFF	40
+
+static bool sleep_mode = true;
 
 /*
  *	Simple function used to detect the highest value in a buffer
@@ -34,7 +37,7 @@ static float micBack_output[FFT_SIZE];
 void sound_remote(float* data) {
 	static uint8_t sound_on = 0;
 	static uint8_t sound_off = 0;
-	uint16_t error = 0;
+	int16_t error = 0;
 	static uint8_t mode = SOUND_OFF;				//To change
 	float max_norm = MIN_VALUE_THRESHOLD;
 	int16_t max_norm_index = -1;
@@ -50,7 +53,7 @@ void sound_remote(float* data) {
 	//determine if there was a value superior of the threshold
 	if (max_norm_index == -1) {
 		sound_off++;
-		if(sound_off == NB_SOUND_OFF){
+		if (sound_off == NB_SOUND_OFF) {
 			mean_freq = -1;
 			sound_on = 0;
 		}
@@ -70,7 +73,7 @@ void sound_remote(float* data) {
 			mean_freq /= (NB_SOUND_ON + 1);
 			mode = ANALYSING;
 			sound_on++;
-		}else{
+		} else {
 			mode = MOVING;
 		}
 	}
@@ -81,18 +84,13 @@ void sound_remote(float* data) {
 		//go forward
 		if (max_norm_index >= mean_freq - FREQ_THRESHOLD && max_norm_index <= mean_freq + FREQ_THRESHOLD) {
 			move(0);
-		}
-		else{
+		} else {
 			move(ROTATION_COEFF * error);
 		}
 
-	}else{
+	} else {
 		move_stop();
 	}
-
-//	chprintf((BaseSequentialStream *) &SD3, "%d / %d    ", mean_freq, max_norm_index);
-
-
 }
 
 /*
@@ -117,48 +115,51 @@ void processAudioData(int16_t *data, uint16_t num_samples) {
 	static uint16_t nb_samples = 0;
 	static uint8_t mustSend = 0;
 
-	//loop to fill the buffers
-	for (uint16_t i = 0; i < num_samples; i += 4) {
-		//construct an array of complex numbers. Put 0 to the imaginary part
-		micBack_cmplx_input[nb_samples] = (float) data[i + MIC_BACK];
-		nb_samples++;
-		micBack_cmplx_input[nb_samples++] = 0;					// to be tested
+	if (!sleep_mode) {
 
-		//stop when buffer is full
+		//loop to fill the buffers
+		for (uint16_t i = 0; i < num_samples; i += 4) {
+			//construct an array of complex numbers. Put 0 to the imaginary part
+			micBack_cmplx_input[nb_samples] = (float) data[i + MIC_BACK];
+			nb_samples++;
+			micBack_cmplx_input[nb_samples++] = 0;					// to be tested
+
+			//stop when buffer is full
+			if (nb_samples >= (2 * FFT_SIZE)) {
+				break;
+			}
+		}
+
 		if (nb_samples >= (2 * FFT_SIZE)) {
-			break;
+			/*	FFT processing
+			 *
+			 *	This FFT function stores the results in the input buffer given.
+			 *	This is an "In Place" function.
+			 */
+
+			doFFT_optimized(FFT_SIZE, micBack_cmplx_input);
+
+			/*	Magnitude processing
+			 *
+			 *	Computes the magnitude of the complex numbers and
+			 *	stores them in a buffer of FFT_SIZE because it only contains
+			 *	real numbers.
+			 *
+			 */
+			arm_cmplx_mag_f32(micBack_cmplx_input, micBack_output, FFT_SIZE);
+
+			//sends only one FFT result over 10 for 1 mic to not flood the computer
+			//sends to UART3
+			if (mustSend > 8) {
+				//signals to send the result to the computer
+				chBSemSignal(&sendToComputer_sem);
+				mustSend = 0;
+			}
+			nb_samples = 0;
+			mustSend++;
+
+			sound_remote(micBack_output);
 		}
-	}
-
-	if (nb_samples >= (2 * FFT_SIZE)) {
-		/*	FFT processing
-		 *
-		 *	This FFT function stores the results in the input buffer given.
-		 *	This is an "In Place" function.
-		 */
-
-		doFFT_optimized(FFT_SIZE, micBack_cmplx_input);
-
-		/*	Magnitude processing
-		 *
-		 *	Computes the magnitude of the complex numbers and
-		 *	stores them in a buffer of FFT_SIZE because it only contains
-		 *	real numbers.
-		 *
-		 */
-		arm_cmplx_mag_f32(micBack_cmplx_input, micBack_output, FFT_SIZE);
-
-		//sends only one FFT result over 10 for 1 mic to not flood the computer
-		//sends to UART3
-		if (mustSend > 8) {
-			//signals to send the result to the computer
-			chBSemSignal(&sendToComputer_sem);
-			mustSend = 0;
-		}
-		nb_samples = 0;
-		mustSend++;
-
-		sound_remote(micBack_output);
 	}
 }
 
@@ -168,4 +169,12 @@ void wait_send_to_computer(void) {
 
 float* get_audio_buffer_ptr(void) {
 	return micBack_output;
+}
+
+void microphone_run(void) {
+	sleep_mode = false;
+}
+
+void microphone_stop(void) {
+	sleep_mode = true;
 }

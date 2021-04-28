@@ -57,7 +57,6 @@ int main(void) {
 	process_image_start();
 	//start the bodyled thread
 	body_led_thd_start();
-	potentiometer_init();
 
 	//starts timer 12
 	timer12_start();
@@ -68,92 +67,76 @@ int main(void) {
 	//init the PI regulator
 	pi_regulator_init();
 
-	uint16_t distance = 0;
-	uint8_t code = 0;
-	//start the spi for the rgb leds
-	spi_comm_start();
-
-//    //temp tab used to store values in complex_float format
-//    //needed bx doFFT_c
-//    static complex_float temp_tab[FFT_SIZE];
-//    //send_tab is used to save the state of the buffer to send (double buffering)
-//    //to avoid modifications of the buffer while sending it
-//    static float send_tab[FFT_SIZE];
-
 	//starts the microphones processing thread.
 	//it calls the callback given in parameter when samples are ready
 	mic_start(&processAudioData);
 
+	//
+	potentiometer_init();
+	uint8_t punky_state = PUNKY_DEMO;
+
+	spi_comm_start();
+
+	uint16_t distance = 0;
+	uint8_t code = 0;
+
+
 	/* Infinite loop. */
 	while (1) {
 
-		switch (get_punky_state()) {
-		case PUNKY_DEMO:
+		// �tat du robot, actif, inactif, en r�veil
+		punky_state = get_punky_state();
 
-			//audio processing
+		if (punky_state == PUNKY_DEMO) {
+			chprintf((BaseSequentialStream *) &SD3, "** DEMO *** \r");
 
-			//code barre
-
-			//laser
 			distance = VL53L0X_get_dist_mm();
-			if (distance > MIN_DISTANCE_DETECTED && distance < MAX_DISTANCE_DETECTED) {
-				set_rgb_led(LED8, 0, 100, 0);
 
-				get_images();
+			if (distance > MIN_DISTANCE_DETECTED && distance < MAX_DISTANCE_DETECTED) {
+
+				microphone_stop();
+				motor_control_stop();
+				pi_regulator_run();
+				get_image_run();
+
 				code = get_code();
+
 				if (code != 0) {
 					demo_led(code);
 					set_speed(convert_speed(code));
 				}
-				set_led(LED5, 1);
-				deactivate_motors();
-				pi_regulator_start();
+
 			} else {
-				set_rgb_led(LED8, 100, 0, 0);
-				stop_images();
-				set_led(LED5, 0);
+				get_image_stop();
 				pi_regulator_stop();
-				activate_motors();
+				motor_control_run();
+				microphone_run();
 			}
-//			        //waits until a result must be sent to the computer
-//			        wait_send_to_computer();
-//			        //we copy the buffer to avoid conflicts
-//			        arm_copy_f32(get_audio_buffer_ptr(LEFT_OUTPUT), send_tab, FFT_SIZE);
-//			        SendFloatToComputer((BaseSequentialStream *) &SD3, send_tab, FFT_SIZE);
+		}
 
-			break;
+		// d�sactivation de toutes les fonctions
+		else if (punky_state == PUNKY_SLEEP) {
+			chprintf((BaseSequentialStream *) &SD3, "** SLEEP *** \r");
 
-			// éteind les LED sauf la 1 (témoins de pause)
-			// met en pause les threads pour économie d'énergie
-		case PUNKY_DEBUG:
-			clear_leds();
-			set_led(LED3, 1);
-			set_body_led(0);
-			set_front_led(0);
-			stop_images();
-			break;
-
-			// sort du mode pause, redémarre les threads
-		case PUNKY_SLEEP:
-			clear_leds();
-			set_led(LED1, 1);
-			set_body_led(0);
-			set_front_led(0);
-			deactivate_motors();
+			get_image_stop();
 			pi_regulator_stop();
-			break;
+			microphone_stop();
+			motor_control_stop();
+			set_rgb_led(LED2, 50, 50, 0);
+			set_rgb_led(LED4, 50, 50, 0);
+			set_rgb_led(LED6, 50, 50, 0);
+			set_rgb_led(LED8, 50, 50, 0);
+		}
 
-		case PUNKY_WAKE_UP:
-			activate_motors();
-			pi_regulator_start();
-			clear_leds();
-			set_body_led(0);
-			set_front_led(0);
+		// r�veil de punky
+		else if (punky_state == PUNKY_WAKE_UP){
+			chprintf((BaseSequentialStream *) &SD3, "** WAKE�UP *** \r");
+
+			set_rgb_led(LED2, 0, 0, 0);
+			set_rgb_led(LED4, 0, 0, 0);
+			set_rgb_led(LED6, 0, 0, 0);
+			set_rgb_led(LED8, 0, 0, 0);
 			set_punky_state(PUNKY_DEMO);
-			break;
-
-		default:
-			break;
 		}
 
 		//waits 0.5 second
