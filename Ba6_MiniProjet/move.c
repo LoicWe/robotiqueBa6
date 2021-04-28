@@ -47,7 +47,7 @@ int16_t convert_speed(uint8_t code){
 	return speed;
 }
 
-void motor_control_start(void){
+void motor_control_run(void){
 	move_on = true;
 }
 
@@ -145,7 +145,7 @@ void pi_regulator_init(void) {
 	chThdCreateStatic(waPiRegulator, sizeof(waPiRegulator), NORMALPRIO+2, PiRegulator, NULL);
 }
 
-void pi_regulator_start(void) {
+void pi_regulator_run(void) {
 	sleep_mode = false;
 }
 

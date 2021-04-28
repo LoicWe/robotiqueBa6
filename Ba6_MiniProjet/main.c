@@ -67,18 +67,28 @@ int main(void) {
 	//init the PI regulator
 	pi_regulator_init();
 
-	uint16_t distance = 0;
-	uint8_t code = 0;
-	//start the spi for the rgb leds
 	//starts the microphones processing thread.
 	//it calls the callback given in parameter when samples are ready
 	mic_start(&processAudioData);
 
-	chprintf((BaseSequentialStream *) &SD3, "initalisation -->  ok \r");
+	//
+	potentiometer_init();
+	uint8_t punky_state = PUNKY_DEMO;
+
+	spi_comm_start();
+
+	uint16_t distance = 0;
+	uint8_t code = 0;
 
 
 	/* Infinite loop. */
 	while (1) {
+
+		// état du robot, actif, inactif, en réveil
+		punky_state = get_punky_state();
+
+		if (punky_state == PUNKY_DEMO) {
+			chprintf((BaseSequentialStream *) &SD3, "** DEMO *** \r");
 
 			distance = VL53L0X_get_dist_mm();
 
@@ -86,8 +96,8 @@ int main(void) {
 
 				microphone_stop();
 				motor_control_stop();
-				pi_regulator_start();
-				get_image_start();
+				pi_regulator_run();
+				get_image_run();
 
 				code = get_code();
 
@@ -96,13 +106,38 @@ int main(void) {
 					set_speed(convert_speed(code));
 				}
 
-
 			} else {
 				get_image_stop();
 				pi_regulator_stop();
-				motor_control_start();
-				microphone_start();
+				motor_control_run();
+				microphone_run();
 			}
+		}
+
+		// désactivation de toutes les fonctions
+		else if (punky_state == PUNKY_SLEEP) {
+			chprintf((BaseSequentialStream *) &SD3, "** SLEEP *** \r");
+
+			get_image_stop();
+			pi_regulator_stop();
+			microphone_stop();
+			motor_control_stop();
+			set_rgb_led(LED2, 50, 50, 0);
+			set_rgb_led(LED4, 50, 50, 0);
+			set_rgb_led(LED6, 50, 50, 0);
+			set_rgb_led(LED8, 50, 50, 0);
+		}
+
+		// réveil de punky
+		else if (punky_state == PUNKY_WAKE_UP){
+			chprintf((BaseSequentialStream *) &SD3, "** WAKE UP *** \r");
+
+			set_rgb_led(LED2, 0, 0, 0);
+			set_rgb_led(LED4, 0, 0, 0);
+			set_rgb_led(LED6, 0, 0, 0);
+			set_rgb_led(LED8, 0, 0, 0);
+			set_punky_state(PUNKY_DEMO);
+		}
 
 		//waits 0.5 second
 		chThdSleepMilliseconds(500);

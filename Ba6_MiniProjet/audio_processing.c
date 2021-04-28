@@ -171,7 +171,7 @@ float* get_audio_buffer_ptr(void) {
 	return micBack_output;
 }
 
-void microphone_start(void) {
+void microphone_run(void) {
 	sleep_mode = false;
 }
 

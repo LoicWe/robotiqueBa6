@@ -303,13 +303,13 @@ static THD_FUNCTION(ProcessImage, arg) {
 		// slow send to not flood computer
 		if (send_to_computer == 15) {
 			send_to_computer = 0;
-			SendUint8ToComputer(image, IMAGE_BUFFER_SIZE);
+//			SendUint8ToComputer(image, IMAGE_BUFFER_SIZE);
 		}
 		send_to_computer++;
 	}
 }
 
-void get_image_start(void) {
+void get_image_run(void) {
 	if(sleep_mode == 1){
 		chBSemSignal(&start_imaging_sem);
 	}

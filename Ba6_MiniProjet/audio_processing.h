@@ -28,7 +28,7 @@ void wait_send_to_computer(void);
 */
 float* get_audio_buffer_ptr(void);
 
-void microphone_start(void);
+void microphone_run(void);
 
 void microphone_stop(void);
 

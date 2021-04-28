@@ -22,7 +22,7 @@ void move_stop(void);
 // ************************************************************************//
 void set_speed(int16_t new_speed);
 int16_t convert_speed(uint8_t code);
-void motor_control_start(void);
+void motor_control_run(void);
 void motor_control_stop(void);
 
 
@@ -32,7 +32,7 @@ void motor_control_stop(void);
 
 //start the PI regulator thread
 void pi_regulator_init(void);
-void pi_regulator_start(void);
+void pi_regulator_run(void);
 void pi_regulator_stop(void);
 int16_t pi_regulator(uint16_t distance, uint8_t goal);
 
