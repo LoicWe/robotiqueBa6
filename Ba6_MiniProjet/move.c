@@ -11,6 +11,7 @@
 #include <leds.h>
 
 static int16_t speed = 600;
+static int16_t rotation = 0;
 static bool move_on = true;
 static bool sleep_mode = false;
 
@@ -19,7 +20,7 @@ static bool sleep_mode = false;
 // ************* fonction en mode détection de fréquences ******************//
 // *************************************************************************//
 
-void move(int16_t rotation) {
+void move() {
 	if (move_on) {
 		left_motor_set_speed(speed + rotation);
 		right_motor_set_speed(speed - rotation);
@@ -33,6 +34,10 @@ void move_stop(void) {
 
 void set_speed(int16_t new_speed) {
 	speed = new_speed;
+}
+
+void set_rotation(int16_t new_rotation) {
+	rotation = new_rotation;
 }
 
 int16_t convert_speed(uint8_t code){
@@ -105,7 +110,6 @@ static THD_FUNCTION(PiRegulator, arg) {
 	(void) arg;
 
 	systime_t time1 = 0;
-	systime_t time2 = 0;
 	bool pi_stop_first_time = false;
 	uint16_t distance;
 	int16_t speed = 0;
@@ -131,8 +135,6 @@ static THD_FUNCTION(PiRegulator, arg) {
 			pi_stop_first_time = true;
 
 			//100Hz plus mainteant !!!!!
-			time2 = chVTGetSystemTime();
-
 			chThdSleepUntilWindowed(time1, time1 + MS2ST(50));		//TODO: test 20, 30, 50 ms;
 		}else{
 			if(pi_stop_first_time == true){
