@@ -20,8 +20,7 @@ void move_stop(void);
 // ************************************************************************//
 // ************* fonction en mode décection de codebarre ******************//
 // ************************************************************************//
-void set_speed(int16_t new_speed);
-int16_t convert_speed(uint8_t code);
+void set_speed(uint8_t code);
 void motor_control_run(void);
 void motor_control_stop(void);
 

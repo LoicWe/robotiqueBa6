@@ -1,16 +1,20 @@
 #include "ch.h"
 #include "hal.h"
 #include <main.h>
+#include <math.h>
 #include <usbcfg.h>
 #include <chprintf.h>
+#include <arm_math.h>
+#include <arm_const_structs.h>
 
 #include <move.h>
 #include <audio/microphone.h>
 #include <audio_processing.h>
-#include <fft.h>					// A NETTOYER LA FONCTION NON OPTI NAN ?
 #include <arm_math.h>
 #include <communications.h>			// POSSIBLEMENT A ENLEVER
 #include <led_animation.h>
+#include <potentiometer.h>
+
 
 //semaphore
 static BSEMAPHORE_DECL(sendToComputer_sem, TRUE); // @suppress("Field cannot be resolved")
@@ -94,6 +98,9 @@ void sound_remote(float* data) {
 	} else {
 		move_stop();
 	}
+
+	if (get_punky_state() == PUNKY_DEBUG)
+		chprintf((BaseSequentialStream *) &SD3, "Fréquence: %d \r", max_norm_index);
 }
 
 /*
@@ -139,8 +146,7 @@ void processAudioData(int16_t *data, uint16_t num_samples) {
 			 *	This FFT function stores the results in the input buffer given.
 			 *	This is an "In Place" function.
 			 */
-
-			doFFT_optimized(FFT_SIZE, micBack_cmplx_input);
+			arm_cfft_f32(&arm_cfft_sR_f32_len1024, micBack_cmplx_input, 0, 1);
 
 			/*	Magnitude processing
 			 *
@@ -153,7 +159,7 @@ void processAudioData(int16_t *data, uint16_t num_samples) {
 
 			//sends only one FFT result over 10 for 1 mic to not flood the computer
 			//sends to UART3
-			if (mustSend > 8) {
+			if (get_punky_state() == PUNKY_DEBUG && mustSend > 8) {
 				//signals to send the result to the computer
 				chBSemSignal(&sendToComputer_sem);
 				mustSend = 0;
