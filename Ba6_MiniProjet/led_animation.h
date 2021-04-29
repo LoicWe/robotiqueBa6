@@ -6,6 +6,7 @@
 enum animation{
 	ANIM_CLEAR,
 	ANIM_BARCODE,
+	ANIM_DEBUG,
 	ANIM_SLEEP,
 	ANIM_WAKE_UP,
 	ANIM_START_FREQ,
@@ -14,6 +15,7 @@ enum animation{
 
 void body_led_thd_start(void);
 void anim_barcode(void);
+void anim_debug(void);
 void anim_start_freq(void);
 void anim_stop_freq(void);
 void anim_sleep(void);

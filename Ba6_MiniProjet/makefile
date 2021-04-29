@@ -13,7 +13,6 @@ CSRC += ./main.c \
 		./audio_processing.c \
 		./move.c \
 		./communications.c \
-		./fft.c \
 		./process_image.c \
 		./led_animation.c \
 		./potentiometer.c\

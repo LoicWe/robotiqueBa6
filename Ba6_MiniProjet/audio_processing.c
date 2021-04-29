@@ -1,17 +1,20 @@
 #include "ch.h"
 #include "hal.h"
 #include <main.h>
+#include <math.h>
 #include <usbcfg.h>
 #include <chprintf.h>
+#include <arm_math.h>
+#include <arm_const_structs.h>
 
 #include <move.h>
 #include <audio/microphone.h>
 #include <audio_processing.h>
-#include <fft.h>					// A NETTOYER LA FONCTION NON OPTI NAN ?
 #include <arm_math.h>
 #include <communications.h>			// POSSIBLEMENT A ENLEVER
 #include <led_animation.h>
-#include <leds.h>
+#include <potentiometer.h>
+
 
 //semaphore
 static BSEMAPHORE_DECL(sendToComputer_sem, TRUE); // @suppress("Field cannot be resolved")
@@ -22,8 +25,8 @@ static float micBack_cmplx_input[2 * FFT_SIZE];
 static float micBack_output[FFT_SIZE];
 
 #define MIN_VALUE_THRESHOLD		15000
-#define MIN_FREQ				10	// plus basse fréquence humainement atteignable "facilement"
-#define MAX_FREQ				45	// plus haute fréquence humainement atteignable "facilement"
+#define MIN_FREQ				10	// plus basse frÃ©quence humainement atteignable "facilement"
+#define MAX_FREQ				45	// plus haute frÃ©quence humainement atteignable "facilement"
 #define MIN_FREQ_INIT			17
 #define MAX_FREQ_INIT			30
 #define FREQ_THRESHOLD_FORWARD	1
@@ -53,7 +56,7 @@ void sound_remote(float* data) {
 
 	static int16_t mean_freq = 0;
 
-	//cherche les 4 plus grandes fréquences avec un buffer circulaire
+	//cherche les 4 plus grandes frÃ©quences avec un buffer circulaire
 	for (uint16_t i = MIN_FREQ; i <= MAX_FREQ; i++) {
 		if (data[i] > max_norm) {
 			max_norm = data[i];
@@ -64,8 +67,8 @@ void sound_remote(float* data) {
 	}
 
 	/* prends la plus petite des 4
-	 * c'est celle que l'on veut (tester expérimentalement),
-	 * mais qui n'est jamais la plus forte dans les basses fréquences
+	 * c'est celle que l'on veut (tester expÃ©rimentalement),
+	 * mais qui n'est jamais la plus forte dans les basses frÃ©quences
 	 */
 	if (max_norms_index[norms_index] == -1) {
 		max_norm_index = max_norms_index[0];
@@ -120,6 +123,10 @@ void sound_remote(float* data) {
 		move_stop();
 	}
 
+	if (get_punky_state() == PUNKY_DEBUG)
+		chprintf((BaseSequentialStream *) &SD3, "FrÃ©quence: %d \r", max_norm_index);
+}
+
 }
 /*
  *	Callback called when the demodulation of the four microphones is done.
@@ -164,8 +171,7 @@ void processAudioData(int16_t *data, uint16_t num_samples) {
 			 *	This FFT function stores the results in the input buffer given.
 			 *	This is an "In Place" function.
 			 */
-
-			doFFT_optimized(FFT_SIZE, micBack_cmplx_input);
+			arm_cfft_f32(&arm_cfft_sR_f32_len1024, micBack_cmplx_input, 0, 1);
 
 			/*	Magnitude processing
 			 *
@@ -178,7 +184,7 @@ void processAudioData(int16_t *data, uint16_t num_samples) {
 
 			//sends only one FFT result over 10 for 1 mic to not flood the computer
 			//sends to UART3
-			if (mustSend > 8) {
+			if (get_punky_state() == PUNKY_DEBUG && mustSend > 8) {
 				//signals to send the result to the computer
 				chBSemSignal(&sendToComputer_sem);
 				mustSend = 0;

@@ -4,7 +4,6 @@
 #define IMAGE_BUFFER_SIZE		640
 #define MIN_LINE_WIDTH			10
 #define WIDTH_SLOPE				5
-#define PXTOCM					1570.0f //experimental value
 #define LINE_THRESHOLD 			5		// différence acceptable de largeur par rapport à la ligne de référence
 #define START_LINE_WIDTH		44		// largeur ligne de référence
 #define IMAGE_BUFFER_SIZE_DIV_3	213		// un tiers du buffer

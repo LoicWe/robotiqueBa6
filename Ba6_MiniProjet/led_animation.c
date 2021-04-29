@@ -37,6 +37,10 @@ static THD_FUNCTION(BodyLedThd, arg) {
 			set_body_led(0);
 			break;
 
+		case ANIM_DEBUG:
+
+			break;
+
 		case ANIM_SLEEP:
 			// passe au rouge avec une touche de jaune
 			for (uint8_t i = 0; i < 50; i++) {
@@ -106,6 +110,11 @@ void anim_barcode(void) {
 	chBSemSignal(&anim_ready);
 }
 
+void anim_debug(void) {
+	animation = ANIM_DEBUG;
+	chBSemSignal(&anim_ready);
+}
+
 void anim_start_freq(void) {
 	animation = ANIM_START_FREQ;
 	chBSemSignal(&anim_ready);
@@ -131,7 +140,45 @@ void anim_clear(void) {
 	chBSemSignal(&anim_ready);
 }
 
-
 void body_led_thd_start(void) {
-	chThdCreateStatic(waBodyLedThd, sizeof(waBodyLedThd), NORMALPRIO-1, BodyLedThd, NULL);
+	chThdCreateStatic(waBodyLedThd, sizeof(waBodyLedThd), NORMALPRIO - 1, BodyLedThd, NULL);
 }
+
+/*void demo_led(uint8_t code) {
+
+	set_led(LED3, 0);
+	set_led(LED7, 0);
+	set_rgb_led(LED2, 0,0,0);
+	set_rgb_led(LED4, 0,0,0);
+	set_rgb_led(LED6, 0,0,0);
+	set_rgb_led(LED8, 0,0,0);
+
+	switch (code) {
+	case 14:
+		set_rgb_led(LED2, 100,0,0);
+//		toggle_rgb_led(LED2, RED_LED, 100);
+		break;
+	case 16:
+		set_led(LED3, 2);
+		break;
+	case 21:
+		set_rgb_led(LED4, 100,0,0);
+//		toggle_rgb_led(LED4, RED_LED, 100);
+		break;
+	case 24:
+		set_rgb_led(LED6, 100,0,0);
+//		toggle_rgb_led(LED6, RED_LED, 100);
+		break;
+	case 32:
+		set_led(LED7, 2);
+		break;
+	case 33:
+		set_rgb_led(LED8, 100,0,0);
+//		toggle_rgb_led(LED8, RED_LED, 100);
+		break;
+	default:
+		break;
+	}
+	chThdSleepMilliseconds(500);
+
+}*/
