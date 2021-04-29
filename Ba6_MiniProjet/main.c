@@ -21,8 +21,8 @@
 #include <potentiometer.h>
 #include "move.h"
 #include "spi_comm.h"
+#include <led_animation.h>
 
-extern mode_temp;
 
 static void serial_start(void) {
 	static SerialConfig ser_cfg = { 115200, 0, 0, 0, };
