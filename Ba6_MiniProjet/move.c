@@ -104,7 +104,9 @@ static THD_FUNCTION(PiRegulator, arg) {
 	chRegSetThreadName(__FUNCTION__);
 	(void) arg;
 
-	systime_t time = 0;
+	systime_t time1 = 0;
+	systime_t time2 = 0;
+
 	uint16_t distance;
 	int16_t speed = 0;
 
@@ -112,8 +114,8 @@ static THD_FUNCTION(PiRegulator, arg) {
 
 		if (!sleep_mode) {
 
-			time = chVTGetSystemTime();
-//			chprintf((BaseSequentialStream *) &SD3, "temps = %d \r", time);
+			time1 = chVTGetSystemTime();
+//			chprintf((BaseSequentialStream *) &SD3, "temps 1 = %d \r", time1);
 			distance = VL53L0X_get_dist_mm();
 
 			//if distance is too big we remarked some problem with the sensors so we take of too big and too small values
@@ -129,11 +131,12 @@ static THD_FUNCTION(PiRegulator, arg) {
 			left_motor_set_speed(speed);
 
 			//100Hz plus mainteant !!!!!
-			time = chVTGetSystemTime();
-//			chprintf((BaseSequentialStream *) &SD3, "temps 2 = %d \r", time);
-//			chprintf((BaseSequentialStream *) &SD3, "temps = %d \r", (uint32_t) (chVTGetSystemTime() - time));
+			chThdSleepMilliseconds(5);
+			time2 = chVTGetSystemTime();
+			chprintf((BaseSequentialStream *) &SD3, "temps 2 = %d \r", time2);
+			chprintf((BaseSequentialStream *) &SD3, "temps = %d \r", (uint32_t) (chVTGetSystemTime() - time1));
 
-			chThdSleepUntilWindowed(time, time + MS2ST(50));		//TODO: test 20, 30, 50 ms;
+			chThdSleepUntilWindowed(time1, time1 + MS2ST(50));		//TODO: test 20, 30, 50 ms;
 		}else{
 			chThdSleepMilliseconds(500);
 		}
