@@ -18,18 +18,18 @@ void move_stop(void);
 
 
 // ************************************************************************//
-// ************* fonction en mode décection de codebarre ******************//
+// ************* fonction en mode dÃ©cection de codebarre ******************//
 // ************************************************************************//
-void set_speed(int16_t new_speed);
+
+void set_speed(uint8_t code);
 int16_t get_speed(void);
 void set_rotation(int16_t new_rotation);
-int16_t convert_speed(uint8_t code);
 void motor_control_run(void);
 void motor_control_stop(void);
 
 
 // ************************************************************************//
-// ************* fonction en mode décection de codebarre ******************//
+// ************* fonction en mode dÃ©cection de codebarre ******************//
 // ************************************************************************//
 
 //start the PI regulator thread

@@ -10,7 +10,7 @@
 #include <process_image.h>
 #include <communications.h>
 #include <led_animation.h>
-
+#include <potentiometer.h>
 
 static bool sleep_mode = 1;
 static uint8_t code = 0;
@@ -22,10 +22,7 @@ static BSEMAPHORE_DECL(start_imaging_sem, FALSE); // @suppress("Field cannot be 
 void extract_barcode(uint8_t *image) {
 
 	int8_t digit[NB_LINE_BARCODE] = { -1, -1, -1, -1, -1 };
-//	uint8_t code = 0;
 	uint8_t mean[3]; /* width divided into 3 segments because of auto brightness causing a n shape*/
-//	uint8_t data[13];
-
 
 	// déclaration d'une ligne
 	struct Line line;
@@ -46,7 +43,6 @@ void extract_barcode(uint8_t *image) {
 		line = line_find_next(image, end_last_line, mean[0]);
 		end_last_line = line.end_pos;
 		width = line.width;
-//		data[0] = width; 						/*** debug ****/
 
 		// si trouvée mais pas les bonnes dimensions, on recherche plus loin
 		if (line.found && !(width > START_LINE_WIDTH - LINE_THRESHOLD && width < START_LINE_WIDTH + LINE_THRESHOLD)) {
@@ -64,8 +60,6 @@ void extract_barcode(uint8_t *image) {
 		} else {
 			// base de comparaison des tailles des lignes codantes
 			width_unit = (width + line.width) / 2;
-//			data[1] = line.begin_pos - end_last_line; 			/*** debug ****/
-//			data[2] = line.width; 								/*** debug ****/
 			end_last_line = line.end_pos;
 
 		}
@@ -79,8 +73,6 @@ void extract_barcode(uint8_t *image) {
 		for (int i = 0; i < NB_LINE_BARCODE && line.found; i++) {
 			line = line_find_next(image, line.end_pos, (i < 3 ? mean[1] : mean[2]));
 			digit[i] = line_classify(line, width_unit);
-//			data[3+2*i] = line.begin_pos - end_last_line; /*** debug ****/
-//			data[3+2*i+1] = line.width; /*** debug ****/
 			end_last_line = line.end_pos;
 			// si la ligne n'est pas reconnu, arrêt
 			if (digit[i] == 0 || !(line.begin_pos - end_last_line < width_unit)) {
@@ -100,8 +92,8 @@ void extract_barcode(uint8_t *image) {
 			// assemblage des digits en base 3 -> 26 possibilités
 			set_code(9 * digit[0] + 3 * digit[1] + digit[2]);
 			anim_barcode();
-//			chprintf((BaseSequentialStream *) &SD3, "codebarre = %d %d %d %d %d %d %d %d %d %d %d %d %d\n", data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9], data[10], data[11], data[12]);
-//			chprintf((BaseSequentialStream *) &SD3, "code = %d\n", code);
+			if (get_punky_state() == PUNKY_DEBUG)
+				chprintf((BaseSequentialStream *) &SD3, "code = %d\n", code);
 		}
 	}
 }
@@ -207,45 +199,6 @@ void calculate_mean(uint8_t *buffer, uint8_t *mean) {
 	}
 }
 
-/*void demo_led(uint8_t code) {
-
-	set_led(LED3, 0);
-	set_led(LED7, 0);
-	set_rgb_led(LED2, 0,0,0);
-	set_rgb_led(LED4, 0,0,0);
-	set_rgb_led(LED6, 0,0,0);
-	set_rgb_led(LED8, 0,0,0);
-
-	switch (code) {
-	case 14:
-		set_rgb_led(LED2, 100,0,0);
-//		toggle_rgb_led(LED2, RED_LED, 100);
-		break;
-	case 16:
-		set_led(LED3, 2);
-		break;
-	case 21:
-		set_rgb_led(LED4, 100,0,0);
-//		toggle_rgb_led(LED4, RED_LED, 100);
-		break;
-	case 24:
-		set_rgb_led(LED6, 100,0,0);
-//		toggle_rgb_led(LED6, RED_LED, 100);
-		break;
-	case 32:
-		set_led(LED7, 2);
-		break;
-	case 33:
-		set_rgb_led(LED8, 100,0,0);
-//		toggle_rgb_led(LED8, RED_LED, 100);
-		break;
-	default:
-		break;
-	}
-	chThdSleepMilliseconds(500);
-
-}*/
-
 static THD_WORKING_AREA(waCaptureImage, 256);
 static THD_FUNCTION(CaptureImage, arg) {
 
@@ -280,7 +233,6 @@ static THD_FUNCTION(ProcessImage, arg) {
 
 	uint8_t *img_buff_ptr;
 	uint8_t image[IMAGE_BUFFER_SIZE] = { 0 };
-	uint16_t lineWidth = 0;
 	uint8_t send_to_computer = 0;
 
 	while (1) {
@@ -299,16 +251,16 @@ static THD_FUNCTION(ProcessImage, arg) {
 		extract_barcode(image);
 
 		// slow send to not flood computer
-		if (send_to_computer == 15) {
+		if (get_punky_state() == PUNKY_DEBUG && send_to_computer >= 15) {
 			send_to_computer = 0;
-//			SendUint8ToComputer(image, IMAGE_BUFFER_SIZE);
+			SendUint8ToComputer(image, IMAGE_BUFFER_SIZE);
 		}
 		send_to_computer++;
 	}
 }
 
 void get_image_run(void) {
-	if(sleep_mode == 1){
+	if (sleep_mode == 1) {
 		chBSemSignal(&start_imaging_sem);
 	}
 	sleep_mode = 0;
@@ -318,11 +270,11 @@ void get_image_stop(void) {
 	sleep_mode = 1;
 }
 
-void set_code(uint8_t code_p){
+void set_code(uint8_t code_p) {
 	code = code_p;
 }
 
-uint8_t get_code(void){
+uint8_t get_code(void) {
 	return code;
 }
 

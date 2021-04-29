@@ -11,9 +11,9 @@
 #include <chprintf.h>
 #include <motors.h>
 #include <audio/microphone.h>
+#include <led_animation.h>
 
 #include <audio_processing.h>
-#include <fft.h>
 #include <communications.h>
 #include <arm_math.h>
 #include <process_image.h>
@@ -81,43 +81,21 @@ int main(void) {
 
 	spi_comm_start();
 
-	uint16_t distance = 0;
-	uint8_t code = 0;
-
-
 	/* Infinite loop. */
 	while (1) {
-
 		// �tat du robot, actif, inactif, en r�veil
 		punky_state = get_punky_state();
 
 		if (punky_state == PUNKY_DEMO) {
-
-			distance = VL53L0X_get_dist_mm();
-
-			if (distance > MIN_DISTANCE_DETECTED && distance < MAX_DISTANCE_DETECTED) {
-
-				microphone_stop();
-				motor_control_stop();
-				pi_regulator_run();
-				get_image_run();
-
-				code = get_code();
-
-				if (code != 0) {
-					set_speed(convert_speed(code));
-				}
-			}else{
-				get_image_stop();
-				pi_regulator_stop();
-				motor_control_run();
-				microphone_run();
-			}
+			punky_run();
+		}
+		else if (punky_state == PUNKY_DEBUG) {
+			anim_debug();
+			punky_run();
 		}
 
 		// d�sactivation de toutes les fonctions
 		else if (punky_state == PUNKY_SLEEP) {
-
 			get_image_stop();
 			pi_regulator_stop();
 			microphone_stop();
@@ -125,12 +103,43 @@ int main(void) {
 		}
 
 		// r�veil de punky
-		else if (punky_state == PUNKY_WAKE_UP){
+		else if (punky_state == PUNKY_WAKE_UP) {
 			set_punky_state(PUNKY_DEMO);
 		}
 
 		//waits 0.5 second
 		chThdSleepMilliseconds(500);
+	}
+}
+
+void punky_run(void) {
+	uint16_t distance = 0;
+	uint8_t code = 0;
+
+	distance = VL53L0X_get_dist_mm();
+	if (distance > MIN_DISTANCE_DETECTED && distance < MAX_DISTANCE_DETECTED) {
+		if (get_punky_state() == PUNKY_DEBUG)
+			chprintf((BaseSequentialStream *) &SD3, "\r===== \rMode PI \r");
+
+		microphone_stop();
+		motor_control_stop();
+		pi_regulator_run();
+		get_image_run();
+
+		code = get_code();
+
+		if (code != 0) {
+			set_speed(code);
+		}
+
+	} else {
+		if (get_punky_state() == PUNKY_DEBUG)
+			chprintf((BaseSequentialStream *) &SD3, "\r===== \rMode Frequences \r");
+
+		get_image_stop();
+		pi_regulator_stop();
+		motor_control_run();
+		microphone_run();
 	}
 }
 
