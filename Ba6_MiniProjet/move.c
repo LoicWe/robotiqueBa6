@@ -36,6 +36,10 @@ void set_speed(int16_t new_speed) {
 	speed = new_speed;
 }
 
+int16_t get_speed(void){
+	return speed;
+}
+
 void set_rotation(int16_t new_rotation) {
 	rotation = new_rotation;
 }

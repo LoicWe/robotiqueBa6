@@ -11,7 +11,6 @@
 #include <arm_math.h>
 #include <communications.h>			// POSSIBLEMENT A ENLEVER
 #include <led_animation.h>
-#include <leds.h>
 
 //semaphore
 static BSEMAPHORE_DECL(sendToComputer_sem, TRUE); // @suppress("Field cannot be resolved")
@@ -24,16 +23,13 @@ static float micBack_output[FFT_SIZE];
 #define MIN_VALUE_THRESHOLD		15000
 #define MIN_FREQ				10	// plus basse fréquence humainement atteignable "facilement"
 #define MAX_FREQ				45	// plus haute fréquence humainement atteignable "facilement"
-#define MIN_FREQ_INIT			17
-#define MAX_FREQ_INIT			30
+#define MIN_FREQ_INIT			17	// fréquence minimal pour calculer la moyenne
+#define MAX_FREQ_INIT			30	// fréquence maximal pour calculer la moyenne
 #define FREQ_THRESHOLD_FORWARD	1
 #define FREQ_THRESHOLD_SLOW 	5
-#define FREQ_THRESHOLD_FAST		6
-#define NB_SOUND_ON				10	//nbr samples to get the mean
+#define NB_SOUND_ON				20	//nbr samples to get the mean before running
 #define NB_SOUND_OFF			10	//nbr sample to reset the mean
 #define ROTATION_COEFF_SLOW		12
-#define ROTATION_COEFF_FAST		70
-#define ROTATION_COEFF_LIMIT	100
 
 static bool sleep_mode = true;
 
@@ -75,11 +71,14 @@ void sound_remote(float* data) {
 
 	//determine if there was a value superior of the threshold
 	if (max_norm_index == -1) {
-		sound_off++;
-		if (sound_off == NB_SOUND_OFF) {
-			mean_freq = -1;
-			sound_on = 0;
-			mode = SOUND_OFF;
+		if (mode != SOUND_OFF) {
+			sound_off++;
+			anim_stop_freq(sound_off);
+			if (sound_off == NB_SOUND_OFF) {
+				mean_freq = -1;
+				sound_on = 0;
+				mode = SOUND_OFF;
+			}
 		}
 
 	} else {
@@ -88,15 +87,18 @@ void sound_remote(float* data) {
 			if (max_norm_index > MIN_FREQ_INIT && max_norm_index < MAX_FREQ_INIT) {
 				mean_freq = max_norm_index;
 				mode = ANALYSING;
+				anim_start_freq(sound_on);
 				sound_on++;
 			}
 		} else if (sound_on < NB_SOUND_ON) {
 			mean_freq += max_norm_index;
 			mode = ANALYSING;
+			anim_start_freq(sound_on);
 			sound_on++;
 		} else if (sound_on == NB_SOUND_ON) {
 			mean_freq += max_norm_index;
 			mean_freq /= (NB_SOUND_ON + 1);
+			anim_start_freq(sound_on);
 			mode = ANALYSING;
 			sound_on++;
 		} else {

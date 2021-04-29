@@ -107,8 +107,7 @@ int main(void) {
 				if (code != 0) {
 					set_speed(convert_speed(code));
 				}
-
-			} else {
+			}else{
 				get_image_stop();
 				pi_regulator_stop();
 				motor_control_run();
