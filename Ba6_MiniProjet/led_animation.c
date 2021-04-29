@@ -43,6 +43,16 @@ static THD_FUNCTION(BodyLedThd, arg) {
 			break;
 
 		case ANIM_DEBUG:
+			set_led(LED1, 1);
+			set_led(LED5, 1);
+			set_led(LED3, 0);
+			set_led(LED7, 0);
+			chThdSleepMilliseconds(400);
+			set_led(LED1, 0);
+			set_led(LED5, 0);
+			set_led(LED3, 1);
+			set_led(LED7, 1);
+			chThdSleepMilliseconds(400);
 
 			break;
 
@@ -152,42 +162,3 @@ void anim_clear(void) {
 void body_led_thd_start(void) {
 	chThdCreateStatic(waBodyLedThd, sizeof(waBodyLedThd), NORMALPRIO - 1, BodyLedThd, NULL);
 }
-
-/*void demo_led(uint8_t code) {
-
-	set_led(LED3, 0);
-	set_led(LED7, 0);
-	set_rgb_led(LED2, 0,0,0);
-	set_rgb_led(LED4, 0,0,0);
-	set_rgb_led(LED6, 0,0,0);
-	set_rgb_led(LED8, 0,0,0);
-
-	switch (code) {
-	case 14:
-		set_rgb_led(LED2, 100,0,0);
-//		toggle_rgb_led(LED2, RED_LED, 100);
-		break;
-	case 16:
-		set_led(LED3, 2);
-		break;
-	case 21:
-		set_rgb_led(LED4, 100,0,0);
-//		toggle_rgb_led(LED4, RED_LED, 100);
-		break;
-	case 24:
-		set_rgb_led(LED6, 100,0,0);
-//		toggle_rgb_led(LED6, RED_LED, 100);
-		break;
-	case 32:
-		set_led(LED7, 2);
-		break;
-	case 33:
-		set_rgb_led(LED8, 100,0,0);
-//		toggle_rgb_led(LED8, RED_LED, 100);
-		break;
-	default:
-		break;
-	}
-	chThdSleepMilliseconds(500);
-
-}*/
