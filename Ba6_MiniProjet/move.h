@@ -10,7 +10,7 @@
 #define MAX_SUM_ERROR 			(MOTOR_SPEED_LIMIT/KI)
 
 // Fonction to control the robot with the sound
-void move(int16_t rotation);
+void move(void);
 void move_stop(void);
 
 #define MAX_SPEED 	900	//100%
@@ -18,15 +18,17 @@ void move_stop(void);
 
 
 // ************************************************************************//
-// ************* fonction en mode décection de codebarre ******************//
+// ************* fonction en mode dÃ©cection de codebarre ******************//
 // ************************************************************************//
+
 void set_speed(uint8_t code);
+void set_rotation(int16_t new_rotation);
 void motor_control_run(void);
 void motor_control_stop(void);
 
 
 // ************************************************************************//
-// ************* fonction en mode décection de codebarre ******************//
+// ************* fonction en mode dÃ©cection de codebarre ******************//
 // ************************************************************************//
 
 //start the PI regulator thread

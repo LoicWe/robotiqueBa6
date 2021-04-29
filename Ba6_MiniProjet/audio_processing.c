@@ -24,13 +24,19 @@ static float micBack_cmplx_input[2 * FFT_SIZE];
 //Arrays containing the computed magnitude of the complex numbers
 static float micBack_output[FFT_SIZE];
 
-#define MIN_VALUE_THRESHOLD	15000
-#define MIN_FREQ		10	//we don't analyze before this index to not use resources for nothing
-#define MAX_FREQ		40	//we don't analyze after this index to not use resources for nothing
-#define FREQ_THRESHOLD	1
-#define NB_SOUND_ON		10	//nbr samples to get the mean
-#define NB_SOUND_OFF	10	//nbr sample to reset the mean
-#define ROTATION_COEFF	40
+#define MIN_VALUE_THRESHOLD		15000
+#define MIN_FREQ				10	// plus basse fréquence humainement atteignable "facilement"
+#define MAX_FREQ				45	// plus haute fréquence humainement atteignable "facilement"
+#define MIN_FREQ_INIT			17
+#define MAX_FREQ_INIT			30
+#define FREQ_THRESHOLD_FORWARD	1
+#define FREQ_THRESHOLD_SLOW 	5
+#define FREQ_THRESHOLD_FAST		6
+#define NB_SOUND_ON				10	//nbr samples to get the mean
+#define NB_SOUND_OFF			10	//nbr sample to reset the mean
+#define ROTATION_COEFF_SLOW		12
+#define ROTATION_COEFF_FAST		70
+#define ROTATION_COEFF_LIMIT	100
 
 static bool sleep_mode = true;
 
@@ -42,34 +48,51 @@ void sound_remote(float* data) {
 	static uint8_t sound_on = 0;
 	static uint8_t sound_off = 0;
 	int16_t error = 0;
-	static uint8_t mode = SOUND_OFF;				//To change
+	static uint8_t mode = SOUND_OFF;
 	float max_norm = MIN_VALUE_THRESHOLD;
 	int16_t max_norm_index = -1;
+	int16_t max_norms_index[4] = { -1, -1, -1, -1 };
+	uint8_t norms_index = 0;
+
 	static int16_t mean_freq = 0;
 
-	//search for the highest peak
+	//cherche les 4 plus grandes fréquences avec un buffer circulaire
 	for (uint16_t i = MIN_FREQ; i <= MAX_FREQ; i++) {
 		if (data[i] > max_norm) {
 			max_norm = data[i];
-			max_norm_index = i;
+			max_norms_index[norms_index] = i;
+			norms_index++;
+			norms_index %= 4;
 		}
 	}
+
+	/* prends la plus petite des 4
+	 * c'est celle que l'on veut (tester expérimentalement),
+	 * mais qui n'est jamais la plus forte dans les basses fréquences
+	 */
+	if (max_norms_index[norms_index] == -1) {
+		max_norm_index = max_norms_index[0];
+	} else {
+		max_norm_index = max_norms_index[norms_index];
+	}
+
 	//determine if there was a value superior of the threshold
 	if (max_norm_index == -1) {
 		sound_off++;
 		if (sound_off == NB_SOUND_OFF) {
 			mean_freq = -1;
 			sound_on = 0;
+			mode = SOUND_OFF;
 		}
-		mode = SOUND_OFF;
-		anim_clear();
+
 	} else {
-		anim_clear();
 		sound_off = 0;
 		if (sound_on == 0) {
-			mean_freq = max_norm_index;
-			mode = ANALYSING;
-			sound_on++;
+			if (max_norm_index > MIN_FREQ_INIT && max_norm_index < MAX_FREQ_INIT) {
+				mean_freq = max_norm_index;
+				mode = ANALYSING;
+				sound_on++;
+			}
 		} else if (sound_on < NB_SOUND_ON) {
 			mean_freq += max_norm_index;
 			mode = ANALYSING;
@@ -81,28 +104,30 @@ void sound_remote(float* data) {
 			sound_on++;
 		} else {
 			mode = MOVING;
-			anim_start_freq();
+			motor_control_run();
 		}
 	}
 
-	if (mode == MOVING) {
+	if (mode == MOVING && sound_off == 0) {
 		error = max_norm_index - mean_freq;
 
-		//go forward
-		if (max_norm_index >= mean_freq - FREQ_THRESHOLD && max_norm_index <= mean_freq + FREQ_THRESHOLD) {
-			move(0);
+		// tout droit
+		if (max_norm_index >= mean_freq - FREQ_THRESHOLD_FORWARD && max_norm_index <= mean_freq + FREQ_THRESHOLD_FORWARD) {
+			set_rotation(0);
 		} else {
-			move(ROTATION_COEFF * error);
+			set_rotation(ROTATION_COEFF_SLOW * error * error * (error < 0 ? -1 : 1));
 		}
+		move();
 
-	} else {
+	} else if (mode == SOUND_OFF) {
 		move_stop();
 	}
 
 	if (get_punky_state() == PUNKY_DEBUG)
-		chprintf((BaseSequentialStream *) &SD3, "Fr�quence: %d \r", max_norm_index);
+		chprintf((BaseSequentialStream *) &SD3, "Fréquence: %d \r", max_norm_index);
 }
 
+}
 /*
  *	Callback called when the demodulation of the four microphones is done.
  *	We get 160 samples per mic every 10ms (16kHz)

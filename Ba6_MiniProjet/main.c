@@ -21,6 +21,8 @@
 #include <potentiometer.h>
 #include "move.h"
 #include "spi_comm.h"
+#include <led_animation.h>
+
 
 static void serial_start(void) {
 	static SerialConfig ser_cfg = { 115200, 0, 0, 0, };
@@ -65,6 +67,7 @@ int main(void) {
 	motors_init();
 	//start the ToF distance sensor
 	VL53L0X_start();
+
 	//init the PI regulator
 	pi_regulator_init();
 
