@@ -15,7 +15,7 @@ CSRC += ./main.c \
 		./communications.c \
 		./fft.c \
 		./process_image.c \
-		./body_led_thd.c \
+		./led_animation.c \
 		./potentiometer.c\
 		
 #Header folders to include

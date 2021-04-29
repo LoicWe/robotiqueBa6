@@ -7,6 +7,7 @@
 
 #include <main.h>
 #include <potentiometer.h>
+#include <led_animation.h>
 
 static uint8_t punky_state = PUNKY_DEMO;
 
@@ -51,6 +52,7 @@ static THD_FUNCTION(ThdPotentiometer, arg) {
 			switch (punky_state) {
 			case PUNKY_DEMO:
 				punky_state = PUNKY_SLEEP;
+				anim_sleep();
 				break;
 			case PUNKY_DEBUG:
 				punky_state = PUNKY_WAKE_UP;
@@ -67,6 +69,7 @@ static THD_FUNCTION(ThdPotentiometer, arg) {
 				break;
 			case PUNKY_SLEEP:
 				punky_state = PUNKY_WAKE_UP;
+				anim_wake_up();
 				break;
 			default:
 				break;
@@ -79,7 +82,7 @@ static THD_FUNCTION(ThdPotentiometer, arg) {
 }
 
 void potentiometer_init(void) {
-	chThdCreateStatic(waThdPotentiometer, sizeof(waThdPotentiometer), NORMALPRIO, ThdPotentiometer, NULL);
+	chThdCreateStatic(waThdPotentiometer, sizeof(waThdPotentiometer), NORMALPRIO+3, ThdPotentiometer, NULL);
 }
 
 void set_punky_state(uint8_t new_punky_state) {
