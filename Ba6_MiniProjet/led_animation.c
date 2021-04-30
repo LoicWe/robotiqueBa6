@@ -27,11 +27,11 @@ static THD_FUNCTION(BodyLedThd, arg) {
 
 
 		switch (animation) {
-		case ANIM_CLEAR:
-			set_rgb_led(LED2, 0, 0, 0);
-			set_rgb_led(LED4, 0, 0, 0);
-			set_rgb_led(LED6, 0, 0, 0);
-			set_rgb_led(LED8, 0, 0, 0);
+		case ANIM_CLEAR_DEBUG:
+			set_led(LED1, 0);
+			set_led(LED3, 0);
+			set_led(LED5, 0);
+			set_led(LED7, 0);
 			break;
 
 		case ANIM_BARCODE:
@@ -105,6 +105,16 @@ static THD_FUNCTION(BodyLedThd, arg) {
 			set_rgb_led(LED8, 0, freq_led_intensity, freq_led_intensity);
 
 			break;
+		default:
+			set_rgb_led(LED2, 0, 0, 0);
+			set_rgb_led(LED4, 0, 0, 0);
+			set_rgb_led(LED6, 0, 0, 0);
+			set_rgb_led(LED8, 0, 0, 0);
+			set_led(LED1, 0);
+			set_led(LED3, 0);
+			set_led(LED5, 0);
+			set_led(LED7, 0);
+			break;
 		}
 	}
 }
@@ -154,11 +164,21 @@ void anim_wake_up(void) {
 	chBSemSignal(&anim_ready);
 }
 
-void anim_clear(void) {
-	animation = ANIM_CLEAR;
+void anim_clear_debug(void) {
+	animation = ANIM_CLEAR_DEBUG;
 	chBSemSignal(&anim_ready);
 }
 
-void body_led_thd_start(void) {
+void anim_forward(void){
+	animation = ANIM_FORWARD;
+	chBSemSignal(&anim_ready);
+}
+
+void anim_backward(void){
+	animation = ANIM_BACKWARD;
+	chBSemSignal(&anim_ready);
+}
+
+void leds_animations_thd_start(void) {
 	chThdCreateStatic(waBodyLedThd, sizeof(waBodyLedThd), NORMALPRIO - 1, BodyLedThd, NULL);
 }

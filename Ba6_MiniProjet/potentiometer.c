@@ -55,6 +55,7 @@ static THD_FUNCTION(ThdPotentiometer, arg) {
 				anim_sleep();
 				break;
 			case PUNKY_DEBUG:
+				anim_clear_debug(); // reset all animation in order to stop the punky debug overlay
 				punky_state = PUNKY_WAKE_UP;
 				break;
 			default:
