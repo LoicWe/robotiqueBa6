@@ -48,8 +48,6 @@ static void timer12_start(void) {
 //private function for the main
 void punky_run(void);
 
-uint8_t wakeup = 0;
-
 int main(void) {
 	halInit();
 	chSysInit();
@@ -109,14 +107,12 @@ int main(void) {
 			get_image_stop();
 			pi_regulator_stop();
 			motor_control_stop();
-			chprintf((BaseSequentialStream *) &SD3, "================ PAUSE ================");
 
 		}
 
 		// transition state to restart every thread after sleep mode
 		else if (punky_state == PUNKY_WAKE_UP) {
 			set_punky_state(PUNKY_DEMO);
-			wakeup = 1;
 		}
 
 		//waits 0.5 second

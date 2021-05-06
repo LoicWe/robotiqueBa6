@@ -35,18 +35,10 @@ static float micBack_output[FFT_SIZE];
 #define ROTATION_COEFF_SLOW		12
 
 static bool sleep_mode = true;
-<<<<<<< HEAD
-static uint8_t mode = SOUND_OFF;
-static uint8_t sound_on = 0;
-static uint8_t sound_off = 0;
 
-extern uint8_t wakeup;
-static uint8_t restarting_after_some_quiet_sleep = 1;
-=======
+static uint8_t mode = SOUND_OFF;
 static uint8_t sound_on = 0;
 static uint8_t sound_off = 0;
-static uint8_t mode = SOUND_OFF;
->>>>>>> 4564c48de5ad96c173907e09e7ca947209050416
 
 /*
  *	Simple function used to detect the highest value in a buffer
@@ -72,11 +64,6 @@ void sound_remote(float* data) {
 		}
 	}
 
-	if(wakeup == 1){
-		chprintf((BaseSequentialStream *) &SD3, "breakpoint");
-		wakeup = 0;
-	}
-
 	/* prends la plus petite des 4
 	 * c'est celle que l'on veut (tester expérimentalement),
 	 * mais qui n'est jamais la plus forte dans les basses fréquences
@@ -98,8 +85,8 @@ void sound_remote(float* data) {
 				mode = SOUND_OFF;
 			}
 		}
-
-	} else {
+	}
+	else {
 		sound_off = 0;
 		if (sound_on == 0) {
 			if (max_norm_index > MIN_FREQ_INIT && max_norm_index < MAX_FREQ_INIT) {
@@ -162,7 +149,6 @@ void processAudioData(int16_t *data, uint16_t num_samples) {
 	 *	1024 samples, then we compute the FFTs.
 	 *
 	 */
-	chprintf((BaseSequentialStream *) &SD3, "num_sample = %d\r", num_samples);
 
 	static uint16_t nb_samples = 0;
 	static uint8_t mustSend = 0;
@@ -209,14 +195,11 @@ void processAudioData(int16_t *data, uint16_t num_samples) {
 			}
 			nb_samples = 0;
 			mustSend++;
-			if(restarting_after_some_quiet_sleep == 1){
-				sound_remote(micBack_output);
-			}
-		}
-	}else if(restarting_after_some_quiet_sleep == 0){
-		restarting_after_some_quiet_sleep++;
 
-}
+			sound_remote(micBack_output);
+
+		}
+	}
 }
 
 void wait_send_to_computer(void) {
@@ -229,7 +212,6 @@ float* get_audio_buffer_ptr(void) {
 
 void microphone_run(void) {
 	sleep_mode = false;
-	restarting_after_some_quiet_sleep = 0;
 }
 
 void microphone_stop(void) {

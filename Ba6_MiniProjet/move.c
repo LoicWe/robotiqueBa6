@@ -10,7 +10,6 @@
 #include <move.h>
 #include <led_animation.h>
 #include <potentiometer.h>
-#include <spi_comm.h>
 
 static int16_t speed = 600;
 static int16_t rotation = 0;
@@ -71,7 +70,6 @@ void motor_control_run(void) {
 void motor_control_stop(void) {
 	move_stop();
 	move_on = false;
-	move_stop();
 }
 
 
