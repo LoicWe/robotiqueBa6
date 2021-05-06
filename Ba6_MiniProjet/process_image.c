@@ -99,6 +99,7 @@ void extract_barcode(uint8_t *image) {
 		// code is created in base 3 -> 27 possibilities with 3 line of 3 sizes
 		// codes valide IDs are from 13 to 39
 		set_code(9 * digit[2] + 3 * digit[3] + digit[4]);
+		anim_barcode();
 		if (get_punky_state() == PUNKY_DEBUG)
 			chprintf((BaseSequentialStream *) &SD3, "code : %d %d %d   ID : %d\r", digit[2], digit[3], digit[4], code);
 	}
@@ -208,6 +209,120 @@ struct Line line_find_next(uint8_t *buffer, uint16_t start_position, uint32_t me
 	return line;
 }
 
+struct Line line_find_next_inverted_direction(uint8_t *buffer, uint16_t start_position, uint32_t mean) {
+
+	int16_t i = start_position, begin = start_position, end = start_position;
+	uint8_t stop = 0, line_not_found = 0, wrong_line = 0;
+	struct Line line;
+
+	do {
+
+		//search for a begin
+		while (stop == 0 && i > WIDTH_SLOPE) {
+			//the slope must at least be WIDTH_SLOPE wide and is compared
+			//to the mean of the image
+			if (buffer[i] > mean && buffer[i - WIDTH_SLOPE] < mean) {
+				begin = i;
+				stop = 1;
+			}
+			i--;
+//			chprintf((BaseSequentialStream *) &SD3, "i = %d \r", i);
+
+		}
+		//if a begin was found, search for an end
+		if (i > WIDTH_SLOPE && begin != start_position) {
+			stop = 0;
+
+			while (stop == 0 && i > 0) {
+				if (buffer[i] > mean && buffer[i + WIDTH_SLOPE] < mean) {
+					end = i;
+					stop = 1;
+				}
+				i--;
+//				chprintf((BaseSequentialStream *) &SD3, "i = %u\r", i);
+			}
+			//if an end was not found
+			if (i < 0 || !end) {
+				line_not_found = 1;
+			}
+		} else		    //if no begin was found
+		{
+			line_not_found = 1;
+		}
+
+		//if a line too small has been detected, continues the search
+		if (!line_not_found && abs(begin - end) < MIN_LINE_WIDTH) {
+			i = end;
+			begin = 0;
+			end = 0;
+			stop = 0;
+			wrong_line = 1;
+		} else {
+			wrong_line = 0;
+		}
+	} while (wrong_line);
+
+	if (line_not_found) {
+		line.found = false;
+		line.end_pos = 0;
+	} else {
+		line.width = abs(begin - end);
+		line.end_pos = end;
+		line.begin_pos = begin;
+		line.found = true;
+	}
+	return line;
+}
+
+void test_function(uint8_t *image){
+
+	struct Line line;
+	line.end_pos = line.begin_pos = IMAGE_BUFFER_SIZE;
+	line.width = 0;
+	line.found = false;
+
+	uint8_t mean[3];
+	uint8_t width = 0;
+	uint16_t end_last_line = 0;
+	int8_t digit[NB_LINE_BARCODE] = { -1, -1, -1, -1, -1, -1, -1 };
+
+	calculate_mean(image, mean);
+
+	/***** FIRST LINE *****/
+	do {
+		line = line_find_next_inverted_direction(image, IMAGE_BUFFER_SIZE, mean[2]);
+		end_last_line = line.end_pos;
+		width = line.width;
+//		chprintf((BaseSequentialStream *) &SD3, "width 1 = %d\r", width);
+
+		// si trouvée mais pas les bonnes dimensions, on recherche plus loin
+		if (line.found && !(width > START_LINE_WIDTH - LINE_THRESHOLD && width < START_LINE_WIDTH + LINE_THRESHOLD)) {
+			line.found = false;
+		}
+	} while (line.found == false && end_last_line != 0);
+
+	//***** SECONDE LINE *****
+	if (line.found) {
+		digit[NB_LINE_BARCODE-1] = 2;
+
+		line = line_find_next_inverted_direction(image, end_last_line, mean[2]);
+//		chprintf((BaseSequentialStream *) &SD3, "width 2 = %d\r", line.width);
+
+		// check line dimension (hardcoded at around 12 cm) and gap with first line
+		if (line.found && (!(line.width > width/2 - LINE_THRESHOLD && line.width < width/2 + LINE_THRESHOLD) || !(abs(end_last_line - line.begin_pos) < width))) {
+			line.found = false;
+		} else {
+			digit[NB_LINE_BARCODE-2] = 1;
+		}
+	}
+
+	if(digit[NB_LINE_BARCODE-1] == 2 && digit[NB_LINE_BARCODE-2] == 1){
+		chprintf((BaseSequentialStream *) &SD3, "END detected \r");
+	}else{
+		chprintf((BaseSequentialStream *) &SD3, "NOPE \r");
+	}
+}
+
 /*
  * 	@Describe:
  * 		Performs an average for each 3 segments third, because of auto brightness
@@ -265,7 +380,7 @@ static THD_FUNCTION(CaptureImage, arg) {
  * 	@Author:
  * 		TP4_CamReg_correction
  */
-static THD_WORKING_AREA(waProcessImage, 1024);
+static THD_WORKING_AREA(waProcessImage, 4092);//1024);
 static THD_FUNCTION(ProcessImage, arg) {
 
 	chRegSetThreadName(__FUNCTION__);
@@ -288,10 +403,12 @@ static THD_FUNCTION(ProcessImage, arg) {
 			image[i / 2] = (uint8_t) img_buff_ptr[i] & 0xF8;
 		}
 
-		extract_barcode(image);
+//		extract_barcode(image);
+		test_function(image);
+		chprintf((BaseSequentialStream *) &SD3, "====== validation =======\r");
 
 		// slow send to not flood computer
-		if (get_punky_state() == PUNKY_DEBUG && send_to_computer >= 4) {
+		if (send_to_computer >= 4) {
 			send_to_computer = 0;
 			SendUint8ToComputer(image, IMAGE_BUFFER_SIZE);
 		}

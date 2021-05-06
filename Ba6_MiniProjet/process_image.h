@@ -20,6 +20,7 @@ struct Line{
 	uint8_t width;
 	bool found;
 };
+void test_function();
 
 void get_image_run(void);
 void get_image_stop(void);
@@ -27,6 +28,7 @@ uint8_t get_code(void);
 void set_code(uint8_t code_p);
 void process_image_start(void);
 struct Line line_find_next(uint8_t *buffer, uint16_t start_position, uint32_t mean);
+struct Line line_find_next_inverted_direction(uint8_t *buffer, uint16_t start_position, uint32_t mean);
 void extract_barcode(uint8_t *image);
 void calculate_mean(uint8_t *buffer, uint8_t *mean);
 uint8_t line_classify(struct Line line, uint8_t width_unit);

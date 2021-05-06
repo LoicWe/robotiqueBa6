@@ -91,14 +91,17 @@ int main(void) {
 
 		// basic mode of operation
 		if (punky_state == PUNKY_DEMO) {
-			punky_run();
+//			punky_run();
+			get_image_run();
+			test_function();
+
 		}
 
 		// add animation and send data to the computer
 		else if (punky_state == PUNKY_DEBUG) {
 			// add an animation on top of the other
-			anim_debug();
 			punky_run();
+			anim_debug();
 		}
 
 		// deactivate everything except a visual indicator
@@ -123,12 +126,13 @@ int main(void) {
 void punky_run(void) {
 	uint16_t distance = 0;
 	int8_t code = 0;
+	static bool code_found = false;
 
 	//switch between frequence mode and Pi mode using the TOF
 	distance = VL53L0X_get_dist_mm();
 
 	// search for a barre code if distance is in the good range
-	if (distance > MIN_DISTANCE_DETECTED && distance < MAX_DISTANCE_DETECTED) {
+	if (distance > MIN_DISTANCE_DETECTED && distance < MAX_DISTANCE_DETECTED && code_found == false) {
 		if (get_punky_state() == PUNKY_DEBUG)	//debug mode
 			chprintf((BaseSequentialStream *) &SD3, "\r===== \rMode PI \r");
 		//stop useless process
@@ -152,9 +156,13 @@ void punky_run(void) {
 		}
 		else{
 			// if a good code is detected, set new speed
-			anim_barcode();
 			set_speed(code);
+			code_found = true;
 		}
+
+	} else if (distance < MAX_DISTANCE_DETECTED && code_found == true){
+		get_image_stop();
+		pi_regulator_stop();
 
 	} else {
 		if (get_punky_state() == PUNKY_DEBUG)	//debug mode
@@ -166,6 +174,7 @@ void punky_run(void) {
 		//start frequency control
 		motor_control_run();
 		microphone_run();
+		code_found = false;
 	}
 }
 
