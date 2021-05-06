@@ -290,10 +290,10 @@ void test_function(uint8_t *image){
 
 	/***** FIRST LINE *****/
 	do {
-		line = line_find_next_inverted_direction(image, IMAGE_BUFFER_SIZE, mean[2]);
+		line = line_find_next_inverted_direction(image, IMAGE_BUFFER_SIZE, mean[1]);
 		end_last_line = line.end_pos;
 		width = line.width;
-//		chprintf((BaseSequentialStream *) &SD3, "width 1 = %d\r", width);
+		chprintf((BaseSequentialStream *) &SD3, "width 1 = %d\n", width);
 
 		// si trouvée mais pas les bonnes dimensions, on recherche plus loin
 		if (line.found && !(width > START_LINE_WIDTH - LINE_THRESHOLD && width < START_LINE_WIDTH + LINE_THRESHOLD)) {
@@ -305,8 +305,8 @@ void test_function(uint8_t *image){
 	if (line.found) {
 		digit[NB_LINE_BARCODE-1] = 2;
 
-		line = line_find_next_inverted_direction(image, end_last_line, mean[2]);
-//		chprintf((BaseSequentialStream *) &SD3, "width 2 = %d\r", line.width);
+		line = line_find_next_inverted_direction(image, end_last_line, mean[1]);
+		chprintf((BaseSequentialStream *) &SD3, "width 2 = %d\n", line.width);
 
 		// check line dimension (hardcoded at around 12 cm) and gap with first line
 		if (line.found && (!(line.width > width/2 - LINE_THRESHOLD && line.width < width/2 + LINE_THRESHOLD) || !(abs(end_last_line - line.begin_pos) < width))) {
@@ -317,9 +317,9 @@ void test_function(uint8_t *image){
 	}
 
 	if(digit[NB_LINE_BARCODE-1] == 2 && digit[NB_LINE_BARCODE-2] == 1){
-		chprintf((BaseSequentialStream *) &SD3, "END detected \r");
+		chprintf((BaseSequentialStream *) &SD3, "END detected \n");
 	}else{
-		chprintf((BaseSequentialStream *) &SD3, "NOPE \r");
+		chprintf((BaseSequentialStream *) &SD3, "NOPE \n");
 	}
 }
 
@@ -405,14 +405,14 @@ static THD_FUNCTION(ProcessImage, arg) {
 
 //		extract_barcode(image);
 		test_function(image);
-		chprintf((BaseSequentialStream *) &SD3, "====== validation =======\r");
+		chprintf((BaseSequentialStream *) &SD3, "==== validation ====\r");
 
-		// slow send to not flood computer
-		if (send_to_computer >= 4) {
-			send_to_computer = 0;
-			SendUint8ToComputer(image, IMAGE_BUFFER_SIZE);
-		}
-		send_to_computer++;
+//		// slow send to not flood computer
+//		if (send_to_computer >= 15) {
+//			send_to_computer = 0;
+//			SendUint8ToComputer(image, IMAGE_BUFFER_SIZE);
+//		}
+//		send_to_computer++;
 	}
 }
 
