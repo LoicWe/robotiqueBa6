@@ -104,11 +104,11 @@ void extract_barcode(uint8_t *image) {
 			chprintf((BaseSequentialStream *) &SD3, "code : %d %d %d   ID : %d\r", digit[2], digit[3], digit[4], code);
 	}
 	// IF start pattern read but NOT the end pattern, set code to 1
-	else if(digit[0] == MEDIUM && digit[1] == MEDIUM){
+	else if (digit[0] == MEDIUM && digit[1] == MEDIUM) {
 		set_code(1);
 	}
 	// if start pattern NOT read, set code to 0
-	else{
+	else {
 		set_code(0);
 	}
 
@@ -209,11 +209,12 @@ struct Line line_find_next(uint8_t *buffer, uint16_t start_position, uint32_t me
 	return line;
 }
 
-struct Line line_find_next_inverted_direction(uint8_t *buffer, uint16_t start_position, uint32_t mean) {
+struct Line line_find_next_inverted_direction(uint8_t *buffer, int16_t start_position, uint8_t *mean_p) {
 
 	int16_t i = start_position, begin = start_position, end = start_position;
 	uint8_t stop = 0, line_not_found = 0, wrong_line = 0;
 	struct Line line;
+	uint8_t mean = 0;
 
 	do {
 
@@ -221,12 +222,12 @@ struct Line line_find_next_inverted_direction(uint8_t *buffer, uint16_t start_po
 		while (stop == 0 && i > WIDTH_SLOPE) {
 			//the slope must at least be WIDTH_SLOPE wide and is compared
 			//to the mean of the image
+			mean = (i < IMAGE_BUFFER_SIZE_DIV_3 ? mean_p[0]: (i < IMAGE_BUFFER_SIZE_DIV_3*2 ? mean_p[1]-20:mean_p[2]));
 			if (buffer[i] > mean && buffer[i - WIDTH_SLOPE] < mean) {
 				begin = i;
 				stop = 1;
 			}
 			i--;
-//			chprintf((BaseSequentialStream *) &SD3, "i = %d \r", i);
 
 		}
 		//if a begin was found, search for an end
@@ -234,15 +235,15 @@ struct Line line_find_next_inverted_direction(uint8_t *buffer, uint16_t start_po
 			stop = 0;
 
 			while (stop == 0 && i > 0) {
+				mean = (i < IMAGE_BUFFER_SIZE_DIV_3 ? mean_p[0]: (i < IMAGE_BUFFER_SIZE_DIV_3*2 ? mean_p[1]-20:mean_p[2]));
 				if (buffer[i] > mean && buffer[i + WIDTH_SLOPE] < mean) {
 					end = i;
 					stop = 1;
 				}
 				i--;
-//				chprintf((BaseSequentialStream *) &SD3, "i = %u\r", i);
 			}
 			//if an end was not found
-			if (i < 0 || !end) {
+			if (i < 0 || end == start_position) {
 				line_not_found = 1;
 			}
 		} else		    //if no begin was found
@@ -253,8 +254,8 @@ struct Line line_find_next_inverted_direction(uint8_t *buffer, uint16_t start_po
 		//if a line too small has been detected, continues the search
 		if (!line_not_found && abs(begin - end) < MIN_LINE_WIDTH) {
 			i = end;
-			begin = 0;
-			end = 0;
+			begin = start_position;
+			end = start_position;
 			stop = 0;
 			wrong_line = 1;
 		} else {
@@ -265,16 +266,17 @@ struct Line line_find_next_inverted_direction(uint8_t *buffer, uint16_t start_po
 	if (line_not_found) {
 		line.found = false;
 		line.end_pos = 0;
+		line.width = 0;
 	} else {
-		line.width = abs(begin - end);
-		line.end_pos = end;
-		line.begin_pos = begin;
+		line.width = (uint16_t) abs(begin - end);
+		line.end_pos = (uint16_t) end;
+		line.begin_pos = (uint16_t) begin;
 		line.found = true;
 	}
 	return line;
 }
 
-void test_function(uint8_t *image){
+void test_function(uint8_t *image) {
 
 	struct Line line;
 	line.end_pos = line.begin_pos = IMAGE_BUFFER_SIZE;
@@ -282,18 +284,21 @@ void test_function(uint8_t *image){
 	line.found = false;
 
 	uint8_t mean[3];
-	uint8_t width = 0;
-	uint16_t end_last_line = 0;
+	uint16_t width = 0;
+	uint16_t end_last_line = IMAGE_BUFFER_SIZE;
 	int8_t digit[NB_LINE_BARCODE] = { -1, -1, -1, -1, -1, -1, -1 };
 
 	calculate_mean(image, mean);
 
+
 	/***** FIRST LINE *****/
 	do {
-		line = line_find_next_inverted_direction(image, IMAGE_BUFFER_SIZE, mean[1]);
+		line = line_find_next_inverted_direction(image, end_last_line, mean);
 		end_last_line = line.end_pos;
 		width = line.width;
-		chprintf((BaseSequentialStream *) &SD3, "width 1 = %d\n", width);
+		chprintf((BaseSequentialStream *) &SD3, "width %d\n", width);
+		chprintf((BaseSequentialStream *) &SD3, "begin %d\n", line.begin_pos);
+		chprintf((BaseSequentialStream *) &SD3, "end %d\n", line.end_pos);
 
 		// si trouvée mais pas les bonnes dimensions, on recherche plus loin
 		if (line.found && !(width > START_LINE_WIDTH - LINE_THRESHOLD && width < START_LINE_WIDTH + LINE_THRESHOLD)) {
@@ -303,23 +308,24 @@ void test_function(uint8_t *image){
 
 	//***** SECONDE LINE *****
 	if (line.found) {
-		digit[NB_LINE_BARCODE-1] = 2;
+		digit[NB_LINE_BARCODE - 1] = 2;
 
-		line = line_find_next_inverted_direction(image, end_last_line, mean[1]);
-		chprintf((BaseSequentialStream *) &SD3, "width 2 = %d\n", line.width);
+		line = line_find_next_inverted_direction(image, end_last_line, mean);
 
 		// check line dimension (hardcoded at around 12 cm) and gap with first line
-		if (line.found && (!(line.width > width/2 - LINE_THRESHOLD && line.width < width/2 + LINE_THRESHOLD) || !(abs(end_last_line - line.begin_pos) < width))) {
+		if (line.found && (!(line.width > width / 2 - LINE_THRESHOLD && line.width < width / 2 + LINE_THRESHOLD) || !(abs(end_last_line - line.begin_pos) < width))) {
 			line.found = false;
 		} else {
-			digit[NB_LINE_BARCODE-2] = 1;
+			digit[NB_LINE_BARCODE - 2] = 1;
 		}
 	}
+	chprintf((BaseSequentialStream *) &SD3, "mean = %d   %d   %d\n", mean[0], mean[1], mean[2]);
 
-	if(digit[NB_LINE_BARCODE-1] == 2 && digit[NB_LINE_BARCODE-2] == 1){
+	if (digit[NB_LINE_BARCODE - 1] == 2 && digit[NB_LINE_BARCODE - 2] == 1) {
 		chprintf((BaseSequentialStream *) &SD3, "END detected \n");
-	}else{
-		chprintf((BaseSequentialStream *) &SD3, "NOPE \n");
+		anim_barcode();
+
+		chprintf((BaseSequentialStream *) &SD3, "start line 2 = %d\n", line.begin_pos);
 	}
 }
 
@@ -380,7 +386,7 @@ static THD_FUNCTION(CaptureImage, arg) {
  * 	@Author:
  * 		TP4_CamReg_correction
  */
-static THD_WORKING_AREA(waProcessImage, 4092);//1024);
+static THD_WORKING_AREA(waProcessImage, 1024);
 static THD_FUNCTION(ProcessImage, arg) {
 
 	chRegSetThreadName(__FUNCTION__);
@@ -405,14 +411,13 @@ static THD_FUNCTION(ProcessImage, arg) {
 
 //		extract_barcode(image);
 		test_function(image);
-		chprintf((BaseSequentialStream *) &SD3, "==== validation ====\r");
 
 //		// slow send to not flood computer
-//		if (send_to_computer >= 15) {
-//			send_to_computer = 0;
-//			SendUint8ToComputer(image, IMAGE_BUFFER_SIZE);
-//		}
-//		send_to_computer++;
+		if (send_to_computer >= 15) {
+			send_to_computer = 0;
+			SendUint8ToComputer(image, IMAGE_BUFFER_SIZE);
+		}
+		send_to_computer++;
 	}
 }
 

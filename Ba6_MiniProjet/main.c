@@ -93,7 +93,6 @@ int main(void) {
 		if (punky_state == PUNKY_DEMO) {
 //			punky_run();
 			get_image_run();
-			test_function();
 
 		}
 
