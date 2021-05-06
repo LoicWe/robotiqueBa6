@@ -35,16 +35,16 @@ static float micBack_output[FFT_SIZE];
 #define ROTATION_COEFF_SLOW		12
 
 static bool sleep_mode = true;
+static uint8_t sound_on = 0;
+static uint8_t sound_off = 0;
+static uint8_t mode = SOUND_OFF;
 
 /*
  *	Simple function used to detect the highest value in a buffer
  *	and to execute a motor command depending on it
  */
 void sound_remote(float* data) {
-	static uint8_t sound_on = 0;
-	static uint8_t sound_off = 0;
 	int16_t error = 0;
-	static uint8_t mode = SOUND_OFF;
 	float max_norm = MIN_VALUE_THRESHOLD;
 	int16_t max_norm_index = -1;
 	int16_t max_norms_index[4] = { -1, -1, -1, -1 };
@@ -212,4 +212,7 @@ void microphone_run(void) {
 
 void microphone_stop(void) {
 	sleep_mode = true;
+	sound_on = 0;
+	sound_off = 0;
+	mode = SOUND_OFF;
 }

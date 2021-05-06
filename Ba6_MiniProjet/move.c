@@ -57,6 +57,7 @@ void motor_control_run(void) {
 }
 
 void motor_control_stop(void) {
+	move_stop();
 	move_on = false;
 }
 
@@ -68,7 +69,6 @@ void motor_control_stop(void) {
 int16_t pi_regulator(uint16_t distance, uint8_t goal) {
 	int16_t error = 0;
 	int16_t speed = 0;
-//	systime_t time;
 
 	static int16_t sum_error = 0;
 
@@ -78,11 +78,10 @@ int16_t pi_regulator(uint16_t distance, uint8_t goal) {
 	//this avoids to always move as we cannot exactly be where we want and
 	//the camera is a bit noisy
 
-//	time = chVTGetSystemTime();
+
 	if (fabs(error) < ERROR_THRESHOLD) {
 		return 0;
 	}
-//	chprintf((BaseSequentialStream *) &SD3, "temps = %d \r", chVTGetSystemTime - time);
 
 	sum_error += error;
 
