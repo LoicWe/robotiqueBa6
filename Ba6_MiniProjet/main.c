@@ -48,8 +48,6 @@ int main(void) {
 	chSysInit();
 	mpu_init();
 
-	anim_clear();
-
 	//starts the serial communication
 	serial_start();
 	//starts the USB communication
@@ -59,7 +57,7 @@ int main(void) {
 	po8030_start();
 	process_image_start();
 	//start the bodyled thread
-	body_led_thd_start();
+	leds_animations_thd_start();
 
 	//starts timer 12
 	timer12_start();
@@ -89,8 +87,8 @@ int main(void) {
 		if (punky_state == PUNKY_DEMO) {
 			punky_run();
 		}
-
 		else if (punky_state == PUNKY_DEBUG) {
+			// add an animation on top of the other
 			anim_debug();
 			punky_run();
 		}
@@ -115,7 +113,7 @@ int main(void) {
 
 void punky_run(void) {
 	uint16_t distance = 0;
-	uint8_t code = 0;
+	int8_t code = 0;
 
 	distance = VL53L0X_get_dist_mm();
 	if (distance > MIN_DISTANCE_DETECTED && distance < MAX_DISTANCE_DETECTED) {

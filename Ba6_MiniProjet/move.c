@@ -8,7 +8,7 @@
 #include <main.h>
 #include <motors.h>
 #include <move.h>
-#include <leds.h>
+#include <led_animation.h>
 
 static int16_t speed = 600;
 static int16_t rotation = 0;
@@ -31,15 +31,24 @@ void move_stop(void) {
 	right_motor_set_speed(0);
 }
 
+int16_t get_speed(void){
+	return speed;
+}
+
 void set_rotation(int16_t new_rotation) {
 	rotation = new_rotation;
 }
 
-void set_speed(uint8_t code) {
-	if (code > 25) {
-		speed = (MAX_SPEED - MIN_SPEED) / 13 * code + 3 * MIN_SPEED - 2 * MAX_SPEED; //vitesse entre 20 et 100%
+void set_speed(int8_t code) {
+	code = code - 26;
+	if (code > 0) {
+		anim_forward();
+		speed = (MAX_SPEED - MIN_SPEED) / 13 * code + MIN_SPEED;
+//		speed = (MAX_SPEED - MIN_SPEED) / 13 * code + 3 * MIN_SPEED - 2 * MAX_SPEED; //vitesse entre 20 et 100%
 	} else {
-		speed = -((-MAX_SPEED + MIN_SPEED) / 12 * code + 2 * MAX_SPEED - MIN_SPEED); //vitesse entre -20 et -100%
+		anim_backward();
+		speed = ((MAX_SPEED - MIN_SPEED) / 13 * code - MIN_SPEED);
+//		speed = -((-MAX_SPEED + MIN_SPEED) / 12 * code + 2 * MAX_SPEED - MIN_SPEED); //vitesse entre -20 et -100%
 	}
 }
 

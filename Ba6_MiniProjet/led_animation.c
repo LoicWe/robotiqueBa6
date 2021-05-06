@@ -1,4 +1,3 @@
-#include <led_animation.h>
 #include "ch.h"
 #include "hal.h"
 #include <math.h>
@@ -6,13 +5,16 @@
 #include <chprintf.h>
 
 #include "leds.h"
+#include <led_animation.h>
+#include <move.h>
 
 //semaphore
 static BSEMAPHORE_DECL(anim_ready, TRUE); // @suppress("Field cannot be resolved")
 
 static uint8_t animation = ANIM_CLEAR;
+static uint8_t freq_led_intensity = 0;
 
-static THD_WORKING_AREA(waBodyLedThd, 128);  //#### à vérifier la taille #####//
+static THD_WORKING_AREA(waBodyLedThd, 128);  //#### Ã  vÃ©rifier la taille #####//
 static THD_FUNCTION(BodyLedThd, arg) {
 
 	chRegSetThreadName(__FUNCTION__);
@@ -20,24 +22,37 @@ static THD_FUNCTION(BodyLedThd, arg) {
 
 	while (1) {
 
-		//attends qu'une animation soit lancée
+		//attends qu'une animation soit lancÃ©e
 		chBSemWait(&anim_ready);
 
+
 		switch (animation) {
-		case ANIM_CLEAR:
-			set_rgb_led(LED2, 0, 0, 0);
-			set_rgb_led(LED4, 0, 0, 0);
-			set_rgb_led(LED6, 0, 0, 0);
-			set_rgb_led(LED8, 0, 0, 0);
+		case ANIM_CLEAR_DEBUG:
+			set_led(LED1, 0);
+			set_led(LED3, 0);
+			set_led(LED5, 0);
+			set_led(LED7, 0);
 			break;
+
 		case ANIM_BARCODE:
-			// allume puis éteins le body led
+			// allume puis Ã©teins le body led
 			set_body_led(1);
 			chThdSleepMilliseconds(800);
 			set_body_led(0);
+
 			break;
 
 		case ANIM_DEBUG:
+			set_led(LED1, 1);
+			set_led(LED5, 1);
+			set_led(LED3, 0);
+			set_led(LED7, 0);
+			chThdSleepMilliseconds(400);
+			set_led(LED1, 0);
+			set_led(LED5, 0);
+			set_led(LED3, 1);
+			set_led(LED7, 1);
+			chThdSleepMilliseconds(400);
 
 			break;
 
@@ -69,37 +84,36 @@ static THD_FUNCTION(BodyLedThd, arg) {
 			}
 			break;
 
-		case ANIM_START_FREQ:
-			// passe au vert avec une touche de bleu
-			for (uint8_t i = 0; i < 30; i++) {
-				set_rgb_led(LED2, 0, 30 + i, 14 - i / 2);
-				set_rgb_led(LED4, 0, 30 + i, 14 - i / 2);
-				set_rgb_led(LED6, 0, 30 + i, 14 - i / 2);
-				set_rgb_led(LED8, 0, 30 + i, 14 - i / 2);
-				chThdSleepMilliseconds(10);
-			}
-
-			chThdSleepMilliseconds(500);
-
-			for (uint8_t i = 0; i < 30; i++) {
-				set_rgb_led(LED2, 0, 60 - i, i / 2);
-				set_rgb_led(LED4, 0, 60 - i, i / 2);
-				set_rgb_led(LED6, 0, 60 - i, i / 2);
-				set_rgb_led(LED8, 0, 60 - i, i / 2);
-				chThdSleepMilliseconds(10);
-			}
-			chThdSleepMilliseconds(500);
-
+		case ANIM_FREQ:
+			set_rgb_led(LED2, 0, freq_led_intensity, freq_led_intensity);
+			set_rgb_led(LED4, 0, freq_led_intensity, freq_led_intensity);
+			set_rgb_led(LED6, 0, freq_led_intensity, freq_led_intensity);
+			set_rgb_led(LED8, 0, freq_led_intensity, freq_led_intensity);
 			break;
 
-		case ANIM_STOP_FREQ:
-			for (uint8_t i = 0; i < 31; i++) {
-				set_rgb_led(LED2, 0, 30 - i, 15 - i / 2);
-				set_rgb_led(LED4, 0, 30 - i, 15 - i / 2);
-				set_rgb_led(LED6, 0, 30 - i, 15 - i / 2);
-				set_rgb_led(LED8, 0, 30 - i, 15 - i / 2);
-				chThdSleepMilliseconds(10);
-			}
+		case ANIM_FORWARD:
+			set_rgb_led(LED2, 0, 100, 0);
+			set_rgb_led(LED4, 0, freq_led_intensity, freq_led_intensity);
+			set_rgb_led(LED6, 0, freq_led_intensity, freq_led_intensity);
+			set_rgb_led(LED8, 0, 100, 0);
+			break;
+
+		case ANIM_BACKWARD:
+			set_rgb_led(LED2, 0, freq_led_intensity, freq_led_intensity);
+			set_rgb_led(LED4, 0, 100, 0);
+			set_rgb_led(LED6, 0, 100, 0);
+			set_rgb_led(LED8, 0, freq_led_intensity, freq_led_intensity);
+
+			break;
+		default:
+			set_rgb_led(LED2, 0, 0, 0);
+			set_rgb_led(LED4, 0, 0, 0);
+			set_rgb_led(LED6, 0, 0, 0);
+			set_rgb_led(LED8, 0, 0, 0);
+			set_led(LED1, 0);
+			set_led(LED3, 0);
+			set_led(LED5, 0);
+			set_led(LED7, 0);
 			break;
 		}
 	}
@@ -110,18 +124,33 @@ void anim_barcode(void) {
 	chBSemSignal(&anim_ready);
 }
 
+void anim_start_freq(uint8_t intensity) {
+	animation = ANIM_FREQ;
+	if (intensity == 20) {
+		if (get_speed() > 0) {
+			animation = ANIM_FORWARD;
+		} else {
+			animation = ANIM_BACKWARD;
+		}
+	} else if (intensity <= 10) {
+		freq_led_intensity = intensity;
+	} else {
+		freq_led_intensity = (intensity - 9) * 5;
+	}
+	chBSemSignal(&anim_ready);
+}
+
 void anim_debug(void) {
 	animation = ANIM_DEBUG;
 	chBSemSignal(&anim_ready);
 }
-
-void anim_start_freq(void) {
-	animation = ANIM_START_FREQ;
-	chBSemSignal(&anim_ready);
-}
-
-void anim_stop_freq(void) {
-	animation = ANIM_STOP_FREQ;
+void anim_stop_freq(uint8_t intensity) {
+	animation = ANIM_FREQ;
+	if (intensity == 10) {
+		freq_led_intensity = 0;
+	} else {
+		freq_led_intensity = 50 - intensity * 5;
+	}
 	chBSemSignal(&anim_ready);
 }
 
@@ -135,11 +164,22 @@ void anim_wake_up(void) {
 	chBSemSignal(&anim_ready);
 }
 
-void anim_clear(void) {
-	animation = ANIM_CLEAR;
+void anim_clear_debug(void) {
+	animation = ANIM_CLEAR_DEBUG;
 	chBSemSignal(&anim_ready);
 }
 
-void body_led_thd_start(void) {
+void anim_forward(void){
+	animation = ANIM_FORWARD;
+	chBSemSignal(&anim_ready);
+}
+
+void anim_backward(void){
+	animation = ANIM_BACKWARD;
+	chBSemSignal(&anim_ready);
+}
+
+void leds_animations_thd_start(void) {
 	chThdCreateStatic(waBodyLedThd, sizeof(waBodyLedThd), NORMALPRIO - 1, BodyLedThd, NULL);
 }
+
