@@ -9,8 +9,6 @@ extern "C" {
 #include "msgbus/messagebus.h"
 #include "parameter/parameter.h"
 
-void punky_run(void);
-
 /** Robot wide IPC bus. */
 extern messagebus_t bus;
 
