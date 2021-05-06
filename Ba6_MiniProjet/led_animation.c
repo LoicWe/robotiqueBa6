@@ -14,7 +14,7 @@ static BSEMAPHORE_DECL(anim_ready, TRUE); // @suppress("Field cannot be resolved
 static uint8_t animation = ANIM_CLEAR;
 static uint8_t freq_led_intensity = 0;
 
-static THD_WORKING_AREA(waBodyLedThd, 128);  //#### à vérifier la taille #####//
+static THD_WORKING_AREA(waBodyLedThd, 128);  //#### Ã  vÃ©rifier la taille #####//
 static THD_FUNCTION(BodyLedThd, arg) {
 
 	chRegSetThreadName(__FUNCTION__);
@@ -22,7 +22,7 @@ static THD_FUNCTION(BodyLedThd, arg) {
 
 	while (1) {
 
-		//attends qu'une animation soit lancée
+		//attends qu'une animation soit lancÃ©e
 		chBSemWait(&anim_ready);
 
 
@@ -35,7 +35,7 @@ static THD_FUNCTION(BodyLedThd, arg) {
 			break;
 
 		case ANIM_BARCODE:
-			// allume puis éteins le body led
+			// allume puis Ã©teins le body led
 			set_body_led(1);
 			chThdSleepMilliseconds(800);
 			set_body_led(0);
@@ -182,3 +182,4 @@ void anim_backward(void){
 void leds_animations_thd_start(void) {
 	chThdCreateStatic(waBodyLedThd, sizeof(waBodyLedThd), NORMALPRIO - 1, BodyLedThd, NULL);
 }
+

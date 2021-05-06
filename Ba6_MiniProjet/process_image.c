@@ -93,7 +93,7 @@ void extract_barcode(uint8_t *image) {
 			set_code(9 * digit[0] + 3 * digit[1] + digit[2]);
 			anim_barcode();
 			if (get_punky_state() == PUNKY_DEBUG)
-				chprintf((BaseSequentialStream *) &SD3, "code = %d\n", code);
+				chprintf((BaseSequentialStream *) &SD3, "code = %d\r", code);
 		}
 	}
 }
