@@ -3,6 +3,7 @@
 #include <main.h>
 
 #include <communications.h>
+#include <spi_comm.h>
 
 /*
 *	Sends int8 numbers to the computer

@@ -47,12 +47,12 @@ static THD_FUNCTION(BodyLedThd, arg) {
 			set_led(LED5, 1);
 			set_led(LED3, 0);
 			set_led(LED7, 0);
-			chThdSleepMilliseconds(400);
+			chThdSleepMilliseconds(800);
 			set_led(LED1, 0);
 			set_led(LED5, 0);
 			set_led(LED3, 1);
 			set_led(LED7, 1);
-			chThdSleepMilliseconds(400);
+			chThdSleepMilliseconds(800);
 
 			break;
 

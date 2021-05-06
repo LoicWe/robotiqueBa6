@@ -93,7 +93,7 @@ void extract_barcode(uint8_t *image) {
 			set_code(9 * digit[0] + 3 * digit[1] + digit[2]);
 			anim_barcode();
 			if (get_punky_state() == PUNKY_DEBUG)
-				chprintf((BaseSequentialStream *) &SD3, "code = %d\r", code);
+				chprintf((BaseSequentialStream *) &SD3, "code : %d %d %d   ID : %d\r", digit[0], digit[1], digit[2], code);
 		}
 	}
 }
@@ -251,11 +251,11 @@ static THD_FUNCTION(ProcessImage, arg) {
 		extract_barcode(image);
 
 		// slow send to not flood computer
-		if (get_punky_state() == PUNKY_DEBUG && send_to_computer >= 15) {
-			send_to_computer = 0;
-			SendUint8ToComputer(image, IMAGE_BUFFER_SIZE);
-		}
-		send_to_computer++;
+//		if (get_punky_state() == PUNKY_DEBUG && send_to_computer >= 15) {
+//			send_to_computer = 0;
+//			SendUint8ToComputer(image, IMAGE_BUFFER_SIZE);
+//		}
+//		send_to_computer++;
 	}
 }
 

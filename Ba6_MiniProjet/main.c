@@ -43,6 +43,8 @@ static void timer12_start(void) {
 	gptStartContinuous(&GPTD12, 0xFFFF);
 }
 
+uint8_t wakeup = 0;
+
 int main(void) {
 	halInit();
 	chSysInit();
@@ -95,15 +97,18 @@ int main(void) {
 
 		// d�sactivation de toutes les fonctions
 		else if (punky_state == PUNKY_SLEEP) {
+			microphone_stop();
 			get_image_stop();
 			pi_regulator_stop();
-			microphone_stop();
 			motor_control_stop();
+			chprintf((BaseSequentialStream *) &SD3, "================ PAUSE ================");
+
 		}
 
 		// r�veil de punky
 		else if (punky_state == PUNKY_WAKE_UP) {
 			set_punky_state(PUNKY_DEMO);
+			wakeup = 1;
 		}
 
 		//waits 0.5 second

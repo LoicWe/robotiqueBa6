@@ -9,17 +9,23 @@
 #include <motors.h>
 #include <move.h>
 #include <led_animation.h>
+#include <potentiometer.h>
+#include <spi_comm.h>
 
 static int16_t speed = 600;
 static int16_t rotation = 0;
-static bool move_on = true;
-static bool sleep_mode = false;
+static bool move_on = true;		// enable or disable the control of motor when frequency mode
+static bool sleep_mode = false;	// stop the motors if SLEEP_MODE
+
 
 // *************************************************************************//
 // ************* fonction en mode détection de fréquences ******************//
 // *************************************************************************//
 
+
+// called by frequency mode (cannot be stopped)
 void move() {
+	// to stop the callback when in PI mode
 	if (move_on) {
 		left_motor_set_speed(speed + rotation);
 		right_motor_set_speed(speed - rotation);
@@ -41,15 +47,21 @@ void set_rotation(int16_t new_rotation) {
 
 void set_speed(int8_t code) {
 	code = code - 26;
+
+	// code from -14 to 13.
+	// -14 is max negative speed and -1 min negative speed
+	// 1 is min positive speed and 13 is max negative speed
 	if (code > 0) {
 		anim_forward();
 		speed = (MAX_SPEED - MIN_SPEED) / 13 * code + MIN_SPEED;
-//		speed = (MAX_SPEED - MIN_SPEED) / 13 * code + 3 * MIN_SPEED - 2 * MAX_SPEED; //vitesse entre 20 et 100%
 	} else {
 		anim_backward();
 		speed = ((MAX_SPEED - MIN_SPEED) / 13 * code - MIN_SPEED);
-//		speed = -((-MAX_SPEED + MIN_SPEED) / 12 * code + 2 * MAX_SPEED - MIN_SPEED); //vitesse entre -20 et -100%
 	}
+
+	if (get_punky_state() == PUNKY_DEBUG)
+		chprintf((BaseSequentialStream *) &SD3, "vitesse effective = %d\r", speed);
+
 }
 
 void motor_control_run(void) {
@@ -58,13 +70,18 @@ void motor_control_run(void) {
 
 void motor_control_stop(void) {
 	move_on = false;
+	move_stop();
 }
+
 
 // ************************************************************************//
 // ************* fonction en mode décection de codebarre ******************//
 // ************************************************************************//
 
-//Régulateur PI afin d'approcher un code barre
+
+/* PI regulator to be at right distance for barcode
+ *
+ */
 int16_t pi_regulator(uint16_t distance, uint8_t goal) {
 	int16_t error = 0;
 	int16_t speed = 0;
@@ -135,7 +152,7 @@ static THD_FUNCTION(PiRegulator, arg) {
 			if(pi_stop_first_time == true){
 				right_motor_set_speed(0);
 				left_motor_set_speed(0);
-				pi_stop_first_time = !pi_stop_first_time;
+				pi_stop_first_time = false;
 			}
 			chThdSleepMilliseconds(500);
 		}

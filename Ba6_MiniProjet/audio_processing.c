@@ -23,7 +23,7 @@ static float micBack_cmplx_input[2 * FFT_SIZE];
 //Arrays containing the computed magnitude of the complex numbers
 static float micBack_output[FFT_SIZE];
 
-#define MIN_VALUE_THRESHOLD		15000
+#define MIN_VALUE_THRESHOLD		15000;
 #define MIN_FREQ				10	// plus basse fréquence humainement atteignable "facilement"
 #define MAX_FREQ				45	// plus haute fréquence humainement atteignable "facilement"
 #define MIN_FREQ_INIT			17	// fréquence minimal pour calculer la moyenne
@@ -35,20 +35,24 @@ static float micBack_output[FFT_SIZE];
 #define ROTATION_COEFF_SLOW		12
 
 static bool sleep_mode = true;
+static uint8_t mode = SOUND_OFF;
+static uint8_t sound_on = 0;
+static uint8_t sound_off = 0;
+
+extern uint8_t wakeup;
+static uint8_t restarting_after_some_quiet_sleep = 1;
 
 /*
  *	Simple function used to detect the highest value in a buffer
  *	and to execute a motor command depending on it
  */
 void sound_remote(float* data) {
-	static uint8_t sound_on = 0;
-	static uint8_t sound_off = 0;
 	int16_t error = 0;
-	static uint8_t mode = SOUND_OFF;
 	float max_norm = MIN_VALUE_THRESHOLD;
 	int16_t max_norm_index = -1;
 	int16_t max_norms_index[4] = { -1, -1, -1, -1 };
 	uint8_t norms_index = 0;
+
 
 	static int16_t mean_freq = 0;
 
@@ -60,6 +64,11 @@ void sound_remote(float* data) {
 			norms_index++;
 			norms_index %= 4;
 		}
+	}
+
+	if(wakeup == 1){
+		chprintf((BaseSequentialStream *) &SD3, "breakpoint");
+		wakeup = 0;
 	}
 
 	/* prends la plus petite des 4
@@ -147,6 +156,7 @@ void processAudioData(int16_t *data, uint16_t num_samples) {
 	 *	1024 samples, then we compute the FFTs.
 	 *
 	 */
+	chprintf((BaseSequentialStream *) &SD3, "num_sample = %d\r", num_samples);
 
 	static uint16_t nb_samples = 0;
 	static uint8_t mustSend = 0;
@@ -165,6 +175,7 @@ void processAudioData(int16_t *data, uint16_t num_samples) {
 				break;
 			}
 		}
+
 
 		if (nb_samples >= (2 * FFT_SIZE)) {
 			/*	FFT processing
@@ -192,10 +203,14 @@ void processAudioData(int16_t *data, uint16_t num_samples) {
 			}
 			nb_samples = 0;
 			mustSend++;
-
-			sound_remote(micBack_output);
+			if(restarting_after_some_quiet_sleep == 1){
+				sound_remote(micBack_output);
+			}
 		}
-	}
+	}else if(restarting_after_some_quiet_sleep == 0){
+		restarting_after_some_quiet_sleep++;
+
+}
 }
 
 void wait_send_to_computer(void) {
@@ -208,8 +223,12 @@ float* get_audio_buffer_ptr(void) {
 
 void microphone_run(void) {
 	sleep_mode = false;
+	restarting_after_some_quiet_sleep = 0;
 }
 
 void microphone_stop(void) {
 	sleep_mode = true;
+	sound_on = 0;
+	sound_off = 0;
+	mode = SOUND_OFF;
 }
