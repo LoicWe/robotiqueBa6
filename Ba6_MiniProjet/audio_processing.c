@@ -35,12 +35,18 @@ static float micBack_output[FFT_SIZE];
 #define ROTATION_COEFF_SLOW		12
 
 static bool sleep_mode = true;
+<<<<<<< HEAD
 static uint8_t mode = SOUND_OFF;
 static uint8_t sound_on = 0;
 static uint8_t sound_off = 0;
 
 extern uint8_t wakeup;
 static uint8_t restarting_after_some_quiet_sleep = 1;
+=======
+static uint8_t sound_on = 0;
+static uint8_t sound_off = 0;
+static uint8_t mode = SOUND_OFF;
+>>>>>>> 4564c48de5ad96c173907e09e7ca947209050416
 
 /*
  *	Simple function used to detect the highest value in a buffer
