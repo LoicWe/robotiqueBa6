@@ -113,7 +113,7 @@ int main(void) {
 
 void punky_run(void) {
 	uint16_t distance = 0;
-	uint8_t code = 0;
+	int8_t code = 0;
 
 	distance = VL53L0X_get_dist_mm();
 	if (distance > MIN_DISTANCE_DETECTED && distance < MAX_DISTANCE_DETECTED) {

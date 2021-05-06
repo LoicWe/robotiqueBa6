@@ -39,13 +39,16 @@ void set_rotation(int16_t new_rotation) {
 	rotation = new_rotation;
 }
 
-void set_speed(uint8_t code) {
-	if (code > 25) {
+void set_speed(int8_t code) {
+	code = code - 26;
+	if (code > 0) {
 		anim_forward();
-		speed = (MAX_SPEED - MIN_SPEED) / 13 * code + 3 * MIN_SPEED - 2 * MAX_SPEED; //vitesse entre 20 et 100%
+		speed = (MAX_SPEED - MIN_SPEED) / 13 * code + MIN_SPEED;
+//		speed = (MAX_SPEED - MIN_SPEED) / 13 * code + 3 * MIN_SPEED - 2 * MAX_SPEED; //vitesse entre 20 et 100%
 	} else {
 		anim_backward();
-		speed = -((-MAX_SPEED + MIN_SPEED) / 12 * code + 2 * MAX_SPEED - MIN_SPEED); //vitesse entre -20 et -100%
+		speed = ((MAX_SPEED - MIN_SPEED) / 13 * code - MIN_SPEED);
+//		speed = -((-MAX_SPEED + MIN_SPEED) / 12 * code + 2 * MAX_SPEED - MIN_SPEED); //vitesse entre -20 et -100%
 	}
 }
 
