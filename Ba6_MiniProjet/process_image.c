@@ -11,6 +11,7 @@
 #include <communications.h>
 #include <led_animation.h>
 #include <potentiometer.h>
+//#include <move.c>
 
 static bool sleep_mode = 1;
 static uint8_t code = 0;
@@ -21,24 +22,27 @@ static BSEMAPHORE_DECL(start_imaging_sem, FALSE); // @suppress("Field cannot be 
 
 void extract_barcode(uint8_t *image) {
 
-	int8_t digit[NB_LINE_BARCODE] = { -1, -1, -1, -1, -1 };
-	uint8_t mean[3]; /* width divided into 3 segments because of auto brightness causing a n shape*/
+	// save line width and allow keeping track of barcode decryption state
+	int8_t digit[NB_LINE_BARCODE] = { -1, -1, -1, -1, -1, -1, -1 };
+	// luminosity mean, divided into 3 segment because of auto brightness causing a n shape
+	uint8_t mean[3];
 
-	// déclaration d'une ligne
+	// a line
 	struct Line line;
 	line.end_pos = line.width = line.begin_pos = 0;
 	line.found = false;
+	// memories of previous line properties
 	uint8_t width = 0;
 	uint16_t end_last_line = 0;
 	uint8_t width_unit = 0;
 
-	/***********************************
-	 *  recherche du motif de démarrage
-	 ***********************************/
+	/**********************************************
+	 *  search for start pattern (2 medium lines)
+	 **********************************************/
 
 	calculate_mean(image, mean);
 
-	//***** FIRST LINE ligne*****
+	/***** FIRST LINE *****/
 	do {
 		line = line_find_next(image, end_last_line, mean[0]);
 		end_last_line = line.end_pos;
@@ -52,55 +56,66 @@ void extract_barcode(uint8_t *image) {
 
 	//***** SECONDE LINE *****
 	if (line.found) {
+		// validate line for tracking purpose
+		digit[0] = 2;
+
 		line = line_find_next(image, end_last_line, mean[0]);
 
-		// on vérifie la dimension et l'écart avec la première ligne
+		// check line dimension (hardcoded at around 12 cm) and gap with first line
 		if (line.found && (!(line.width > width - LINE_THRESHOLD && line.width < width + LINE_THRESHOLD) || !(line.begin_pos - end_last_line < width))) {
 			line.found = false;
 		} else {
-			// base de comparaison des tailles des lignes codantes
+			// validate line for tracking purpose
+			digit[1] = 2;
+			// the two line mean is the base for the other lines (width_unit = medium size)
 			width_unit = (width + line.width) / 2;
 			end_last_line = line.end_pos;
-
 		}
 	}
 
-	/***********************************
-	 *  recherche des 5 lignes suivantes
-	 ***********************************/
+	/***********************************************************
+	 *  Search the 5 next lines (3 coding and last 2 checking)
+	 ***********************************************************/
 
 	if (line.found) {
-		for (int i = 0; i < NB_LINE_BARCODE && line.found; i++) {
-			line = line_find_next(image, line.end_pos, (i < 3 ? mean[1] : mean[2]));
+		for (int i = 2; i < NB_LINE_BARCODE && line.found; i++) {
+			line = line_find_next(image, line.end_pos, (i < 5 ? mean[1] : mean[2]));
 			digit[i] = line_classify(line, width_unit);
 			end_last_line = line.end_pos;
-			// si la ligne n'est pas reconnu, arrêt
-			if (digit[i] == 0 || !(line.begin_pos - end_last_line < width_unit)) {
+			// if a line doesn't have a recognized size, stop
+			if (digit[i] == -1 || !(line.begin_pos - end_last_line < width_unit)) {
 				line.found = false;
 				break;
 			}
 		}
 	}
 
-	/***********************************
-	 *  vérification du schéma de clôture
-	 ***********************************/
+	/*************************************
+	 *              SET CODE
+	 *************************************/
 
-	if (line.found) {
-		// avant dernière ligne = petite, dernière = moyenne
-		if (digit[NB_LINE_BARCODE - 2] == SMALL && digit[NB_LINE_BARCODE - 1] == MEDIUM) {
-			// assemblage des digits en base 3 -> 26 possibilités
-			set_code(9 * digit[0] + 3 * digit[1] + digit[2]);
-			anim_barcode();
-			if (get_punky_state() == PUNKY_DEBUG)
-				chprintf((BaseSequentialStream *) &SD3, "code : %d %d %d   ID : %d\r", digit[0], digit[1], digit[2], code);
-		}
+	// if end pattern is SMALL then MEDIUM, barcode was successfuly read
+	if (digit[NB_LINE_BARCODE - 2] == SMALL && digit[NB_LINE_BARCODE - 1] == MEDIUM) {
+		// code is created in base 3 -> 27 possibilities with 3 line of 3 sizes
+		// codes valide IDs are from 13 to 39
+		set_code(9 * digit[2] + 3 * digit[3] + digit[4]);
+		if (get_punky_state() == PUNKY_DEBUG)
+			chprintf((BaseSequentialStream *) &SD3, "code : %d %d %d   ID : %d\r", digit[2], digit[3], digit[4], code);
 	}
+	// IF start pattern read but NOT the end pattern, set code to 1
+	else if(digit[0] == MEDIUM && digit[1] == MEDIUM){
+		set_code(1);
+	}
+	// if start pattern NOT read, set code to 0
+	else{
+		set_code(0);
+	}
+
 }
 
 uint8_t line_classify(struct Line line, uint8_t width_unit) {
 
-	uint8_t ratio = 0;
+	uint8_t ratio = -1;
 	uint8_t half_line = width_unit / 2;
 
 	if (line.width + LINE_THRESHOLD > width_unit && line.width - LINE_THRESHOLD < width_unit) {
@@ -115,8 +130,21 @@ uint8_t line_classify(struct Line line, uint8_t width_unit) {
 }
 
 /*
- *  Returns the line's width extracted from the image buffer given
- *  Returns 0 if line not found
+ *	@Author:
+ *		TP4_CamReg_correction, adapted for our needs
+ *
+ *	@Describe:
+ *  	Search for a line and it size in pixel
+ *
+ *  @Params:
+ *  	uint8_t *buffer				a pixel line to analyse. IMAGE_BUFFER_SIZE long
+ *  	uint16_t start_position		position in the buffer to start search
+ *  	uint32_t mean				luminosity mean to find the line
+ *
+ *  @Return:
+ *  	Returns the line (struct) extracted from the image buffer given
+ *  	If not found, line.found = false, true otherwise
+ *
  */
 struct Line line_find_next(uint8_t *buffer, uint16_t start_position, uint32_t mean) {
 
@@ -180,11 +208,16 @@ struct Line line_find_next(uint8_t *buffer, uint16_t start_position, uint32_t me
 	return line;
 }
 
+/*
+ * 	@Describe:
+ * 		Performs an average for each 3 segments third, because of auto brightness
+ *	    causing the values to have a n shape. It gets dimmer on the sides
+ *
+ *	@Params:
+ *		uint8_t *buffer		a pixel line to analyse. IMAGE_BUFFER_SIZE long
+ *		uint8_t	*mean		pointer to the mean array. Contains the mean of each third of line
+ */
 void calculate_mean(uint8_t *buffer, uint8_t *mean) {
-
-	/*performs an average for each 3 segments third, because of auto brightness
-	 * causing the values to shape a n. It gets dimmer on the sides
-	 */
 
 	uint16_t sum = 0;
 	uint16_t i;
@@ -195,10 +228,13 @@ void calculate_mean(uint8_t *buffer, uint8_t *mean) {
 			sum += buffer[i];
 		}
 		mean[j] = sum / IMAGE_BUFFER_SIZE_DIV_3;
-
 	}
 }
 
+/*
+ * 	@Author:
+ * 		TP4_CamReg_correction
+ */
 static THD_WORKING_AREA(waCaptureImage, 256);
 static THD_FUNCTION(CaptureImage, arg) {
 
@@ -225,6 +261,10 @@ static THD_FUNCTION(CaptureImage, arg) {
 	}
 }
 
+/*
+ * 	@Author:
+ * 		TP4_CamReg_correction
+ */
 static THD_WORKING_AREA(waProcessImage, 1024);
 static THD_FUNCTION(ProcessImage, arg) {
 
@@ -251,11 +291,11 @@ static THD_FUNCTION(ProcessImage, arg) {
 		extract_barcode(image);
 
 		// slow send to not flood computer
-//		if (get_punky_state() == PUNKY_DEBUG && send_to_computer >= 15) {
-//			send_to_computer = 0;
-//			SendUint8ToComputer(image, IMAGE_BUFFER_SIZE);
-//		}
-//		send_to_computer++;
+		if (get_punky_state() == PUNKY_DEBUG && send_to_computer >= 4) {
+			send_to_computer = 0;
+			SendUint8ToComputer(image, IMAGE_BUFFER_SIZE);
+		}
+		send_to_computer++;
 	}
 }
 

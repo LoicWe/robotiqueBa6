@@ -139,8 +139,20 @@ void punky_run(void) {
 		pi_regulator_run();
 		get_image_run();
 		code = get_code();
-		if (code != 0) {
+
+		if (code == 0) {
+			if (get_punky_state() == PUNKY_DEBUG)	//debug mode
+				chprintf((BaseSequentialStream *) &SD3, "NO start\r");
+			set_rotation(50);
+		}
+		else if(code == 1){
+			if (get_punky_state() == PUNKY_DEBUG)	//debug mode
+				chprintf((BaseSequentialStream *) &SD3, "YES start\r");
+			set_rotation(-50);
+		}
+		else{
 			// if a good code is detected, set new speed
+			anim_barcode();
 			set_speed(code);
 		}
 

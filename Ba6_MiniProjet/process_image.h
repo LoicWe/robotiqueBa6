@@ -7,7 +7,7 @@
 #define LINE_THRESHOLD 			5		// différence acceptable de largeur par rapport à la ligne de référence
 #define START_LINE_WIDTH		44		// largeur ligne de référence
 #define IMAGE_BUFFER_SIZE_DIV_3	213		// un tiers du buffer
-#define NB_LINE_BARCODE			5		// nombre de lignes composant le code
+#define NB_LINE_BARCODE			7		// nombre de lignes composant le code
 
 enum ratio{
 	SMALL = 1,

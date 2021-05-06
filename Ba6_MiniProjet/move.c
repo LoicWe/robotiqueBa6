@@ -139,8 +139,8 @@ static THD_FUNCTION(PiRegulator, arg) {
 			speed = pi_regulator(distance, GOAL_DISTANCE);
 
 			//applies the speed from the PI regulator
-			right_motor_set_speed(speed);
-			left_motor_set_speed(speed);
+			right_motor_set_speed(speed+rotation);
+			left_motor_set_speed(speed-rotation);
 			pi_stop_first_time = true;
 
 			//100Hz plus mainteant !!!!!
