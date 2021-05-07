@@ -110,12 +110,12 @@ void extract_barcode(uint8_t *image) {
 	// if start pattern NOT read, set code to 0
 	else {
 
-		line.end_pos = line.begin_pos = IMAGE_BUFFER_SIZE;
+		line.end_pos = line.begin_pos = IMAGE_BUFFER_SIZE-1;
 		line.width = 0;
 		line.found = false;
 
 		width = 0;
-		end_last_line = IMAGE_BUFFER_SIZE;
+		end_last_line = IMAGE_BUFFER_SIZE-1;
 		digit[NB_LINE_BARCODE-2] = digit[NB_LINE_BARCODE-1] = -1;
 
 		/***** FIRST LINE *****/
@@ -270,8 +270,7 @@ struct Line line_find_next_inverted_direction(uint8_t *buffer, int16_t start_pos
 		while (stop == 0 && i > WIDTH_SLOPE) {
 			//the slope must at least be WIDTH_SLOPE wide and is compared
 			//to the mean of the image
-//			mean = (i < IMAGE_BUFFER_SIZE_DIV_3 ? mean_p[0] : (i < IMAGE_BUFFER_SIZE_DIV_3 * 2 ? mean_p[1] - 20 : mean_p[2]));
-			mean = mean_p[0];
+			mean = (i < IMAGE_BUFFER_SIZE_DIV_3 ? mean_p[0] : (i < IMAGE_BUFFER_SIZE_DIV_3 * 2 ? mean_p[1] - 20 : mean_p[2]));
 			if (buffer[i] > mean && buffer[i - WIDTH_SLOPE] < mean) {
 				begin = i;
 				stop = 1;
@@ -284,16 +283,15 @@ struct Line line_find_next_inverted_direction(uint8_t *buffer, int16_t start_pos
 			stop = 0;
 
 			while (stop == 0 && i > 0) {
-//				mean = (i < IMAGE_BUFFER_SIZE_DIV_3 ? mean_p[0] : (i < IMAGE_BUFFER_SIZE_DIV_3 * 2 ? mean_p[1] - 20 : mean_p[2]));
-				mean = mean_p[0];
-				if (buffer[i] > mean && buffer[i + WIDTH_SLOPE] < mean) {
+				mean = (i < IMAGE_BUFFER_SIZE_DIV_3 ? mean_p[0] : (i < IMAGE_BUFFER_SIZE_DIV_3 * 2 ? mean_p[1] - 20 : mean_p[2]));
+				if (buffer[i] > mean && (i + WIDTH_SLOPE >= IMAGE_BUFFER_SIZE ? buffer[IMAGE_BUFFER_SIZE-1]:buffer[i + WIDTH_SLOPE]) < mean) {
 					end = i;
 					stop = 1;
 				}
 				i--;
 			}
 			//if an end was not found
-			if (i < 0 || end == start_position) {
+			if (i == 0 || end == start_position) {
 				line_not_found = 1;
 			}
 		} else		    //if no begin was found

@@ -91,8 +91,8 @@ int main(void) {
 
 		// basic mode of operation
 		if (punky_state == PUNKY_DEMO) {
-//			punky_run();
-			get_image_run();
+			punky_run();
+//			get_image_run();
 
 		}
 
@@ -128,6 +128,7 @@ void punky_run(void) {
 
 	//switch between frequence mode and Pi mode using the TOF
 	distance = VL53L0X_get_dist_mm();
+	chprintf((BaseSequentialStream *) &SD3, "Distance : %d \r", distance);
 
 	// search for a barre code if distance is in the good range
 	if (distance > MIN_DISTANCE_DETECTED && distance < MAX_DISTANCE_DETECTED) {
@@ -143,20 +144,22 @@ void punky_run(void) {
 		code = get_code();
 
 		if (code == 2) {
+			chprintf((BaseSequentialStream *) &SD3, "Trop gauche\r");
 			if (get_punky_state() == PUNKY_DEBUG)	//debug mode
 				chprintf((BaseSequentialStream *) &SD3, "YES end\r");
 			set_rotation(60);
 		}
 		else if(code == 1){
+			chprintf((BaseSequentialStream *) &SD3, "Trop droite\r");
 			if (get_punky_state() == PUNKY_DEBUG)	//debug mode
 				chprintf((BaseSequentialStream *) &SD3, "YES start\r");
 			set_rotation(-60);
 		}
 		else if (code == 0){
+			chprintf((BaseSequentialStream *) &SD3, "parfait\r");
 			if (get_punky_state() == PUNKY_DEBUG)	//debug mode
 				chprintf((BaseSequentialStream *) &SD3, "NO\r");
 			set_rotation(0);
-
 		}
 		else{
 			// if a good code is detected, set new speed
