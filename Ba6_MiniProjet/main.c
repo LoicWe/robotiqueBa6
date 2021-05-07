@@ -92,8 +92,6 @@ int main(void) {
 		// basic mode of operation
 		if (punky_state == PUNKY_DEMO) {
 			punky_run();
-//			get_image_run();
-
 		}
 
 		// add animation and send data to the computer
@@ -164,6 +162,7 @@ void punky_run(void) {
 		else{
 			// if a good code is detected, set new speed
 			set_speed(code);
+			anim_barcode();
 		}
 
 	} else {

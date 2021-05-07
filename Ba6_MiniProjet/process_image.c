@@ -11,7 +11,6 @@
 #include <communications.h>
 #include <led_animation.h>
 #include <potentiometer.h>
-//#include <move.c>
 
 static bool sleep_mode = 1;
 static uint8_t code = 0;
@@ -99,7 +98,6 @@ void extract_barcode(uint8_t *image) {
 		// code is created in base 3 -> 27 possibilities with 3 line of 3 sizes
 		// codes valide IDs are from 13 to 39
 		set_code(9 * digit[2] + 3 * digit[3] + digit[4]);
-		anim_barcode();
 		if (get_punky_state() == PUNKY_DEBUG)
 			chprintf((BaseSequentialStream *) &SD3, "code : %d %d %d   ID : %d\r", digit[2], digit[3], digit[4], code);
 	}
@@ -123,9 +121,6 @@ void extract_barcode(uint8_t *image) {
 			line = line_find_next_inverted_direction(image, end_last_line, mean);
 			end_last_line = line.end_pos;
 			width = line.width;
-//			chprintf((BaseSequentialStream *) &SD3, "width %d\n", width);
-//			chprintf((BaseSequentialStream *) &SD3, "begin %d\n", line.begin_pos);
-//			chprintf((BaseSequentialStream *) &SD3, "end %d\n", line.end_pos);
 
 			// si trouvée mais pas les bonnes dimensions, on recherche plus loin
 			if (line.found && !(width > START_LINE_WIDTH - LINE_THRESHOLD && width < START_LINE_WIDTH + LINE_THRESHOLD)) {
@@ -145,21 +140,12 @@ void extract_barcode(uint8_t *image) {
 			} else {
 				digit[NB_LINE_BARCODE - 2] = 1;
 			}
-		}
-//		chprintf((BaseSequentialStream *) &SD3, "mean = %d   %d   %d\n", mean[0], mean[1], mean[2]);
-
-		if (digit[NB_LINE_BARCODE - 1] == 2 && digit[NB_LINE_BARCODE - 2] == 1) {
-//			chprintf((BaseSequentialStream *) &SD3, "END detected \n");
-//			anim_barcode();
+		}if (digit[NB_LINE_BARCODE - 1] == 2 && digit[NB_LINE_BARCODE - 2] == 1) {
 			set_code(2);
-//			chprintf((BaseSequentialStream *) &SD3, "start line 2 = %d\n", line.begin_pos);
 		}else{
 			set_code(0);
 		}
-
-
 	}
-
 }
 
 uint8_t line_classify(struct Line line, uint8_t width_unit) {
