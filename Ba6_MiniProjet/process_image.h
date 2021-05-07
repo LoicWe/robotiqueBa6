@@ -20,7 +20,6 @@ struct Line{
 	uint16_t width;
 	bool found;
 };
-void test_function(uint8_t *image);
 
 void get_image_run(void);
 void get_image_stop(void);

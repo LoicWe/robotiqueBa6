@@ -32,7 +32,7 @@ void extract_barcode(uint8_t *image) {
 	line.end_pos = line.width = line.begin_pos = 0;
 	line.found = false;
 	// memories of previous line properties
-	uint8_t width = 0;
+	uint16_t width = 0;
 	uint16_t end_last_line = 0;
 	uint8_t width_unit = 0;
 
@@ -68,7 +68,7 @@ void extract_barcode(uint8_t *image) {
 			// validate line for tracking purpose
 			digit[1] = 2;
 			// the two line mean is the base for the other lines (width_unit = medium size)
-			width_unit = (width + line.width) / 2;
+			width_unit = (uint8_t) (width + line.width) / 2;
 			end_last_line = line.end_pos;
 		}
 	}
@@ -109,7 +109,55 @@ void extract_barcode(uint8_t *image) {
 	}
 	// if start pattern NOT read, set code to 0
 	else {
-		set_code(0);
+
+		line.end_pos = line.begin_pos = IMAGE_BUFFER_SIZE;
+		line.width = 0;
+		line.found = false;
+
+		width = 0;
+		end_last_line = IMAGE_BUFFER_SIZE;
+		digit[NB_LINE_BARCODE-2] = digit[NB_LINE_BARCODE-1] = -1;
+
+		/***** FIRST LINE *****/
+		do {
+			line = line_find_next_inverted_direction(image, end_last_line, mean);
+			end_last_line = line.end_pos;
+			width = line.width;
+//			chprintf((BaseSequentialStream *) &SD3, "width %d\n", width);
+//			chprintf((BaseSequentialStream *) &SD3, "begin %d\n", line.begin_pos);
+//			chprintf((BaseSequentialStream *) &SD3, "end %d\n", line.end_pos);
+
+			// si trouvée mais pas les bonnes dimensions, on recherche plus loin
+			if (line.found && !(width > START_LINE_WIDTH - LINE_THRESHOLD && width < START_LINE_WIDTH + LINE_THRESHOLD)) {
+				line.found = false;
+			}
+		} while (line.found == false && end_last_line != 0);
+
+		//***** SECONDE LINE *****
+		if (line.found) {
+			digit[NB_LINE_BARCODE - 1] = 2;
+
+			line = line_find_next_inverted_direction(image, end_last_line, mean);
+
+			// check line dimension (hardcoded at around 12 cm) and gap with first line
+			if (line.found && (!(line.width > width / 2 - LINE_THRESHOLD && line.width < width / 2 + LINE_THRESHOLD) || !(abs(end_last_line - line.begin_pos) < width))) {
+				line.found = false;
+			} else {
+				digit[NB_LINE_BARCODE - 2] = 1;
+			}
+		}
+//		chprintf((BaseSequentialStream *) &SD3, "mean = %d   %d   %d\n", mean[0], mean[1], mean[2]);
+
+		if (digit[NB_LINE_BARCODE - 1] == 2 && digit[NB_LINE_BARCODE - 2] == 1) {
+//			chprintf((BaseSequentialStream *) &SD3, "END detected \n");
+//			anim_barcode();
+			set_code(2);
+//			chprintf((BaseSequentialStream *) &SD3, "start line 2 = %d\n", line.begin_pos);
+		}else{
+			set_code(0);
+		}
+
+
 	}
 
 }
@@ -222,7 +270,8 @@ struct Line line_find_next_inverted_direction(uint8_t *buffer, int16_t start_pos
 		while (stop == 0 && i > WIDTH_SLOPE) {
 			//the slope must at least be WIDTH_SLOPE wide and is compared
 			//to the mean of the image
-			mean = (i < IMAGE_BUFFER_SIZE_DIV_3 ? mean_p[0]: (i < IMAGE_BUFFER_SIZE_DIV_3*2 ? mean_p[1]-20:mean_p[2]));
+//			mean = (i < IMAGE_BUFFER_SIZE_DIV_3 ? mean_p[0] : (i < IMAGE_BUFFER_SIZE_DIV_3 * 2 ? mean_p[1] - 20 : mean_p[2]));
+			mean = mean_p[0];
 			if (buffer[i] > mean && buffer[i - WIDTH_SLOPE] < mean) {
 				begin = i;
 				stop = 1;
@@ -235,7 +284,8 @@ struct Line line_find_next_inverted_direction(uint8_t *buffer, int16_t start_pos
 			stop = 0;
 
 			while (stop == 0 && i > 0) {
-				mean = (i < IMAGE_BUFFER_SIZE_DIV_3 ? mean_p[0]: (i < IMAGE_BUFFER_SIZE_DIV_3*2 ? mean_p[1]-20:mean_p[2]));
+//				mean = (i < IMAGE_BUFFER_SIZE_DIV_3 ? mean_p[0] : (i < IMAGE_BUFFER_SIZE_DIV_3 * 2 ? mean_p[1] - 20 : mean_p[2]));
+				mean = mean_p[0];
 				if (buffer[i] > mean && buffer[i + WIDTH_SLOPE] < mean) {
 					end = i;
 					stop = 1;
@@ -276,58 +326,6 @@ struct Line line_find_next_inverted_direction(uint8_t *buffer, int16_t start_pos
 	return line;
 }
 
-void test_function(uint8_t *image) {
-
-	struct Line line;
-	line.end_pos = line.begin_pos = IMAGE_BUFFER_SIZE;
-	line.width = 0;
-	line.found = false;
-
-	uint8_t mean[3];
-	uint16_t width = 0;
-	uint16_t end_last_line = IMAGE_BUFFER_SIZE;
-	int8_t digit[NB_LINE_BARCODE] = { -1, -1, -1, -1, -1, -1, -1 };
-
-	calculate_mean(image, mean);
-
-
-	/***** FIRST LINE *****/
-	do {
-		line = line_find_next_inverted_direction(image, end_last_line, mean);
-		end_last_line = line.end_pos;
-		width = line.width;
-		chprintf((BaseSequentialStream *) &SD3, "width %d\n", width);
-		chprintf((BaseSequentialStream *) &SD3, "begin %d\n", line.begin_pos);
-		chprintf((BaseSequentialStream *) &SD3, "end %d\n", line.end_pos);
-
-		// si trouvée mais pas les bonnes dimensions, on recherche plus loin
-		if (line.found && !(width > START_LINE_WIDTH - LINE_THRESHOLD && width < START_LINE_WIDTH + LINE_THRESHOLD)) {
-			line.found = false;
-		}
-	} while (line.found == false && end_last_line != 0);
-
-	//***** SECONDE LINE *****
-	if (line.found) {
-		digit[NB_LINE_BARCODE - 1] = 2;
-
-		line = line_find_next_inverted_direction(image, end_last_line, mean);
-
-		// check line dimension (hardcoded at around 12 cm) and gap with first line
-		if (line.found && (!(line.width > width / 2 - LINE_THRESHOLD && line.width < width / 2 + LINE_THRESHOLD) || !(abs(end_last_line - line.begin_pos) < width))) {
-			line.found = false;
-		} else {
-			digit[NB_LINE_BARCODE - 2] = 1;
-		}
-	}
-	chprintf((BaseSequentialStream *) &SD3, "mean = %d   %d   %d\n", mean[0], mean[1], mean[2]);
-
-	if (digit[NB_LINE_BARCODE - 1] == 2 && digit[NB_LINE_BARCODE - 2] == 1) {
-		chprintf((BaseSequentialStream *) &SD3, "END detected \n");
-		anim_barcode();
-
-		chprintf((BaseSequentialStream *) &SD3, "start line 2 = %d\n", line.begin_pos);
-	}
-}
 
 /*
  * 	@Describe:
@@ -409,15 +407,14 @@ static THD_FUNCTION(ProcessImage, arg) {
 			image[i / 2] = (uint8_t) img_buff_ptr[i] & 0xF8;
 		}
 
-//		extract_barcode(image);
-		test_function(image);
+		extract_barcode(image);
 
 //		// slow send to not flood computer
-		if (send_to_computer >= 15) {
+/*		if (send_to_computer >= 15) {
 			send_to_computer = 0;
 			SendUint8ToComputer(image, IMAGE_BUFFER_SIZE);
 		}
-		send_to_computer++;
+		send_to_computer++;*/
 	}
 }
 

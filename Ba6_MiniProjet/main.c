@@ -125,13 +125,12 @@ int main(void) {
 void punky_run(void) {
 	uint16_t distance = 0;
 	int8_t code = 0;
-	static bool code_found = false;
 
 	//switch between frequence mode and Pi mode using the TOF
 	distance = VL53L0X_get_dist_mm();
 
 	// search for a barre code if distance is in the good range
-	if (distance > MIN_DISTANCE_DETECTED && distance < MAX_DISTANCE_DETECTED && code_found == false) {
+	if (distance > MIN_DISTANCE_DETECTED && distance < MAX_DISTANCE_DETECTED) {
 		if (get_punky_state() == PUNKY_DEBUG)	//debug mode
 			chprintf((BaseSequentialStream *) &SD3, "\r===== \rMode PI \r");
 		//stop useless process
@@ -143,25 +142,26 @@ void punky_run(void) {
 		get_image_run();
 		code = get_code();
 
-		if (code == 0) {
+		if (code == 2) {
 			if (get_punky_state() == PUNKY_DEBUG)	//debug mode
-				chprintf((BaseSequentialStream *) &SD3, "NO start\r");
-			set_rotation(50);
+				chprintf((BaseSequentialStream *) &SD3, "YES end\r");
+			set_rotation(60);
 		}
 		else if(code == 1){
 			if (get_punky_state() == PUNKY_DEBUG)	//debug mode
 				chprintf((BaseSequentialStream *) &SD3, "YES start\r");
-			set_rotation(-50);
+			set_rotation(-60);
+		}
+		else if (code == 0){
+			if (get_punky_state() == PUNKY_DEBUG)	//debug mode
+				chprintf((BaseSequentialStream *) &SD3, "NO\r");
+			set_rotation(0);
+
 		}
 		else{
 			// if a good code is detected, set new speed
 			set_speed(code);
-			code_found = true;
 		}
-
-	} else if (distance < MAX_DISTANCE_DETECTED && code_found == true){
-		get_image_stop();
-		pi_regulator_stop();
 
 	} else {
 		if (get_punky_state() == PUNKY_DEBUG)	//debug mode
@@ -173,7 +173,6 @@ void punky_run(void) {
 		//start frequency control
 		motor_control_run();
 		microphone_run();
-		code_found = false;
 	}
 }
 
