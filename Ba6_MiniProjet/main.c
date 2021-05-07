@@ -23,7 +23,6 @@
 #include <communications.h>
 #include <audio_processing.h>
 
-
 static void serial_start(void) {
 	static SerialConfig ser_cfg = { 115200, 0, 0, 0, };
 
@@ -31,19 +30,19 @@ static void serial_start(void) {
 }
 
 /*	used to check execution time of different parts
-static void timer12_start(void) {
-	//General Purpose Timer configuration
-	//timer 12 is a 16 bit timer so we can measure time
-	//to about 65ms with a 1Mhz counter
-	static const GPTConfig gpt12cfg = { 1000000, // 1MHz timer clock in order to measure uS.
-	NULL,
-	0, 0 };
+ static void timer12_start(void) {
+ //General Purpose Timer configuration
+ //timer 12 is a 16 bit timer so we can measure time
+ //to about 65ms with a 1Mhz counter
+ static const GPTConfig gpt12cfg = { 1000000, // 1MHz timer clock in order to measure uS.
+ NULL,
+ 0, 0 };
 
-	gptStart(&GPTD12, &gpt12cfg);
-	//let the timer count to max value
-	gptStartContinuous(&GPTD12, 0xFFFF);
-}
-*/
+ gptStart(&GPTD12, &gpt12cfg);
+ //let the timer count to max value
+ gptStartContinuous(&GPTD12, 0xFFFF);
+ }
+ */
 
 //private function for the main
 void punky_run(void);
@@ -98,7 +97,6 @@ int main(void) {
 		else if (punky_state == PUNKY_DEBUG) {
 			// add an animation on top of the other
 			punky_run();
-			anim_debug();
 		}
 
 		// deactivate everything except a visual indicator
@@ -126,41 +124,40 @@ void punky_run(void) {
 
 	//switch between frequence mode and Pi mode using the TOF
 	distance = VL53L0X_get_dist_mm();
-	chprintf((BaseSequentialStream *) &SD3, "Distance : %d \r", distance);
 
-	// search for a barre code if distance is in the good range
+	// search for a barcode if distance is in the good range
 	if (distance > MIN_DISTANCE_DETECTED && distance < MAX_DISTANCE_DETECTED) {
 		if (get_punky_state() == PUNKY_DEBUG)	//debug mode
 			chprintf((BaseSequentialStream *) &SD3, "\r===== \rMode PI \r");
-		//stop useless process
+
+		//stop unrelated processes
 		microphone_stop();
 		motor_control_stop();
 
-		//start pi_regulator and image caption
+		//start pi_regulator and image capture
 		pi_regulator_run();
 		get_image_run();
 		code = get_code();
-
+		if (get_punky_state() == PUNKY_DEBUG)	//debug mode
+			chprintf((BaseSequentialStream *) &SD3, "INTO the MAIN\r");
+		// valide code are between 13 and 39
 		if (code == 2) {
-			chprintf((BaseSequentialStream *) &SD3, "Trop gauche\r");
+			// barcode is too far to the left
 			if (get_punky_state() == PUNKY_DEBUG)	//debug mode
-				chprintf((BaseSequentialStream *) &SD3, "YES end\r");
+				chprintf((BaseSequentialStream *) &SD3, "Trop gauche\r");
 			set_rotation(60);
-		}
-		else if(code == 1){
-			chprintf((BaseSequentialStream *) &SD3, "Trop droite\r");
+		} else if (code == 1) {
+			// barcode is too far to the right
 			if (get_punky_state() == PUNKY_DEBUG)	//debug mode
-				chprintf((BaseSequentialStream *) &SD3, "YES start\r");
+				chprintf((BaseSequentialStream *) &SD3, "Trop droite\r");
 			set_rotation(-60);
-		}
-		else if (code == 0){
-			chprintf((BaseSequentialStream *) &SD3, "parfait\r");
+		} else if (code == 0) {
+			// no rotation indication could be found
 			if (get_punky_state() == PUNKY_DEBUG)	//debug mode
-				chprintf((BaseSequentialStream *) &SD3, "NO\r");
+				chprintf((BaseSequentialStream *) &SD3, "parfait\r");
 			set_rotation(0);
-		}
-		else{
-			// if a good code is detected, set new speed
+		} else {
+			// a valide code is captured
 			set_speed(code);
 			anim_barcode();
 		}

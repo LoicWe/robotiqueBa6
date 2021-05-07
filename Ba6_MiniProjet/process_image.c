@@ -14,11 +14,28 @@
 
 static bool sleep_mode = 1;
 static uint8_t code = 0;
+static bool barcode_found = false;
 
 //semaphore
 static BSEMAPHORE_DECL(image_ready_sem, TRUE); // @suppress("Field cannot be resolved")
 static BSEMAPHORE_DECL(start_imaging_sem, FALSE); // @suppress("Field cannot be resolved")
 
+
+/*
+ *  @Describe:
+ *  	analyse a pixel line from an image to extract a barcode with
+ *  	the following layout :
+ *  		- 2 medium lines as starting pattern
+ *  		- 3 coding lines with 3 sizes ; small, medium, large
+ *  		- 1 small and 1 medium line as ending pattern
+ *  	The function search the lines and return a code depending if
+ *  	barcode is fund, just the start pattern or just the end pattern
+ *  	The code is static variable accessible all time in the file
+ *
+ *  @Param:
+ *  	uint8_t *image	The pixel line to analyse. IMAGE_BUFFER_SIZE long
+ *
+ */
 void extract_barcode(uint8_t *image) {
 
 	// save line width and allow keeping track of barcode decryption state
@@ -41,13 +58,13 @@ void extract_barcode(uint8_t *image) {
 
 	calculate_mean(image, mean);
 
-	/***** FIRST LINE *****/
+	//***** FIRST LINE *****
 	do {
-		line = line_find_next(image, end_last_line, mean[0]);
+		line = line_find_next(image, end_last_line, mean);
 		end_last_line = line.end_pos;
 		width = line.width;
 
-		// si trouvée mais pas les bonnes dimensions, on recherche plus loin
+		// if a line is found but not with the right dimensions, start over
 		if (line.found && !(width > START_LINE_WIDTH - LINE_THRESHOLD && width < START_LINE_WIDTH + LINE_THRESHOLD)) {
 			line.found = false;
 		}
@@ -55,10 +72,10 @@ void extract_barcode(uint8_t *image) {
 
 	//***** SECONDE LINE *****
 	if (line.found) {
-		// validate line for tracking purpose
+		// validate first line for tracking purpose
 		digit[0] = 2;
 
-		line = line_find_next(image, end_last_line, mean[0]);
+		line = line_find_next(image, end_last_line, mean);
 
 		// check line dimension (hardcoded at around 12 cm) and gap with first line
 		if (line.found && (!(line.width > width - LINE_THRESHOLD && line.width < width + LINE_THRESHOLD) || !(line.begin_pos - end_last_line < width))) {
@@ -78,7 +95,7 @@ void extract_barcode(uint8_t *image) {
 
 	if (line.found) {
 		for (int i = 2; i < NB_LINE_BARCODE && line.found; i++) {
-			line = line_find_next(image, line.end_pos, (i < 5 ? mean[1] : mean[2]));
+			line = line_find_next(image, line.end_pos, mean);
 			digit[i] = line_classify(line, width_unit);
 			end_last_line = line.end_pos;
 			// if a line doesn't have a recognized size, stop
@@ -96,7 +113,6 @@ void extract_barcode(uint8_t *image) {
 	// if end pattern is SMALL then MEDIUM, barcode was successfuly read
 	if (digit[NB_LINE_BARCODE - 2] == SMALL && digit[NB_LINE_BARCODE - 1] == MEDIUM) {
 		// code is created in base 3 -> 27 possibilities with 3 line of 3 sizes
-		// codes valide IDs are from 13 to 39
 		set_code(9 * digit[2] + 3 * digit[3] + digit[4]);
 		if (get_punky_state() == PUNKY_DEBUG)
 			chprintf((BaseSequentialStream *) &SD3, "code : %d %d %d   ID : %d\r", digit[2], digit[3], digit[4], code);
@@ -105,9 +121,14 @@ void extract_barcode(uint8_t *image) {
 	else if (digit[0] == MEDIUM && digit[1] == MEDIUM) {
 		set_code(1);
 	}
-	// if start pattern NOT read, set code to 0
+	// if start pattern NOT read, analyse the line in the other direction to found end pattern
 	else {
 
+		/**************************************
+		 ******     END PATTERN SEARCH    *****
+		 **************************************/
+
+		// same operations as before, but in the reverse direction
 		line.end_pos = line.begin_pos = IMAGE_BUFFER_SIZE-1;
 		line.width = 0;
 		line.found = false;
@@ -118,11 +139,12 @@ void extract_barcode(uint8_t *image) {
 
 		/***** FIRST LINE *****/
 		do {
+			// analyse pixel line in reverse direction
 			line = line_find_next_inverted_direction(image, end_last_line, mean);
 			end_last_line = line.end_pos;
 			width = line.width;
 
-			// si trouvée mais pas les bonnes dimensions, on recherche plus loin
+			// if a line is found but not with the right dimensions, start over
 			if (line.found && !(width > START_LINE_WIDTH - LINE_THRESHOLD && width < START_LINE_WIDTH + LINE_THRESHOLD)) {
 				line.found = false;
 			}
@@ -148,6 +170,17 @@ void extract_barcode(uint8_t *image) {
 	}
 }
 
+/*
+ *  @Describe:
+ *  	give a size to a new line, depending on a reference line
+ *
+ *  @Params:
+ *  	struct Line line		The line to classify
+ *  	uint8_t width_unit		The reference width, set as medium
+ *
+ *  @Return:
+ *  	uint8_t ratio			The line size
+ */
 uint8_t line_classify(struct Line line, uint8_t width_unit) {
 
 	uint8_t ratio = -1;
@@ -165,11 +198,8 @@ uint8_t line_classify(struct Line line, uint8_t width_unit) {
 }
 
 /*
- *	@Author:
- *		TP4_CamReg_correction, adapted for our needs
- *
  *	@Describe:
- *  	Search for a line and it size in pixel
+ *  	Search for a line and it size in pixel, from 0 to image size
  *
  *  @Params:
  *  	uint8_t *buffer				a pixel line to analyse. IMAGE_BUFFER_SIZE long
@@ -180,12 +210,16 @@ uint8_t line_classify(struct Line line, uint8_t width_unit) {
  *  	Returns the line (struct) extracted from the image buffer given
  *  	If not found, line.found = false, true otherwise
  *
+ *	@Author:
+ *		TP4_CamReg_correction, adapted for our needs
+ *
  */
-struct Line line_find_next(uint8_t *buffer, uint16_t start_position, uint32_t mean) {
+struct Line line_find_next(uint8_t *buffer, uint16_t start_position, uint8_t *mean_p) {
 
 	uint16_t i = start_position, begin = start_position, end = start_position;
 	uint8_t stop = 0, line_not_found = 0, wrong_line = 0;
 	struct Line line;
+	uint8_t mean = 0;
 
 	do {
 
@@ -193,6 +227,7 @@ struct Line line_find_next(uint8_t *buffer, uint16_t start_position, uint32_t me
 		while (stop == 0 && i < (IMAGE_BUFFER_SIZE - WIDTH_SLOPE)) {
 			//the slope must at least be WIDTH_SLOPE wide and is compared
 			//to the mean of the image
+			mean = (i < IMAGE_BUFFER_SIZE_DIV_3 ? mean_p[0] : (i < IMAGE_BUFFER_SIZE_DIV_3 * 2 ? mean_p[1] - 20 : mean_p[2]));
 			if (buffer[i] > mean && buffer[i + WIDTH_SLOPE] < mean) {
 				begin = i;
 				stop = 1;
@@ -204,6 +239,7 @@ struct Line line_find_next(uint8_t *buffer, uint16_t start_position, uint32_t me
 			stop = 0;
 
 			while (stop == 0 && i < IMAGE_BUFFER_SIZE) {
+				mean = (i < IMAGE_BUFFER_SIZE_DIV_3 ? mean_p[0] : (i < IMAGE_BUFFER_SIZE_DIV_3 * 2 ? mean_p[1] - 20 : mean_p[2]));
 				if (buffer[i] > mean && buffer[i - WIDTH_SLOPE] < mean) {
 					end = i;
 					stop = 1;
@@ -211,11 +247,12 @@ struct Line line_find_next(uint8_t *buffer, uint16_t start_position, uint32_t me
 				i++;
 			}
 			//if an end was not found
-			if (i > IMAGE_BUFFER_SIZE || !end) {
+			if (i == IMAGE_BUFFER_SIZE || !end) {
 				line_not_found = 1;
 			}
-		} else		    //if no begin was found
-		{
+		}
+		//if no begin was found
+		else{
 			line_not_found = 1;
 		}
 
@@ -243,6 +280,23 @@ struct Line line_find_next(uint8_t *buffer, uint16_t start_position, uint32_t me
 	return line;
 }
 
+/*
+ *	@Describe:
+ *  	Search for a line and it size in pixel, from image size to 0
+ *
+ *  @Params:
+ *  	uint8_t *buffer				a pixel line to analyse. IMAGE_BUFFER_SIZE long
+ *  	uint16_t start_position		position in the buffer to start search
+ *  	uint32_t mean				luminosity mean to find the line
+ *
+ *  @Return:
+ *  	Returns the line (struct) extracted from the image buffer given
+ *  	If not found, line.found = false, true otherwise
+ *
+ *	@Author:
+ *		TP4_CamReg_correction, adapted for our needs, turned upside down
+ *
+ */
 struct Line line_find_next_inverted_direction(uint8_t *buffer, int16_t start_position, uint8_t *mean_p) {
 
 	int16_t i = start_position, begin = start_position, end = start_position;
@@ -280,8 +334,9 @@ struct Line line_find_next_inverted_direction(uint8_t *buffer, int16_t start_pos
 			if (i == 0 || end == start_position) {
 				line_not_found = 1;
 			}
-		} else		    //if no begin was found
-		{
+		}
+		//if no begin was found
+		else{
 			line_not_found = 1;
 		}
 
@@ -402,6 +457,12 @@ static THD_FUNCTION(ProcessImage, arg) {
 	}
 }
 
+/*
+ * 	@Describe:
+ * 		Allow to spare ressources by short-circuiting the images analyse threads
+ * 		if sleep mode = 1, then the thread wait for an start semaphore
+ * 		if sleep mode = 0, then the thread run in the background
+ */
 void get_image_run(void) {
 	if (sleep_mode == 1) {
 		chBSemSignal(&start_imaging_sem);
@@ -409,15 +470,49 @@ void get_image_run(void) {
 	sleep_mode = 0;
 }
 
+/*
+ * 	@Describe:
+ * 		Allow to spare ressources by short-circuiting the images analyse threads
+ * 		if sleep mode = 1, then the thread wait for an start semaphore
+ * 		if sleep mode = 0, then the thread run in the background
+ */
 void get_image_stop(void) {
 	sleep_mode = 1;
 }
 
+/*
+ * 	@Describe:
+ * 		set the code. The image capture process and image analyis process
+ * 		are 13 times faster than the main file process -> code variable
+ * 		is modified 13 faster than it is read. In order to not miss validated
+ * 		barcode, if one is found, the variable is then lock for any incomplete
+ * 		code, until the code is read by someone.
+ *
+ * 	@Params:
+ * 		uint8_t code_p		The code found to be set
+ */
 void set_code(uint8_t code_p) {
-	code = code_p;
+
+	if(code_p != 0 && code_p != 1 && code_p != 2){
+		barcode_found = true;
+		code = code_p;
+	}
+	else if(barcode_found == false){
+		code = code_p;
+	}
+
 }
 
+/*
+ *  @Describe:
+ *  	get the code. Release the barcode found flag. See set_code for more
+ *  	explainations.
+ *
+ *  @Return:
+ *  	uint8_t code	The code
+ */
 uint8_t get_code(void) {
+	barcode_found = false;
 	return code;
 }
 

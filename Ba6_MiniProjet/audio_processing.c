@@ -132,22 +132,24 @@ void sound_remote(float* data) {
 }
 
 /*
- *	Callback called when the demodulation of the four microphones is done.
- *	We get 160 samples per mic every 10ms (16kHz)
+ * 	@Describe:
+ *		Callback called when the demodulation of the four microphones is done.
+ *		We get 160 samples per mic every 10ms (16kHz)
  *
- *	params :
- *	int16_t *data			Buffer containing 4 times 160 samples. the samples are sorted by micro
- *							so we have [micRight1, micLeft1, micBack1, micFront1, micRight2, etc...]
- *	uint16_t num_samples	Tells how many data we get in total (should always be 640)
+ *	@Params:
+ *		int16_t *data			Buffer containing 4 times 160 samples. the samples are sorted by micro
+ *								so we have [micRight1, micLeft1, micBack1, micFront1, micRight2, etc...]
+ *		uint16_t num_samples	Tells how many data we get in total (should always be 640)
+ *
+ *	@Author:
+ *		TP5, adapted for our needs
  */
 void processAudioData(int16_t *data, uint16_t num_samples) {
 
 	/*
-	 *
 	 *	We get 160 samples per mic every 10ms
 	 *	So we fill the samples buffers to reach
 	 *	1024 samples, then we compute the FFTs.
-	 *
 	 */
 
 	static uint16_t nb_samples = 0;
@@ -160,7 +162,7 @@ void processAudioData(int16_t *data, uint16_t num_samples) {
 			//construct an array of complex numbers. Put 0 to the imaginary part
 			micBack_cmplx_input[nb_samples] = (float) data[i + MIC_BACK];
 			nb_samples++;
-			micBack_cmplx_input[nb_samples++] = 0;					// to be tested
+			micBack_cmplx_input[nb_samples++] = 0;
 
 			//stop when buffer is full
 			if (nb_samples >= (2 * FFT_SIZE)) {
