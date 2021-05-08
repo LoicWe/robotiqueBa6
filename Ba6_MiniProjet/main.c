@@ -121,12 +121,17 @@ int main(void) {
 void punky_run(void) {
 	uint16_t distance = 0;
 	int8_t code = 0;
+	static bool code_found = false;
 
 	//switch between frequence mode and Pi mode using the TOF
 	distance = VL53L0X_get_dist_mm();
 
+	if(distance > MAX_DISTANCE_DETECTED){
+		code_found = false;
+	}
+
 	// search for a barcode if distance is in the good range
-	if (distance > MIN_DISTANCE_DETECTED && distance < MAX_DISTANCE_DETECTED) {
+	if (distance > MIN_DISTANCE_DETECTED && distance < MAX_DISTANCE_DETECTED && !code_found) {
 		if (get_punky_state() == PUNKY_DEBUG)	//debug mode
 			chprintf((BaseSequentialStream *) &SD3, "\r===== \rMode PI \r");
 
@@ -159,6 +164,7 @@ void punky_run(void) {
 		} else {
 			// a valide code is captured
 			set_speed(code);
+			code_found = true;
 			anim_barcode();
 		}
 

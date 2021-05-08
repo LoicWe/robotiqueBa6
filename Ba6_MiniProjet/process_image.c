@@ -33,7 +33,7 @@ static BSEMAPHORE_DECL(start_imaging_sem, FALSE); // @suppress("Field cannot be 
  *  	The code is static variable accessible all time in the file
  *
  *  @Param:
- *  	uint8_t *image	The pixel line to analyse. IMAGE_BUFFER_SIZE long
+// *  	uint8_t *image	The pixel line to analyse. IMAGE_BUFFER_SIZE long
  *
  */
 void extract_barcode(uint8_t *image) {
@@ -448,12 +448,12 @@ static THD_FUNCTION(ProcessImage, arg) {
 
 		extract_barcode(image);
 
-//		// slow send to not flood computer
-/*		if (send_to_computer >= 15) {
-			send_to_computer = 0;
-			SendUint8ToComputer(image, IMAGE_BUFFER_SIZE);
-		}
-		send_to_computer++;*/
+		// slow send to not flood computer
+//		if (send_to_computer >= 15) {
+//			send_to_computer = 0;
+//			SendUint8ToComputer(image, IMAGE_BUFFER_SIZE);
+//		}
+//		send_to_computer++;
 	}
 }
 
