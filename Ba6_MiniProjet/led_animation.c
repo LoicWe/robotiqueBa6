@@ -12,17 +12,23 @@
 static BSEMAPHORE_DECL(anim_ready, TRUE); // @suppress("Field cannot be resolved")
 
 static uint8_t animation = ANIM_CLEAR;
-static uint8_t freq_led_intensity = 0;
+static uint8_t freq_led_intensity = 0;	// link for intensity depending of extern variable
 
-static THD_WORKING_AREA(waBodyLedThd, 128);  //#### à vérifier la taille #####//
-static THD_FUNCTION(BodyLedThd, arg) {
+/*
+ * 	@Describe:
+ * 		The animations SHOULD always be called with one time call.
+ * 		If an animation is called on a repeated basis, it may cause some trouble
+ * 		and animation could be ignored as there is no priority rules
+ */
+static THD_WORKING_AREA(waLedAnimationThd, 2);
+static THD_FUNCTION(LedAnimationThd, arg) {
 
 	chRegSetThreadName(__FUNCTION__);
 	(void) arg;
 
 	while (1) {
 
-		//attends qu'une animation soit lancée
+		//wait for an animation to be launched
 		chBSemWait(&anim_ready);
 
 		switch (animation) {
@@ -34,7 +40,7 @@ static THD_FUNCTION(BodyLedThd, arg) {
 			break;
 
 		case ANIM_BARCODE:
-			// allume puis éteins le body led
+			// turn on the body led for 0.8 second
 			set_body_led(1);
 			chThdSleepMilliseconds(800);
 			set_body_led(0);
@@ -50,7 +56,7 @@ static THD_FUNCTION(BodyLedThd, arg) {
 			break;
 
 		case ANIM_SLEEP:
-			// passe au rouge avec une touche de jaune
+			// turn on red with a sleep through yellow
 			for (uint8_t i = 0; i < 50; i++) {
 				set_rgb_led(LED2, i, i, 0);
 				set_rgb_led(LED4, i, i, 0);
@@ -68,6 +74,7 @@ static THD_FUNCTION(BodyLedThd, arg) {
 			break;
 
 		case ANIM_WAKE_UP:
+			// turn off the red rgb leds
 			for (uint8_t i = 0; i < 101; i += 2) {
 				set_rgb_led(LED2, 100 - i, 0, 0);
 				set_rgb_led(LED4, 100 - i, 0, 0);
@@ -78,6 +85,7 @@ static THD_FUNCTION(BodyLedThd, arg) {
 			break;
 
 		case ANIM_FREQ:
+			// turn off the blue leds
 			for (uint8_t i = freq_led_intensity; i > 0; i--) {
 
 				freq_led_intensity--;
@@ -91,6 +99,7 @@ static THD_FUNCTION(BodyLedThd, arg) {
 			break;
 
 		case ANIM_FREQ_MANUAL:
+			// turn on or off the led to blue, depending on an extern variable
 			set_rgb_led(LED2, 0, freq_led_intensity, freq_led_intensity);
 			set_rgb_led(LED4, 0, freq_led_intensity, freq_led_intensity);
 			set_rgb_led(LED6, 0, freq_led_intensity, freq_led_intensity);
@@ -117,7 +126,6 @@ void anim_barcode(void) {
 }
 
 void anim_start_freq_manual(uint8_t intensity) {
-	chprintf((BaseSequentialStream *) &SD3, "ANIM START MANUAL\r");
 	animation = ANIM_FREQ_MANUAL;
 	if (intensity <= 10) {
 		freq_led_intensity = intensity;
@@ -128,7 +136,6 @@ void anim_start_freq_manual(uint8_t intensity) {
 }
 
 void anim_stop_freq_manual(uint8_t intensity) {
-//	chprintf((BaseSequentialStream *) &SD3, "ANIM STOP MANUAL\r");
 	animation = ANIM_FREQ_MANUAL;
 	if (intensity == 10) {
 		freq_led_intensity = 0;
@@ -139,13 +146,13 @@ void anim_stop_freq_manual(uint8_t intensity) {
 }
 
 void anim_stop_freq(void) {
-//	chprintf((BaseSequentialStream *) &SD3, "ANIM STOP AUTO\r");
-	animation = ANIM_FREQ;
-	chBSemSignal(&anim_ready);
+	if (freq_led_intensity != 0) {
+		animation = ANIM_FREQ;
+		chBSemSignal(&anim_ready);
+	}
 }
 
 void anim_sleep(void) {
-//	chprintf((BaseSequentialStream *) &SD3, "ANIM SLEEEEEP\r");
 	animation = ANIM_SLEEP;
 	chBSemSignal(&anim_ready);
 }
@@ -155,6 +162,10 @@ void anim_wake_up(void) {
 	chBSemSignal(&anim_ready);
 }
 
+/*
+ * 	@Describe:
+ * 		debug mode is signaled with the front and rear red leds on
+ */
 void anim_debug(void) {
 	set_led(LED1, 1);
 	set_led(LED5, 1);
@@ -167,6 +178,6 @@ void anim_clear_debug(void) {
 }
 
 void leds_animations_thd_start(void) {
-	chThdCreateStatic(waBodyLedThd, sizeof(waBodyLedThd), NORMALPRIO - 1, BodyLedThd, NULL);
+	chThdCreateStatic(waLedAnimationThd, sizeof(waLedAnimationThd), NORMALPRIO+1, LedAnimationThd, NULL);
 }
 

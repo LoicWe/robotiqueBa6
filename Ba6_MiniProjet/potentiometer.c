@@ -7,6 +7,7 @@
 #include <main.h>
 #include <potentiometer.h>
 #include <led_animation.h>
+#include <chprintf.h>
 
 static uint8_t punky_state = PUNKY_DEMO;
 
@@ -51,6 +52,7 @@ static THD_FUNCTION(ThdPotentiometer, arg) {
 			switch (punky_state) {
 			case PUNKY_DEMO:
 				punky_state = PUNKY_SLEEP;
+				chprintf((BaseSequentialStream *) &SD3, "ANIM SLEEP\r");
 				anim_sleep();
 				break;
 			case PUNKY_DEBUG:

@@ -14,6 +14,7 @@
 #include <led_animation.h>
 #include <potentiometer.h>
 #include <debug_messager.h>
+#include <chprintf.h>
 
 //semaphore
 static BSEMAPHORE_DECL(sendToComputer_sem, TRUE); // @suppress("Field cannot be resolved")
@@ -224,9 +225,14 @@ void microphone_run(void) {
 	sleep_mode = false;
 }
 
+bool get_microphone_state(void){
+	return sleep_mode;
+}
+
 void microphone_stop(void) {
-	if(!sleep_mode)
+	if(mode != SOUND_OFF && get_punky_state() != PUNKY_SLEEP){
 		anim_stop_freq();
+	}
 	sleep_mode = true;
 	mode = SOUND_OFF;
 	sound_on = 0;
