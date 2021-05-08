@@ -3,7 +3,6 @@
 #include "selector.h"
 #include <math.h>
 #include <usbcfg.h>
-#include <chprintf.h>
 
 #include <main.h>
 #include <potentiometer.h>

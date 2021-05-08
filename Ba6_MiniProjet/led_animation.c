@@ -2,11 +2,11 @@
 #include "hal.h"
 #include <math.h>
 #include <usbcfg.h>
-#include <chprintf.h>
 
 #include "leds.h"
 #include <led_animation.h>
 #include <move.h>
+#include <chprintf.h>
 
 //semaphore
 static BSEMAPHORE_DECL(anim_ready, TRUE); // @suppress("Field cannot be resolved")
@@ -24,7 +24,6 @@ static THD_FUNCTION(BodyLedThd, arg) {
 
 		//attends qu'une animation soit lancée
 		chBSemWait(&anim_ready);
-
 
 		switch (animation) {
 		case ANIM_CLEAR_DEBUG:
@@ -45,14 +44,8 @@ static THD_FUNCTION(BodyLedThd, arg) {
 		case ANIM_DEBUG:
 			set_led(LED1, 1);
 			set_led(LED5, 1);
-//			set_led(LED3, 0);
-//			set_led(LED7, 0);
-//			chThdSleepMilliseconds(800);
-//			set_led(LED1, 0);
-//			set_led(LED5, 0);
 			set_led(LED3, 1);
 			set_led(LED7, 1);
-//			chThdSleepMilliseconds(800);
 
 			break;
 
@@ -85,26 +78,25 @@ static THD_FUNCTION(BodyLedThd, arg) {
 			break;
 
 		case ANIM_FREQ:
+			for (uint8_t i = freq_led_intensity; i > 0; i--) {
+
+				freq_led_intensity--;
+
+				set_rgb_led(LED2, 0, freq_led_intensity, freq_led_intensity);
+				set_rgb_led(LED4, 0, freq_led_intensity, freq_led_intensity);
+				set_rgb_led(LED6, 0, freq_led_intensity, freq_led_intensity);
+				set_rgb_led(LED8, 0, freq_led_intensity, freq_led_intensity);
+				chThdSleepMilliseconds(6);
+			}
+			break;
+
+		case ANIM_FREQ_MANUAL:
 			set_rgb_led(LED2, 0, freq_led_intensity, freq_led_intensity);
 			set_rgb_led(LED4, 0, freq_led_intensity, freq_led_intensity);
 			set_rgb_led(LED6, 0, freq_led_intensity, freq_led_intensity);
 			set_rgb_led(LED8, 0, freq_led_intensity, freq_led_intensity);
 			break;
 
-		case ANIM_FORWARD:
-			set_rgb_led(LED2, 0, 100, 0);
-			set_rgb_led(LED4, 0, freq_led_intensity, freq_led_intensity);
-			set_rgb_led(LED6, 0, freq_led_intensity, freq_led_intensity);
-			set_rgb_led(LED8, 0, 100, 0);
-			break;
-
-		case ANIM_BACKWARD:
-			set_rgb_led(LED2, 0, freq_led_intensity, freq_led_intensity);
-			set_rgb_led(LED4, 0, 100, 0);
-			set_rgb_led(LED6, 0, 100, 0);
-			set_rgb_led(LED8, 0, freq_led_intensity, freq_led_intensity);
-
-			break;
 		default:
 			set_rgb_led(LED2, 0, 0, 0);
 			set_rgb_led(LED4, 0, 0, 0);
@@ -124,15 +116,10 @@ void anim_barcode(void) {
 	chBSemSignal(&anim_ready);
 }
 
-void anim_start_freq(uint8_t intensity) {
-	animation = ANIM_FREQ;
-	if (intensity == 20) {
-		if (get_speed() > 0) {
-			animation = ANIM_FORWARD;
-		} else {
-			animation = ANIM_BACKWARD;
-		}
-	} else if (intensity <= 10) {
+void anim_start_freq_manual(uint8_t intensity) {
+	chprintf((BaseSequentialStream *) &SD3, "ANIM START MANUAL\r");
+	animation = ANIM_FREQ_MANUAL;
+	if (intensity <= 10) {
 		freq_led_intensity = intensity;
 	} else {
 		freq_led_intensity = (intensity - 9) * 5;
@@ -140,14 +127,9 @@ void anim_start_freq(uint8_t intensity) {
 	chBSemSignal(&anim_ready);
 }
 
-void anim_debug(void) {
-//	animation = ANIM_DEBUG;
-//	chBSemSignal(&anim_ready);
-	set_led(LED1, 1);
-	set_led(LED5, 1);
-}
-void anim_stop_freq(uint8_t intensity) {
-	animation = ANIM_FREQ;
+void anim_stop_freq_manual(uint8_t intensity) {
+//	chprintf((BaseSequentialStream *) &SD3, "ANIM STOP MANUAL\r");
+	animation = ANIM_FREQ_MANUAL;
 	if (intensity == 10) {
 		freq_led_intensity = 0;
 	} else {
@@ -156,7 +138,14 @@ void anim_stop_freq(uint8_t intensity) {
 	chBSemSignal(&anim_ready);
 }
 
+void anim_stop_freq(void) {
+//	chprintf((BaseSequentialStream *) &SD3, "ANIM STOP AUTO\r");
+	animation = ANIM_FREQ;
+	chBSemSignal(&anim_ready);
+}
+
 void anim_sleep(void) {
+//	chprintf((BaseSequentialStream *) &SD3, "ANIM SLEEEEEP\r");
 	animation = ANIM_SLEEP;
 	chBSemSignal(&anim_ready);
 }
@@ -166,23 +155,15 @@ void anim_wake_up(void) {
 	chBSemSignal(&anim_ready);
 }
 
+void anim_debug(void) {
+	set_led(LED1, 1);
+	set_led(LED5, 1);
+}
+
 void anim_clear_debug(void) {
-//	animation = ANIM_CLEAR_DEBUG;
-//	chBSemSignal(&anim_ready);
 	set_led(LED1, 0);
 	set_led(LED5, 0);
-//	set_led(LED3, 1);
-//	set_led(LED7, 1);
-}
 
-void anim_forward(void){
-	animation = ANIM_FORWARD;
-	chBSemSignal(&anim_ready);
-}
-
-void anim_backward(void){
-	animation = ANIM_BACKWARD;
-	chBSemSignal(&anim_ready);
 }
 
 void leds_animations_thd_start(void) {

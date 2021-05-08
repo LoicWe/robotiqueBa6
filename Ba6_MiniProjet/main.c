@@ -22,6 +22,7 @@
 #include <potentiometer.h>
 #include <communications.h>
 #include <audio_processing.h>
+#include <debug_messager.h>
 
 static void serial_start(void) {
 	static SerialConfig ser_cfg = { 115200, 0, 0, 0, };
@@ -79,6 +80,8 @@ int main(void) {
 	pi_regulator_init();
 	//starts the led thread for visual feedback
 	leds_animations_thd_start();
+	//starts the debug messager services
+	debug_messager_thd_start();
 
 	//declare variables
 	static uint8_t punky_state = PUNKY_DEMO;
@@ -101,11 +104,10 @@ int main(void) {
 
 		// deactivate everything except a visual indicator
 		else if (punky_state == PUNKY_SLEEP) {
-			microphone_stop();
 			get_image_stop();
 			pi_regulator_stop();
 			motor_control_stop();
-
+			microphone_stop();
 		}
 
 		// transition state to restart every thread after sleep mode
@@ -133,8 +135,7 @@ void punky_run(void) {
 	// search for a barcode if distance is in the good range
 	if (distance > MIN_DISTANCE_DETECTED && distance < MAX_DISTANCE_DETECTED && !code_found) {
 		if (get_punky_state() == PUNKY_DEBUG)	//debug mode
-			chprintf((BaseSequentialStream *) &SD3, "\r===== \rMode PI \r");
-
+			debug_message("== PI CODE ==", LIGHTNING, LOW_PRIO);
 		//stop unrelated processes
 		microphone_stop();
 		motor_control_stop();
@@ -148,18 +149,24 @@ void punky_run(void) {
 		if (code == 2) {
 			// barcode is too far to the left
 			if (get_punky_state() == PUNKY_DEBUG)	//debug mode
-				chprintf((BaseSequentialStream *) &SD3, "Trop gauche\r");
-			set_rotation(60);
+				debug_message("Trop gauche", LIGHTNING, HIGH_PRIO);
+
+			set_rotation(BARCODE_ROT_SPEED);
+
 		} else if (code == 1) {
 			// barcode is too far to the right
 			if (get_punky_state() == PUNKY_DEBUG)	//debug mode
-				chprintf((BaseSequentialStream *) &SD3, "Trop droite\r");
-			set_rotation(-60);
+				debug_message("Trop droite", LIGHTNING, HIGH_PRIO);
+
+			set_rotation(-BARCODE_ROT_SPEED);
+
 		} else if (code == 0) {
 			// no rotation indication could be found
 			if (get_punky_state() == PUNKY_DEBUG)	//debug mode
-				chprintf((BaseSequentialStream *) &SD3, "parfait\r");
+				debug_message("Parfait", LIGHTNING, LOW_PRIO);
+
 			set_rotation(0);
+
 		} else {
 			// a valide code is captured
 			set_speed(code);
@@ -169,7 +176,7 @@ void punky_run(void) {
 
 	} else {
 		if (get_punky_state() == PUNKY_DEBUG)	//debug mode
-			chprintf((BaseSequentialStream *) &SD3, "\r===== \rMode Frequences \r");
+			debug_message("== Frequences ==", LIGHTNING, LOW_PRIO);
 		//stop useless process
 		get_image_stop();
 		pi_regulator_stop();

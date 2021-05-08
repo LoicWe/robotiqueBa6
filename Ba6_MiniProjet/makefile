@@ -16,6 +16,7 @@ CSRC += ./main.c \
 		./process_image.c \
 		./led_animation.c \
 		./potentiometer.c\
+		./debug_messager.c\
 		
 #Header folders to include
 INCDIR += 

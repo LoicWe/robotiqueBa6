@@ -10,6 +10,7 @@
 #include <move.h>
 #include <led_animation.h>
 #include <potentiometer.h>
+#include <debug_messager.h>
 
 static int16_t speed = 600;
 static int16_t rotation = 0;
@@ -52,16 +53,13 @@ void set_speed(int8_t code) {
 	// -14 is max negative speed and -1 min negative speed
 	// 1 is min positive speed and 13 is max negative speed
 	if (code > 0) {
-		anim_forward();
 		speed = (MAX_SPEED - MIN_SPEED) / 13 * code + MIN_SPEED;
 	} else {
-		anim_backward();
 		speed = ((MAX_SPEED - MIN_SPEED) / 13 * code - MIN_SPEED);
 	}
 
 	if (get_punky_state() == PUNKY_DEBUG)
-		chprintf((BaseSequentialStream *) &SD3, "vitesse effective = %d\r", speed);
-
+		debug_message_1("vitesse = ", speed, EMPHASIS, HIGH_PRIO);
 }
 
 void motor_control_run(void) {
