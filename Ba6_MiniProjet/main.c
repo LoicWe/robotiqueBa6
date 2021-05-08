@@ -143,8 +143,7 @@ void punky_run(void) {
 		pi_regulator_run();
 		get_image_run();
 		code = get_code();
-		if (get_punky_state() == PUNKY_DEBUG)	//debug mode
-			chprintf((BaseSequentialStream *) &SD3, "INTO the MAIN\r");
+
 		// valide code are between 13 and 39
 		if (code == 2) {
 			// barcode is too far to the left

@@ -163,8 +163,10 @@ void extract_barcode(uint8_t *image) {
 				digit[NB_LINE_BARCODE - 2] = 1;
 			}
 		}if (digit[NB_LINE_BARCODE - 1] == 2 && digit[NB_LINE_BARCODE - 2] == 1) {
+			// if end pattern is found
 			set_code(2);
 		}else{
+			// if nothing was found
 			set_code(0);
 		}
 	}
@@ -365,7 +367,6 @@ struct Line line_find_next_inverted_direction(uint8_t *buffer, int16_t start_pos
 	return line;
 }
 
-
 /*
  * 	@Describe:
  * 		Performs an average for each 3 segments third, because of auto brightness
@@ -478,6 +479,7 @@ void get_image_run(void) {
  */
 void get_image_stop(void) {
 	sleep_mode = 1;
+	code = 0;
 }
 
 /*
@@ -500,7 +502,6 @@ void set_code(uint8_t code_p) {
 	else if(barcode_found == false){
 		code = code_p;
 	}
-
 }
 
 /*
@@ -512,7 +513,9 @@ void set_code(uint8_t code_p) {
  *  	uint8_t code	The code
  */
 uint8_t get_code(void) {
+	// unlock the writing of non valide code
 	barcode_found = false;
+
 	return code;
 }
 
