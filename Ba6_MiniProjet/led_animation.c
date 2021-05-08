@@ -13,6 +13,7 @@ static BSEMAPHORE_DECL(anim_ready, TRUE); // @suppress("Field cannot be resolved
 
 static uint8_t animation = ANIM_CLEAR;
 static uint8_t freq_led_intensity = 0;	// link for intensity depending of extern variable
+static uint8_t direction = 0;
 
 /*
  * 	@Describe:
@@ -40,9 +41,37 @@ static THD_FUNCTION(LedAnimationThd, arg) {
 			break;
 
 		case ANIM_BARCODE:
-			// turn on the body led for 0.8 second
+			// turn on the body led for 0.8 second and the direction leds
+
 			set_body_led(1);
-			chThdSleepMilliseconds(800);
+
+			if (direction == ANIM_FORWARD) {
+				for (uint8_t i = 0; i < 100; i++) {
+					set_rgb_led(LED2, 0, i, 0);
+					set_rgb_led(LED8, 0, i, 0);
+					chThdSleepMilliseconds(5);
+				}
+				for (uint8_t i = 100; i > 0; i--) {
+					set_rgb_led(LED2, 0, i, 0);
+					set_rgb_led(LED8, 0, i, 0);
+					chThdSleepMilliseconds(10);
+				}
+				set_rgb_led(LED2, 0, 0, 0);
+				set_rgb_led(LED8, 0, 0, 0);
+			}else{
+				for (uint8_t i = 0; i < 100; i++) {
+					set_rgb_led(LED4, 0, i, 0);
+					set_rgb_led(LED6, 0, i, 0);
+					chThdSleepMilliseconds(5);
+				}
+				for (uint8_t i = 100; i > 0; i--) {
+					set_rgb_led(LED4, 0, i, 0);
+					set_rgb_led(LED6, 0, i, 0);
+					chThdSleepMilliseconds(10);
+				}
+				set_rgb_led(LED4, 0, 0, 0);
+				set_rgb_led(LED6, 0, 0, 0);
+			}
 			set_body_led(0);
 
 			break;
@@ -120,7 +149,8 @@ static THD_FUNCTION(LedAnimationThd, arg) {
 	}
 }
 
-void anim_barcode(void) {
+void anim_barcode(uint8_t direction_p) {
+	direction = direction_p;
 	animation = ANIM_BARCODE;
 	chBSemSignal(&anim_ready);
 }
@@ -178,6 +208,6 @@ void anim_clear_debug(void) {
 }
 
 void leds_animations_thd_start(void) {
-	chThdCreateStatic(waLedAnimationThd, sizeof(waLedAnimationThd), NORMALPRIO+1, LedAnimationThd, NULL);
+	chThdCreateStatic(waLedAnimationThd, sizeof(waLedAnimationThd), NORMALPRIO + 1, LedAnimationThd, NULL);
 }
 

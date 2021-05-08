@@ -171,7 +171,7 @@ void punky_run(void) {
 			// a valide code is captured
 			set_speed(code);
 			code_found = true;
-			anim_barcode();
+			anim_barcode(get_speed() > 0 ? ANIM_FORWARD:ANIM_BACKWARD);
 		}
 
 	} else {
