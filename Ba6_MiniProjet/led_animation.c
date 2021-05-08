@@ -21,7 +21,7 @@ static uint8_t direction = 0;
  * 		If an animation is called on a repeated basis, it may cause some trouble
  * 		and animation could be ignored as there is no priority rules
  */
-static THD_WORKING_AREA(waLedAnimationThd, 2);
+static THD_WORKING_AREA(waLedAnimationThd, 16);
 static THD_FUNCTION(LedAnimationThd, arg) {
 
 	chRegSetThreadName(__FUNCTION__);
@@ -33,12 +33,12 @@ static THD_FUNCTION(LedAnimationThd, arg) {
 		chBSemWait(&anim_ready);
 
 		switch (animation) {
-		case ANIM_CLEAR_DEBUG:
-			set_led(LED1, 0);
-			set_led(LED3, 0);
-			set_led(LED5, 0);
-			set_led(LED7, 0);
-			break;
+//		case ANIM_CLEAR_DEBUG:
+//			set_led(LED1, 0);
+//			set_led(LED3, 0);
+//			set_led(LED5, 0);
+//			set_led(LED7, 0);
+//			break;
 
 		case ANIM_BARCODE:
 			// turn on the body led for 0.8 second and the direction leds
@@ -58,7 +58,7 @@ static THD_FUNCTION(LedAnimationThd, arg) {
 				}
 				set_rgb_led(LED2, 0, 0, 0);
 				set_rgb_led(LED8, 0, 0, 0);
-			}else{
+			} else {
 				for (uint8_t i = 0; i < 100; i++) {
 					set_rgb_led(LED4, 0, i, 0);
 					set_rgb_led(LED6, 0, i, 0);
@@ -69,19 +69,65 @@ static THD_FUNCTION(LedAnimationThd, arg) {
 					set_rgb_led(LED6, 0, i, 0);
 					chThdSleepMilliseconds(10);
 				}
-				set_rgb_led(LED4, 0, 0, 0);
-				set_rgb_led(LED6, 0, 0, 0);
+				anim_clear_rgbs();
 			}
 			set_body_led(0);
 
 			break;
 
 		case ANIM_DEBUG:
+			for (uint8_t i = 0; i < 2; i++) {
+				set_led(LED1, 1);
+				set_led(LED5, 1);
+				chThdSleepMilliseconds(TIME_DEBUG);
+				set_led(LED1, 0);
+				set_led(LED5, 0);
+				set_rgb_led(LED8, 60, 0, 0);
+				set_rgb_led(LED4, 60, 0, 0);
+				chThdSleepMilliseconds(TIME_DEBUG);
+				set_rgb_led(LED8, 0, 0, 0);
+				set_rgb_led(LED4, 0, 0, 0);
+				set_led(LED7, 1);
+				set_led(LED3, 1);
+				chThdSleepMilliseconds(TIME_DEBUG);
+				set_led(LED7, 0);
+				set_led(LED3, 0);
+				set_rgb_led(LED6, 60, 0, 0);
+				set_rgb_led(LED2, 60, 0, 0);
+				chThdSleepMilliseconds(TIME_DEBUG);
+				set_rgb_led(LED6, 0, 0, 0);
+				set_rgb_led(LED2, 0, 0, 0);
+			}
 			set_led(LED1, 1);
 			set_led(LED5, 1);
-			set_led(LED3, 1);
-			set_led(LED7, 1);
+			break;
 
+		case ANIM_CLEAR_DEBUG:
+			set_led(LED1, 0);
+			set_rgb_led(LED2, 60, 0, 0);
+			chThdSleepMilliseconds(TIME_DEBUG);
+			set_rgb_led(LED2, 0, 0, 0);
+			set_led(LED3, 1);
+			chThdSleepMilliseconds(TIME_DEBUG);
+			set_led(LED3, 0);
+			set_rgb_led(LED4, 60, 0, 0);
+			chThdSleepMilliseconds(TIME_DEBUG);
+			set_rgb_led(LED4, 0, 0, 0);
+			chThdSleepMilliseconds(TIME_DEBUG);
+			set_led(LED5, 0);
+			chThdSleepMilliseconds(TIME_DEBUG);
+			set_rgb_led(LED6, 60, 0, 0);
+			chThdSleepMilliseconds(TIME_DEBUG);
+			set_rgb_led(LED6, 0, 0, 0);
+			set_led(LED7, 1);
+			chThdSleepMilliseconds(TIME_DEBUG);
+			set_led(LED7, 0);
+			set_rgb_led(LED8, 60, 0, 0);
+			chThdSleepMilliseconds(TIME_DEBUG);
+			set_rgb_led(LED8, 0, 0, 0);
+			set_led(LED1, 1);
+			chThdSleepMilliseconds(TIME_DEBUG);
+			set_led(LED1, 0);
 			break;
 
 		case ANIM_SLEEP:
@@ -111,6 +157,7 @@ static THD_FUNCTION(LedAnimationThd, arg) {
 				set_rgb_led(LED8, 100 - i, 0, 0);
 				chThdSleepMilliseconds(10);
 			}
+			anim_clear_rgbs();
 			break;
 
 		case ANIM_FREQ:
@@ -125,6 +172,7 @@ static THD_FUNCTION(LedAnimationThd, arg) {
 				set_rgb_led(LED8, 0, freq_led_intensity, freq_led_intensity);
 				chThdSleepMilliseconds(6);
 			}
+			anim_clear_rgbs();
 			break;
 
 		case ANIM_FREQ_MANUAL:
@@ -197,17 +245,29 @@ void anim_wake_up(void) {
  * 		debug mode is signaled with the front and rear red leds on
  */
 void anim_debug(void) {
-	set_led(LED1, 1);
-	set_led(LED5, 1);
+	animation = ANIM_DEBUG;
+	chBSemSignal(&anim_ready);
+
+//	set_led(LED1, 1);
+//	set_led(LED5, 1);
 }
 
 void anim_clear_debug(void) {
-	set_led(LED1, 0);
-	set_led(LED5, 0);
+	animation = ANIM_CLEAR_DEBUG;
+	chBSemSignal(&anim_ready);
+//	set_led(LED1, 0);
+//	set_led(LED5, 0);
 
 }
 
+void anim_clear_rgbs(void){
+	set_rgb_led(LED2, 0, 0, 0);
+	set_rgb_led(LED4, 0, 0, 0);
+	set_rgb_led(LED6, 0, 0, 0);
+	set_rgb_led(LED8, 0, 0, 0);
+}
+
 void leds_animations_thd_start(void) {
-	chThdCreateStatic(waLedAnimationThd, sizeof(waLedAnimationThd), NORMALPRIO + 1, LedAnimationThd, NULL);
+	chThdCreateStatic(waLedAnimationThd, sizeof(waLedAnimationThd), NORMALPRIO - 1, LedAnimationThd, NULL);
 }
 
