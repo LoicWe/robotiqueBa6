@@ -45,6 +45,7 @@ void set_rotation(int16_t new_rotation) {
 }
 
 void set_speed(int8_t code) {
+
 	code = code - 26;
 
 	// code from -14 to 13.
@@ -74,12 +75,19 @@ void motor_control_stop(void) {
 
 
 // ************************************************************************//
-// ************* fonction en mode décection de codebarre ******************//
+// *************      Function for barcode detection     ******************//
 // ************************************************************************//
 
 
-/* PI regulator to be at right distance for barcode
+/*  @Describe:
+ *  	PI regulator to be at right distance for barcode
  *
+ *	@Params:
+ *		uint16_t distance	distance detected, in mm
+ *		uint8_t goal		position to be reached
+ *
+ *	@Return:
+ *		int16_t speed		the speed adapted for the robot
  */
 int16_t pi_regulator(uint16_t distance, uint8_t goal) {
 	int16_t error = 0;
@@ -112,6 +120,7 @@ int16_t pi_regulator(uint16_t distance, uint8_t goal) {
 	return (int16_t) speed;
 }
 
+
 static THD_WORKING_AREA(waPiRegulator, 256);
 static THD_FUNCTION(PiRegulator, arg) {
 
@@ -139,12 +148,11 @@ static THD_FUNCTION(PiRegulator, arg) {
 			speed = pi_regulator(distance, GOAL_DISTANCE);
 
 			//applies the speed from the PI regulator
-			right_motor_set_speed(speed);
-			left_motor_set_speed(speed);
+			right_motor_set_speed(speed+rotation);
+			left_motor_set_speed(speed-rotation);
 			pi_stop_first_time = true;
 
-			//100Hz plus mainteant !!!!!
-			chThdSleepUntilWindowed(time1, time1 + MS2ST(50));		//TODO: test 20, 30, 50 ms;
+			chThdSleepUntilWindowed(time1, time1 + MS2ST(50));
 		}else{
 			if(pi_stop_first_time == true){
 				right_motor_set_speed(0);
@@ -153,7 +161,6 @@ static THD_FUNCTION(PiRegulator, arg) {
 			}
 			chThdSleepMilliseconds(500);
 		}
-
 	}
 }
 

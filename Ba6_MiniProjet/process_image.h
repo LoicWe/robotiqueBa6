@@ -2,12 +2,12 @@
 #define PROCESS_IMAGE_H
 
 #define IMAGE_BUFFER_SIZE		640
-#define MIN_LINE_WIDTH			10
-#define WIDTH_SLOPE				5
-#define LINE_THRESHOLD 			5		// différence acceptable de largeur par rapport à la ligne de référence
-#define START_LINE_WIDTH		44		// largeur ligne de référence
-#define IMAGE_BUFFER_SIZE_DIV_3	213		// un tiers du buffer
-#define NB_LINE_BARCODE			5		// nombre de lignes composant le code
+#define MIN_LINE_WIDTH			10		// min line that is valid
+#define WIDTH_SLOPE				5		// min slope width (dist. between up and down)
+#define LINE_THRESHOLD 			5		// margin for line width reference
+#define START_LINE_WIDTH		44		// line width reference (medium size)
+#define IMAGE_BUFFER_SIZE_DIV_3	213		// a third of the buffer
+#define NB_LINE_BARCODE			7		// number of line in a barcode
 
 enum ratio{
 	SMALL = 1,
@@ -16,8 +16,9 @@ enum ratio{
 };
 
 struct Line{
+	// can take value from 0 to IMAGE_BUFFER_SIZE
 	uint16_t end_pos, begin_pos;
-	uint8_t width;
+	uint16_t width;
 	bool found;
 };
 
@@ -26,11 +27,11 @@ void get_image_stop(void);
 uint8_t get_code(void);
 void set_code(uint8_t code_p);
 void process_image_start(void);
-struct Line line_find_next(uint8_t *buffer, uint16_t start_position, uint32_t mean);
+struct Line line_find_next(uint8_t *buffer, uint16_t start_position, uint8_t *mean_p);
+struct Line line_find_next_inverted_direction(uint8_t *buffer, int16_t start_position, uint8_t *mean_p);
 void extract_barcode(uint8_t *image);
 void calculate_mean(uint8_t *buffer, uint8_t *mean);
 uint8_t line_classify(struct Line line, uint8_t width_unit);
-//void demo_led(uint8_t code);
 
 
 

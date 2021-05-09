@@ -45,14 +45,14 @@ static THD_FUNCTION(BodyLedThd, arg) {
 		case ANIM_DEBUG:
 			set_led(LED1, 1);
 			set_led(LED5, 1);
-			set_led(LED3, 0);
-			set_led(LED7, 0);
-			chThdSleepMilliseconds(800);
-			set_led(LED1, 0);
-			set_led(LED5, 0);
+//			set_led(LED3, 0);
+//			set_led(LED7, 0);
+//			chThdSleepMilliseconds(800);
+//			set_led(LED1, 0);
+//			set_led(LED5, 0);
 			set_led(LED3, 1);
 			set_led(LED7, 1);
-			chThdSleepMilliseconds(800);
+//			chThdSleepMilliseconds(800);
 
 			break;
 
@@ -141,8 +141,10 @@ void anim_start_freq(uint8_t intensity) {
 }
 
 void anim_debug(void) {
-	animation = ANIM_DEBUG;
-	chBSemSignal(&anim_ready);
+//	animation = ANIM_DEBUG;
+//	chBSemSignal(&anim_ready);
+	set_led(LED1, 1);
+	set_led(LED5, 1);
 }
 void anim_stop_freq(uint8_t intensity) {
 	animation = ANIM_FREQ;
@@ -165,8 +167,12 @@ void anim_wake_up(void) {
 }
 
 void anim_clear_debug(void) {
-	animation = ANIM_CLEAR_DEBUG;
-	chBSemSignal(&anim_ready);
+//	animation = ANIM_CLEAR_DEBUG;
+//	chBSemSignal(&anim_ready);
+	set_led(LED1, 0);
+	set_led(LED5, 0);
+//	set_led(LED3, 1);
+//	set_led(LED7, 1);
 }
 
 void anim_forward(void){

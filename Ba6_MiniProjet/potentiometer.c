@@ -67,6 +67,7 @@ static THD_FUNCTION(ThdPotentiometer, arg) {
 			switch (punky_state) {
 			case PUNKY_DEMO:
 				punky_state = PUNKY_DEBUG;
+				anim_debug();
 				break;
 			case PUNKY_SLEEP:
 				punky_state = PUNKY_WAKE_UP;
