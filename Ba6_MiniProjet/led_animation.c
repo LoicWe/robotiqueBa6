@@ -21,7 +21,7 @@ static uint8_t direction = 0;
  * 		If an animation is called on a repeated basis, it may cause some trouble
  * 		and animation could be ignored as there is no priority rules
  */
-static THD_WORKING_AREA(waLedAnimationThd, 16);
+static THD_WORKING_AREA(waLedAnimationThd, 128);
 static THD_FUNCTION(LedAnimationThd, arg) {
 
 	chRegSetThreadName(__FUNCTION__);
