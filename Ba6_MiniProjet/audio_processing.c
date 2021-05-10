@@ -133,6 +133,8 @@ void sound_remote(float* data) {
 		}
 		move();
 
+	} else if (mode == MOVING && sound_off > 0){
+		move_stop();
 	} else if (mode == SOUND_OFF) {
 		move_stop();
 	}

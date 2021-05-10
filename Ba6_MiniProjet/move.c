@@ -45,6 +45,10 @@ void set_rotation(int16_t new_rotation) {
 	rotation = new_rotation;
 }
 
+int16_t get_rotation(void){
+	return rotation;
+}
+
 void set_speed(int8_t code) {
 
 	code = code - 26;
@@ -67,7 +71,6 @@ void motor_control_run(void) {
 }
 
 void motor_control_stop(void) {
-	move_stop();
 	move_on = false;
 }
 

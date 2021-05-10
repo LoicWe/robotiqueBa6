@@ -108,6 +108,7 @@ int main(void) {
 			pi_regulator_stop();
 			motor_control_stop();
 			microphone_stop();
+			move_stop();
 		}
 
 		// transition state to restart every thread after sleep mode
