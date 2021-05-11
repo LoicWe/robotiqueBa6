@@ -24,6 +24,7 @@ void move_stop(void);
 void set_speed(int8_t code);
 int16_t get_speed(void);
 void set_rotation(int16_t new_rotation);
+int16_t get_rotation(void);
 void motor_control_run(void);
 void motor_control_stop(void);
 

@@ -27,9 +27,8 @@ void wait_send_to_computer(void);
 *	Returns the pointer to the BUFFER_NAME_t buffer asked
 */
 float* get_audio_buffer_ptr(void);
-
 void microphone_run(void);
-
 void microphone_stop(void);
+bool get_microphone_state(void);
 
 #endif /* AUDIO_PROCESSING_H */

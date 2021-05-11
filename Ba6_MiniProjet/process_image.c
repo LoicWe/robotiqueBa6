@@ -1,7 +1,7 @@
 #include "ch.h"
 #include "hal.h"
-#include <chprintf.h>
 #include <usbcfg.h>
+#include <chprintf.h>
 
 #include <camera/po8030.h>
 #include "camera/dcmi_camera.h"
@@ -11,6 +11,7 @@
 #include <communications.h>
 #include <led_animation.h>
 #include <potentiometer.h>
+#include <debug_messager.h>
 
 static bool sleep_mode = 1;
 static uint8_t code = 0;
@@ -19,7 +20,6 @@ static bool barcode_found = false;
 //semaphore
 static BSEMAPHORE_DECL(image_ready_sem, TRUE); // @suppress("Field cannot be resolved")
 static BSEMAPHORE_DECL(start_imaging_sem, FALSE); // @suppress("Field cannot be resolved")
-
 
 /*
  *  @Describe:
@@ -33,7 +33,7 @@ static BSEMAPHORE_DECL(start_imaging_sem, FALSE); // @suppress("Field cannot be 
  *  	The code is static variable accessible all time in the file
  *
  *  @Param:
-// *  	uint8_t *image	The pixel line to analyse. IMAGE_BUFFER_SIZE long
+ // *  	uint8_t *image	The pixel line to analyse. IMAGE_BUFFER_SIZE long
  *
  */
 void extract_barcode(uint8_t *image) {
@@ -115,7 +115,7 @@ void extract_barcode(uint8_t *image) {
 		// code is created in base 3 -> 27 possibilities with 3 line of 3 sizes
 		set_code(9 * digit[2] + 3 * digit[3] + digit[4]);
 		if (get_punky_state() == PUNKY_DEBUG)
-			chprintf((BaseSequentialStream *) &SD3, "code : %d %d %d   ID : %d\r", digit[2], digit[3], digit[4], code);
+			debug_message_4("Code = ", digit[2], digit[3], digit[4], code, EMPHASIS, HIGH_PRIO);
 	}
 	// IF start pattern read but NOT the end pattern, set code to 1
 	else if (digit[0] == MEDIUM && digit[1] == MEDIUM) {
@@ -129,13 +129,13 @@ void extract_barcode(uint8_t *image) {
 		 **************************************/
 
 		// same operations as before, but in the reverse direction
-		line.end_pos = line.begin_pos = IMAGE_BUFFER_SIZE-1;
+		line.end_pos = line.begin_pos = IMAGE_BUFFER_SIZE - 1;
 		line.width = 0;
 		line.found = false;
 
 		width = 0;
-		end_last_line = IMAGE_BUFFER_SIZE-1;
-		digit[NB_LINE_BARCODE-2] = digit[NB_LINE_BARCODE-1] = -1;
+		end_last_line = IMAGE_BUFFER_SIZE - 1;
+		digit[NB_LINE_BARCODE - 2] = digit[NB_LINE_BARCODE - 1] = -1;
 
 		/***** FIRST LINE *****/
 		do {
@@ -162,10 +162,11 @@ void extract_barcode(uint8_t *image) {
 			} else {
 				digit[NB_LINE_BARCODE - 2] = 1;
 			}
-		}if (digit[NB_LINE_BARCODE - 1] == 2 && digit[NB_LINE_BARCODE - 2] == 1) {
+		}
+		if (digit[NB_LINE_BARCODE - 1] == 2 && digit[NB_LINE_BARCODE - 2] == 1) {
 			// if end pattern is found
 			set_code(2);
-		}else{
+		} else {
 			// if nothing was found
 			set_code(0);
 		}
@@ -254,7 +255,7 @@ struct Line line_find_next(uint8_t *buffer, uint16_t start_position, uint8_t *me
 			}
 		}
 		//if no begin was found
-		else{
+		else {
 			line_not_found = 1;
 		}
 
@@ -326,7 +327,7 @@ struct Line line_find_next_inverted_direction(uint8_t *buffer, int16_t start_pos
 
 			while (stop == 0 && i > 0) {
 				mean = (i < IMAGE_BUFFER_SIZE_DIV_3 ? mean_p[0] : (i < IMAGE_BUFFER_SIZE_DIV_3 * 2 ? mean_p[1] - 20 : mean_p[2]));
-				if (buffer[i] > mean && (i + WIDTH_SLOPE >= IMAGE_BUFFER_SIZE ? buffer[IMAGE_BUFFER_SIZE-1]:buffer[i + WIDTH_SLOPE]) < mean) {
+				if (buffer[i] > mean && (i + WIDTH_SLOPE >= IMAGE_BUFFER_SIZE ? buffer[IMAGE_BUFFER_SIZE - 1] : buffer[i + WIDTH_SLOPE]) < mean) {
 					end = i;
 					stop = 1;
 				}
@@ -338,7 +339,7 @@ struct Line line_find_next_inverted_direction(uint8_t *buffer, int16_t start_pos
 			}
 		}
 		//if no begin was found
-		else{
+		else {
 			line_not_found = 1;
 		}
 
@@ -495,11 +496,10 @@ void get_image_stop(void) {
  */
 void set_code(uint8_t code_p) {
 
-	if(code_p != 0 && code_p != 1 && code_p != 2){
+	if (code_p != 0 && code_p != 1 && code_p != 2) {
 		barcode_found = true;
 		code = code_p;
-	}
-	else if(barcode_found == false){
+	} else if (barcode_found == false) {
 		code = code_p;
 	}
 }
