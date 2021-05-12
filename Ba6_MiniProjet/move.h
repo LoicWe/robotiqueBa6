@@ -15,6 +15,7 @@ void move_stop(void);
 
 #define MAX_SPEED 	900	//100%
 #define MIN_SPEED	200	//20%
+#define BARCODE_ROTATION_SPEED 60
 
 
 // ************************************************************************//

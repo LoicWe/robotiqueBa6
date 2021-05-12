@@ -506,8 +506,12 @@ void set_code(uint8_t code_p) {
 
 /*
  *  @Describe:
- *  	get the code. Release the barcode found flag. See set_code for more
+ *  	Get the code. Release the barcode found flag. See set_code for more
  *  	explainations.
+ *		Values : 13 to 39   valide code to set speed
+ *				 	1 		barcode start pattern found
+ *					2		barcode end pattern found
+ *					0		nothing found
  *
  *  @Return:
  *  	uint8_t code	The code

@@ -9,10 +9,16 @@
 #define IMAGE_BUFFER_SIZE_DIV_3	213		// a third of the buffer
 #define NB_LINE_BARCODE			7		// number of line in a barcode
 
-enum ratio{
+enum RATIO{
 	SMALL = 1,
 	MEDIUM = 2,
 	LARGE = 3
+};
+
+enum CODE_TYPE{
+	START_PATTERN = 1,
+	END_PATTERN = 2,
+	NOT_DETECTED = 0
 };
 
 struct Line{
