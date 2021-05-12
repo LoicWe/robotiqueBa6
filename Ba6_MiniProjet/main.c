@@ -116,11 +116,10 @@ int main(void) {
  *
  */
 void punky_run(void) {
-	uint16_t distance = 0;
-	int8_t code = 0;
+	uint16_t distance;
+	int8_t code;
 	static bool code_found = false;
 
-	//switch between frequency mode and Pi mode using the TOF
 	distance = VL53L0X_get_dist_mm();
 
 	//mecanism to reactivate the frequency mode after a code is found
@@ -128,7 +127,7 @@ void punky_run(void) {
 		code_found = false;
 	}
 
-	//   =>   PI mode
+	// => PI mode
 	if (distance > MIN_DISTANCE_DETECTED && distance < MAX_DISTANCE_DETECTED && !code_found) {
 		if (get_punky_state() == PUNKY_DEBUG)	//debug mode
 			debug_message("== PI CODE ==", LIGHTNING, LOW_PRIO);
@@ -165,7 +164,7 @@ void punky_run(void) {
 		}
 
 	}
-	//   =>   frequency mode
+	// => frequency mode
 	else {
 		if (get_punky_state() == PUNKY_DEBUG)	//debug mode
 			debug_message("== Frequences ==", LIGHTNING, LOW_PRIO);
