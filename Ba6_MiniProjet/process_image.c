@@ -1,21 +1,21 @@
 #include "ch.h"
 #include "hal.h"
 #include <usbcfg.h>
-#include <chprintf.h>
-
 #include <camera/po8030.h>
 #include "camera/dcmi_camera.h"
 #include "msgbus/messagebus.h"
 #include "parameter/parameter.h"
+
 #include <process_image.h>
 #include <communications.h>
 #include <leds_animations.h>
 #include <mode_selection.h>
 #include <debug_messager.h>
 
-static bool sleep_mode = 1;
 static uint8_t code = 0;
-static bool barcode_found = false;
+static bool barcode_found = false;		// to block code change before reading
+
+static bool sleep_mode = 1;
 
 // semaphores
 static BSEMAPHORE_DECL(image_ready_sem, TRUE); // @suppress("Field cannot be resolved")

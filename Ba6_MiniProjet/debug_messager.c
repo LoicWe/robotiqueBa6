@@ -11,14 +11,24 @@
 static BSEMAPHORE_DECL(send_debug, FALSE); // @suppress("Field cannot be resolved")
 
 static char str[MAX_LENGTH_STRING];
-static int16_t value1 = 0;
-static int16_t value2 = 0;
-static int16_t value3 = 0;
-static int16_t value4 = 0;
-static systime_t time = 100; // CANNOT be 0, otherwise panic error at init
-static bool sending = false;
-static uint8_t nbr_values = 1;
+static int16_t value1 = 0;		// parameter 1 to print
+static int16_t value2 = 0;		// parameter 2 to print
+static int16_t value3 = 0;		// parameter 3 to print
+static int16_t value4 = 0;		// parameter 4 to print
+static systime_t time = 100; 	// CANNOT be 0, otherwise panic error at init
+static bool sending = false;	// tricks for priority message
+static uint8_t nbr_values = 1;	// number of parameters
 
+/*
+ * 	@Describe:
+ * 		Generic function to print informations in the console.
+ * 		The goal of this thread is to print usefule and relevant data
+ * 		of the robot in a readable way for demonstration.
+ * 		User can set with setting functions the message, the values and
+ * 		the duration of the message.
+ * 		A priority is given such that high priority messages can force printing (not 100%)
+ *
+ */
 static THD_WORKING_AREA(waDebugMsgThd, 512);
 static THD_FUNCTION(DebugMsgThd, arg) {
 
@@ -72,8 +82,8 @@ void debug_message(char *str_p, systime_t time_p, bool high_prio_p) {
 		time = time_p;
 		nbr_values = 0;
 
-		if(high_prio_p == HIGH_PRIO)
-			chBSemReset(&send_debug, FALSE);
+//		if(high_prio_p == HIGH_PRIO)
+//			chBSemReset(&send_debug, FALSE);
 
 		chBSemSignal(&send_debug);
 	}
@@ -105,8 +115,8 @@ void debug_message_1(char *str_p, int16_t value1_p, systime_t time_p, bool high_
 		value1 = value1_p;
 		time = time_p;
 		nbr_values = 1;
-		if(high_prio_p == HIGH_PRIO)
-			chBSemReset(&send_debug, FALSE);
+//		if(high_prio_p == HIGH_PRIO)
+//			chBSemReset(&send_debug, FALSE);
 
 		chBSemSignal(&send_debug);
 	}
@@ -145,8 +155,8 @@ void debug_message_4(char *str_p, int16_t value1_p, int16_t value2_p, int16_t va
 
 		nbr_values = 4;
 
-		if(high_prio_p == HIGH_PRIO)
-			chBSemReset(&send_debug, FALSE);
+//		if(high_prio_p == HIGH_PRIO)
+//			chBSemReset(&send_debug, FALSE);
 
 		chBSemSignal(&send_debug);
 	}

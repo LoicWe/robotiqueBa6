@@ -10,8 +10,8 @@
 #include <mode_selection.h>
 #include <debug_messager.h>
 
-static int16_t speed = 600;
-static int16_t rotation = 0;
+static int16_t speed = 600;			// up to 1100, see motor files
+static int16_t rotation = 0;		// coeff +/- to speed to rotate
 static bool sleep_mode = false;		// stop the motors if SLEEP_MODE
 
 
@@ -92,7 +92,8 @@ int16_t get_rotation(void){
 	return rotation;
 }
 
-/*  @Describe:
+/*
+ *  @Describe:
  *  	PI regulator to be at right distance for barcode
  *
  *	@Params:

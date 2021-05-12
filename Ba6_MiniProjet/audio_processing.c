@@ -4,17 +4,17 @@
 #include <usbcfg.h>
 #include <arm_math.h>
 #include <arm_const_structs.h>
-
-#include <move.h>
 #include <audio/microphone.h>
 #include <audio_processing.h>
+
+#include <move.h>
 #include <leds_animations.h>
 #include <debug_messager.h>
 #include <mode_selection.h>
 
-//2 times FFT_SIZE because these arrays contain complex numbers (real + imaginary)
+// 2 times FFT_SIZE because these arrays contain complex numbers (real + imaginary)
 static float micBack_cmplx_input[2 * FFT_SIZE];
-//Arrays containing the computed magnitude of the complex numbers
+// Arrays containing the computed magnitude of the complex numbers
 static float micBack_output[FFT_SIZE];
 
 #define MIN_VALUE_THRESHOLD		15000;	// value to take frequence into account
@@ -27,11 +27,11 @@ static float micBack_output[FFT_SIZE];
 #define NB_SOUND_OFF			15		// nbr sample to reset the mean
 #define ROTATION_COEFF			12		// how strong the rotation is
 
-static bool sleep_mode = true;
-
 static uint8_t mode = SOUND_OFF;		// SOUND_OFF, ANALYSING, MOVING
 static uint8_t sound_on = 0;			// counter to get the mean
 static uint8_t sound_off = 0;			// counter to reset the mean (human has to breath)
+
+static bool sleep_mode = true;
 
 /*
  * 	@Describe:

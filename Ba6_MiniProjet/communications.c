@@ -1,13 +1,16 @@
 #include "ch.h"
 #include "hal.h"
-#include <main.h>
+#include <spi_comm.h>
 
 #include <communications.h>
-#include <spi_comm.h>
 
 /*
  * 	@Describe:
  * 		Sends int8 numbers to the computer
+ *
+ *	@Params:
+ *		uint8_t *data	the datas to send
+ *		uint16_t size	the size of the data
  *
  * 	@Author:
  * 		TP5_Noisy_correction

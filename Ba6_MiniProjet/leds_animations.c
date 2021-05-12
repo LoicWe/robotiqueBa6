@@ -2,8 +2,8 @@
 #include "hal.h"
 #include <math.h>
 #include <usbcfg.h>
-
 #include "leds.h"
+
 #include <leds_animations.h>
 
 //semaphore
@@ -143,7 +143,7 @@ static THD_FUNCTION(LedAnimationThd, arg) {
 			break;
 
 		case ANIM_WAKE_UP:
-			for (uint8_t i = 0; i < FULL_I; i += 2) {				//////
+			for (uint8_t i = 0; i < FULL_I; i += 2) {
 				set_rgb_led(LED2, FULL_I - i, 0, 0);
 				set_rgb_led(LED4, FULL_I - i, 0, 0);
 				set_rgb_led(LED6, FULL_I - i, 0, 0);
