@@ -2,13 +2,13 @@
 #include "hal.h"
 #include <math.h>
 #include <usbcfg.h>
-#include <chprintf.h>
+//#include <chprintf.h>
 #include <sensors/VL53L0X/VL53L0X.h>
 
 #include <main.h>
 #include <motors.h>
 #include <move.h>
-#include <led_animation.h>
+//#include <led_animation.h>
 #include <potentiometer.h>
 #include <debug_messager.h>
 

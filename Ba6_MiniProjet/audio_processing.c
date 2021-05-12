@@ -1,7 +1,6 @@
 #include "ch.h"
 #include "hal.h"
 #include <main.h>
-#include <math.h>
 #include <usbcfg.h>
 #include <arm_math.h>
 #include <arm_const_structs.h>
@@ -9,12 +8,9 @@
 #include <move.h>
 #include <audio/microphone.h>
 #include <audio_processing.h>
-#include <arm_math.h>
-#include <communications.h>			// POSSIBLEMENT A ENLEVER
 #include <led_animation.h>
 #include <potentiometer.h>
 #include <debug_messager.h>
-#include <chprintf.h>
 
 //semaphore
 static BSEMAPHORE_DECL(sendToComputer_sem, TRUE); // @suppress("Field cannot be resolved")

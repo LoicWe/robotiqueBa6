@@ -5,24 +5,22 @@
 
 #include "ch.h"
 #include "hal.h"
-#include "chprintf.h"
 
 #include "usbcfg.h"
 #include "spi_comm.h"
 #include "memory_protection.h"
-#include <leds.h>
 #include <motors.h>
 #include <audio/microphone.h>
 #include <sensors/VL53L0X/VL53L0X.h>
 
 #include <main.h>
 #include <move.h>
-#include <led_animation.h>
 #include <process_image.h>
 #include <potentiometer.h>
 #include <communications.h>
 #include <audio_processing.h>
 #include <debug_messager.h>
+#include <led_animation.h>
 
 static void serial_start(void) {
 	static SerialConfig ser_cfg = { 115200, 0, 0, 0, };

@@ -5,8 +5,8 @@
 
 #include "leds.h"
 #include <led_animation.h>
-#include <move.h>
-#include <chprintf.h>
+//#include <move.h>
+//#include <chprintf.h>
 
 //semaphore
 static BSEMAPHORE_DECL(anim_ready, TRUE); // @suppress("Field cannot be resolved")
@@ -194,6 +194,8 @@ static THD_FUNCTION(LedAnimationThd, arg) {
 			set_led(LED7, 0);
 			break;
 		}
+
+		chThdSleepMilliseconds(50);
 	}
 }
 
@@ -247,17 +249,11 @@ void anim_wake_up(void) {
 void anim_debug(void) {
 	animation = ANIM_DEBUG;
 	chBSemSignal(&anim_ready);
-
-//	set_led(LED1, 1);
-//	set_led(LED5, 1);
 }
 
 void anim_clear_debug(void) {
 	animation = ANIM_CLEAR_DEBUG;
 	chBSemSignal(&anim_ready);
-//	set_led(LED1, 0);
-//	set_led(LED5, 0);
-
 }
 
 void anim_clear_rgbs(void){
