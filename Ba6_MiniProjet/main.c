@@ -110,7 +110,7 @@ int main(void) {
 /*
  *	@Describe:
  *		The robot has 2 modes, "frequency" and "PI". If a short distance is detected,
- *		PI mode is running : the robot runs at the right distance of the barcode and
+ *		PI mode is running : the robot drives at the right distance of the barcode and
  *		image detection is running to find the code.
  *		Otherwise, frequeny mode is running. The robot can be piloted with the voice.
  *

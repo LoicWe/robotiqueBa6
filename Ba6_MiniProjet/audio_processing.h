@@ -19,6 +19,6 @@ typedef enum {
 void processAudioData(int16_t *data, uint16_t num_samples);
 void microphone_start(void);
 void microphone_stop(void);
-bool get_microphone_state(void);
+//bool get_microphone_state(void);
 
 #endif /* AUDIO_PROCESSING_H */
