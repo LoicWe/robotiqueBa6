@@ -203,23 +203,19 @@ void anim_barcode(uint8_t direction_p) {
 	chBSemSignal(&anim_ready);
 }
 
-void anim_start_freq_manual(uint8_t intensity) {
+void anim_start_freq_manual(uint8_t step, uint8_t nb_steps) {
 	animation = ANIM_FREQ_MANUAL;
-	if (intensity <= 10) {
-		freq_led_intensity = intensity;
-	} else {
-		freq_led_intensity = (intensity - 9) * 5;
-	}
+
+	freq_led_intensity = 50*step/nb_steps;
+
 	chBSemSignal(&anim_ready);
 }
 
-void anim_stop_freq_manual(uint8_t intensity) {
+void anim_stop_freq_manual(uint8_t step, uint8_t nb_steps) {
 	animation = ANIM_FREQ_MANUAL;
-	if (intensity == 10) {
-		freq_led_intensity = 0;
-	} else {
-		freq_led_intensity = 50 - intensity * 5;
-	}
+
+	freq_led_intensity = 50 - 50*step/nb_steps;
+
 	chBSemSignal(&anim_ready);
 }
 

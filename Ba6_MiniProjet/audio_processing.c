@@ -74,7 +74,7 @@ void frequency_piloting(float* data) {
 		// wait a bit before resetting mean (humain breath)
 		if (mode != SOUND_OFF) {
 			sound_off++;
-			anim_stop_freq_manual(sound_off);
+			anim_stop_freq_manual(sound_off, NB_SOUND_OFF);
 			if (sound_off == NB_SOUND_OFF) {
 				mean_freq = -1;
 				sound_on = 0;
@@ -90,7 +90,7 @@ void frequency_piloting(float* data) {
 			if (max_norm_index > MIN_FREQ_INIT && max_norm_index < MAX_FREQ_INIT) {
 				mean_freq = max_norm_index;
 				mode = ANALYSING;
-				anim_start_freq_manual(sound_on);
+				anim_start_freq_manual(sound_on, NB_SOUND_ON);
 				sound_on++;
 
 				if (get_punky_state() == PUNKY_DEBUG)
@@ -102,7 +102,7 @@ void frequency_piloting(float* data) {
 		else if (sound_on < NB_SOUND_ON) {
 			mean_freq += max_norm_index;
 			mode = ANALYSING;
-			anim_start_freq_manual(sound_on);
+			anim_start_freq_manual(sound_on, NB_SOUND_ON);
 			sound_on++;
 		}
 		// enough samples, set the mean
@@ -110,7 +110,7 @@ void frequency_piloting(float* data) {
 			mean_freq += max_norm_index;
 			mean_freq /= (NB_SOUND_ON + 1);
 
-			anim_start_freq_manual(sound_on);
+			anim_start_freq_manual(sound_on, NB_SOUND_ON);
 			mode = ANALYSING;
 			sound_on++;
 
@@ -120,7 +120,7 @@ void frequency_piloting(float* data) {
 		// a mean is set, start piloting phase
 		else {
 			mode = MOVING;
-			motor_control_start();
+//			motor_control_start();
 		}
 	}
 

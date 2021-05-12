@@ -22,8 +22,8 @@ enum direction{
 
 void leds_animations_thd_start(void);
 void anim_barcode(uint8_t direction_p);
-void anim_start_freq_manual(uint8_t intensity);
-void anim_stop_freq_manual(uint8_t intensity);
+void anim_start_freq_manual(uint8_t step, uint8_t nb_steps);
+void anim_stop_freq_manual(uint8_t step, uint8_t nb_steps);
 void anim_stop_freq(void);
 void anim_debug(void);
 void anim_sleep(void);

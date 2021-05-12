@@ -96,7 +96,6 @@ int main(void) {
 			case PUNKY_SLEEP:
 				get_image_stop();
 				pi_regulator_stop();
-				motor_control_stop();
 				microphone_stop();
 				move_stop();
 				break;
@@ -132,7 +131,6 @@ void punky_run(void) {
 		if (get_punky_state() == PUNKY_DEBUG)	//debug mode
 			debug_message("== PI CODE ==", LIGHTNING, LOW_PRIO);
 		microphone_stop();
-		motor_control_stop();
 		pi_regulator_start();
 		get_image_start();
 
@@ -171,7 +169,6 @@ void punky_run(void) {
 
 		get_image_stop();
 		pi_regulator_stop();
-		motor_control_start();
 		microphone_start();
 	}
 }
