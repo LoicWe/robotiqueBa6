@@ -1,9 +1,9 @@
 #ifndef PROCESS_IMAGE_H
 #define PROCESS_IMAGE_H
 
-#define IMAGE_BUFFER_SIZE		640
-#define MIN_LINE_WIDTH			10		// min line that is valid
-#define WIDTH_SLOPE				5		// min slope width (dist. between up and down)
+#define IMAGE_BUFFER_SIZE		640		// width in pixel of an image
+#define MIN_LINE_WIDTH			10		// min line width that is valid to find
+#define WIDTH_SLOPE				5		// max slope width (dist. between up and down)
 #define LINE_THRESHOLD 			5		// margin for line width reference
 #define START_LINE_WIDTH		44		// line width reference (medium size)
 #define IMAGE_BUFFER_SIZE_DIV_3	213		// a third of the buffer
@@ -38,8 +38,5 @@ struct Line line_find_next_inverted_direction(uint8_t *buffer, int16_t start_pos
 void extract_barcode(uint8_t *image);
 void calculate_mean(uint8_t *buffer, uint8_t *mean);
 uint8_t line_classify(struct Line line, uint8_t width_unit);
-
-
-
 
 #endif /* PROCESS_IMAGE_H */

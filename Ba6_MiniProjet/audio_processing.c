@@ -158,7 +158,7 @@ void frequency_piloting(float* data) {
  *		uint16_t num_samples	Tells how many data we get in total (should always be 640)
  *
  *	@Author:
- *		TP5, adapted for our needs
+ *		TP5_Noisy_correction, adapted for our needs
  */
 void processAudioData(int16_t *data, uint16_t num_samples) {
 
