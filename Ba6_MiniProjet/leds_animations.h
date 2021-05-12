@@ -1,5 +1,5 @@
-#ifndef LED_ANIMATION_H
-#define LED_ANIMATION_H
+#ifndef LEDS_ANIMATIONS_H
+#define LEDS_ANIMATIONS_H
 
 
 enum animation{
@@ -31,4 +31,4 @@ void anim_wake_up(void);
 void anim_clear_debug(void);
 void anim_clear_rgbs(void);
 
-#endif /* LED_ANIMATION_H  */
+#endif /* LEDS_ANIMATIONS_H  */

@@ -14,7 +14,7 @@ CSRC += ./main.c \
 		./move.c \
 		./communications.c \
 		./process_image.c \
-		./led_animation.c \
+		./leds_animations.c \
 		./mode_selection.c\
 		./debug_messager.c\
 		

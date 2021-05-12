@@ -14,7 +14,7 @@ typedef enum {
 	LEFT
 }CHANGE_STATE;
 
-void mode_selection_thd_init(void);
+void mode_selection_thd_start(void);
 
 void set_punky_state(uint8_t new_punky_state);
 uint8_t get_punky_state(void);

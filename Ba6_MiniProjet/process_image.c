@@ -9,7 +9,7 @@
 #include "parameter/parameter.h"
 #include <process_image.h>
 #include <communications.h>
-#include <led_animation.h>
+#include <leds_animations.h>
 #include <mode_selection.h>
 #include <debug_messager.h>
 
@@ -465,7 +465,7 @@ static THD_FUNCTION(ProcessImage, arg) {
  * 		if sleep mode = 1, then the thread wait for an start semaphore
  * 		if sleep mode = 0, then the thread run in the background
  */
-void get_image_run(void) {
+void get_image_start(void) {
 	if (sleep_mode == 1) {
 		chBSemSignal(&start_imaging_sem);
 	}

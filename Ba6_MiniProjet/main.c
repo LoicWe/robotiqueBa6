@@ -20,7 +20,7 @@
 #include <communications.h>
 #include <audio_processing.h>
 #include <debug_messager.h>
-#include <led_animation.h>
+#include <leds_animations.h>
 
 static void serial_start(void) {
 	static SerialConfig ser_cfg = { 115200, 0, 0, 0, };
@@ -44,7 +44,7 @@ static void serial_start(void) {
  */
 
 //private function for the main
-void punky_run(void);
+void punky_start(void);
 
 int main(void) {
 	halInit();
@@ -72,9 +72,9 @@ int main(void) {
 	VL53L0X_start();
 
 	//starts the potentiometer thread
-	mode_selection_thd_init();
+	mode_selection_thd_start();
 	//inits the PI regulator
-	pi_regulator_init();
+	pi_regulator_thd_start();
 	//starts the led thread for visual feedback
 	leds_animations_thd_start();
 	//starts the debug messager services
@@ -90,13 +90,13 @@ int main(void) {
 
 		// basic mode of operation
 		if (punky_state == PUNKY_DEMO) {
-			punky_run();
+			punky_start();
 		}
 
 		// add animation and send data to the computer
 		else if (punky_state == PUNKY_DEBUG) {
 			// add an animation on top of the other
-			punky_run();
+			punky_start();
 		}
 
 		// deactivate everything except a visual indicator
@@ -118,7 +118,7 @@ int main(void) {
 	}
 }
 
-void punky_run(void) {
+void punky_start(void) {
 	uint16_t distance = 0;
 	int8_t code = 0;
 	static bool code_found = false;
@@ -139,8 +139,8 @@ void punky_run(void) {
 		motor_control_stop();
 
 		//start pi_regulator and image capture
-		pi_regulator_run();
-		get_image_run();
+		pi_regulator_start();
+		get_image_start();
 		code = get_code();
 
 		// valide code are between 13 and 39
@@ -180,8 +180,8 @@ void punky_run(void) {
 		pi_regulator_stop();
 
 		//start frequency control
-		motor_control_run();
-		microphone_run();
+		motor_control_start();
+		microphone_start();
 	}
 }
 

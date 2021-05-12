@@ -6,7 +6,7 @@
 
 #include <main.h>
 #include <mode_selection.h>
-#include <led_animation.h>
+#include <leds_animations.h>
 
 static uint8_t punky_state = PUNKY_DEMO;
 
@@ -82,7 +82,7 @@ static THD_FUNCTION(ThdPotentiometer, arg) {
 	}
 }
 
-void mode_selection_thd_init(void) {
+void mode_selection_thd_start(void) {
 	chThdCreateStatic(waThdPotentiometer, sizeof(waThdPotentiometer), NORMALPRIO+3, ThdPotentiometer, NULL);
 }
 

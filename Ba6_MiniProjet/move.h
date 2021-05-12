@@ -25,7 +25,7 @@ void set_speed(int8_t code);
 int16_t get_speed(void);
 void set_rotation(int16_t new_rotation);
 int16_t get_rotation(void);
-void motor_control_run(void);
+void motor_control_start(void);
 void motor_control_stop(void);
 
 
@@ -34,8 +34,8 @@ void motor_control_stop(void);
 // ************************************************************************//
 
 //start the PI regulator thread
-void pi_regulator_init(void);
-void pi_regulator_run(void);
+void pi_regulator_thd_start(void);
+void pi_regulator_start(void);
 void pi_regulator_stop(void);
 int16_t pi_regulator(uint16_t distance, uint8_t goal);
 

@@ -8,7 +8,7 @@
 #include <move.h>
 #include <audio/microphone.h>
 #include <audio_processing.h>
-#include <led_animation.h>
+#include <leds_animations.h>
 #include <debug_messager.h>
 #include <mode_selection.h>
 
@@ -111,7 +111,7 @@ void sound_remote(float* data) {
 			sound_on++;
 		} else {
 			mode = MOVING;
-			motor_control_run();
+			motor_control_start();
 		}
 	}
 
@@ -217,7 +217,7 @@ float* get_audio_buffer_ptr(void) {
 	return micBack_output;
 }
 
-void microphone_run(void) {
+void microphone_start(void) {
 	sleep_mode = false;
 }
 

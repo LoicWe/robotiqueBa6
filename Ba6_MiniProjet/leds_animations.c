@@ -4,7 +4,7 @@
 #include <usbcfg.h>
 
 #include "leds.h"
-#include <led_animation.h>
+#include <leds_animations.h>
 
 //semaphore
 static BSEMAPHORE_DECL(anim_ready, TRUE); // @suppress("Field cannot be resolved")

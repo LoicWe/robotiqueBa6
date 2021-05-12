@@ -64,7 +64,7 @@ void set_speed(int8_t code) {
 		debug_message_1("vitesse = ", speed, EMPHASIS, HIGH_PRIO);
 }
 
-void motor_control_run(void) {
+void motor_control_start(void) {
 	move_on = true;
 }
 
@@ -163,11 +163,11 @@ static THD_FUNCTION(PiRegulator, arg) {
 	}
 }
 
-void pi_regulator_init(void) {
+void pi_regulator_thd_start(void) {
 	chThdCreateStatic(waPiRegulator, sizeof(waPiRegulator), NORMALPRIO + 2, PiRegulator, NULL);
 }
 
-void pi_regulator_run(void) {
+void pi_regulator_start(void) {
 	sleep_mode = false;
 }
 
