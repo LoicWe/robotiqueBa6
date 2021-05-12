@@ -209,14 +209,6 @@ void processAudioData(int16_t *data, uint16_t num_samples) {
 	}
 }
 
-void wait_send_to_computer(void) {
-	chBSemWait(&sendToComputer_sem);
-}
-
-float* get_audio_buffer_ptr(void) {
-	return micBack_output;
-}
-
 void microphone_start(void) {
 	sleep_mode = false;
 }
