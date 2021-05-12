@@ -5,8 +5,6 @@
 
 #include "leds.h"
 #include <led_animation.h>
-//#include <move.h>
-//#include <chprintf.h>
 
 //semaphore
 static BSEMAPHORE_DECL(anim_ready, TRUE); // @suppress("Field cannot be resolved")

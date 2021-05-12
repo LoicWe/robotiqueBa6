@@ -16,7 +16,7 @@
 #include <main.h>
 #include <move.h>
 #include <process_image.h>
-#include <potentiometer.h>
+#include <mode_selection.h>
 #include <communications.h>
 #include <audio_processing.h>
 #include <debug_messager.h>
@@ -65,7 +65,6 @@ int main(void) {
 	po8030_start();
 	process_image_start();
 	//starts the microphones processing thread.
-	//it calls the callback given in parameter when samples are ready
 	mic_start(&processAudioData);
 	//inits the motors
 	motors_init();
@@ -73,7 +72,7 @@ int main(void) {
 	VL53L0X_start();
 
 	//starts the potentiometer thread
-	potentiometer_init();
+	mode_selection_thd_init();
 	//inits the PI regulator
 	pi_regulator_init();
 	//starts the led thread for visual feedback

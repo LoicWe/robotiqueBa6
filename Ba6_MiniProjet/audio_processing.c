@@ -9,8 +9,8 @@
 #include <audio/microphone.h>
 #include <audio_processing.h>
 #include <led_animation.h>
-#include <potentiometer.h>
 #include <debug_messager.h>
+#include <mode_selection.h>
 
 //semaphore
 static BSEMAPHORE_DECL(sendToComputer_sem, TRUE); // @suppress("Field cannot be resolved")

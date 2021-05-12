@@ -1,5 +1,5 @@
-#ifndef POTENTIOMETER_H
-#define POTENTIOMETER_H
+#ifndef MODE_SELECTION_H
+#define MODE_SELECTION_H
 
 typedef enum {
 	PUNKY_DEMO = 0,
@@ -14,9 +14,9 @@ typedef enum {
 	LEFT
 }CHANGE_STATE;
 
-void potentiometer_init(void);
+void mode_selection_thd_init(void);
 
 void set_punky_state(uint8_t new_punky_state);
 uint8_t get_punky_state(void);
 
-#endif /* POTENTIOMETER_H */
+#endif /* MODE_SELECTION_H */

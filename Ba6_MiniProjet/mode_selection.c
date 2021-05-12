@@ -5,9 +5,8 @@
 #include <usbcfg.h>
 
 #include <main.h>
-#include <potentiometer.h>
+#include <mode_selection.h>
 #include <led_animation.h>
-//#include <chprintf.h>
 
 static uint8_t punky_state = PUNKY_DEMO;
 
@@ -83,7 +82,7 @@ static THD_FUNCTION(ThdPotentiometer, arg) {
 	}
 }
 
-void potentiometer_init(void) {
+void mode_selection_thd_init(void) {
 	chThdCreateStatic(waThdPotentiometer, sizeof(waThdPotentiometer), NORMALPRIO+3, ThdPotentiometer, NULL);
 }
 

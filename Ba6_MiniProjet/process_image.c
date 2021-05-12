@@ -10,7 +10,7 @@
 #include <process_image.h>
 #include <communications.h>
 #include <led_animation.h>
-#include <potentiometer.h>
+#include <mode_selection.h>
 #include <debug_messager.h>
 
 static bool sleep_mode = 1;
