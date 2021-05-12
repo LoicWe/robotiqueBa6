@@ -18,6 +18,7 @@ static int16_t value4 = 0;		// parameter 4 to print
 static systime_t time = 100; 	// CANNOT be 0, otherwise panic error at init
 static bool sending = false;	// tricks for priority message
 static uint8_t nbr_values = 1;	// number of parameters
+static uint8_t high_prio = false;
 
 /*
  * 	@Describe:
@@ -39,7 +40,8 @@ static THD_FUNCTION(DebugMsgThd, arg) {
 
 		//wait for a message to be received
 		chBSemWait(&send_debug);
-
+		high_prio = false;
+		GPTD12.tim->CNT = 0;
 
 		switch (nbr_values) {
 		case 0:
@@ -53,7 +55,13 @@ static THD_FUNCTION(DebugMsgThd, arg) {
 			break;
 		}
 
-		chThdSleepMilliseconds(time);
+		// possibiliy to intercept high priority message
+		while(GPTD12.tim->CNT < time*10){
+			chThdSleepMilliseconds(20);
+			if(high_prio)
+				break;
+		}
+
 		sending = false;
 	}
 }
@@ -72,6 +80,8 @@ static THD_FUNCTION(DebugMsgThd, arg) {
 void debug_message(char *str_p, systime_t time_p, bool high_prio_p) {
 	if (sending == false || high_prio_p) {
 
+		high_prio = high_prio_p;
+
 		sending = true;
 		if (strlen(str_p) > MAX_LENGTH_STRING) {
 			strcpy(str, "msg trop long");
@@ -81,9 +91,6 @@ void debug_message(char *str_p, systime_t time_p, bool high_prio_p) {
 
 		time = time_p;
 		nbr_values = 0;
-
-//		if(high_prio_p == HIGH_PRIO)
-//			chBSemReset(&send_debug, FALSE);
 
 		chBSemSignal(&send_debug);
 	}
@@ -105,6 +112,8 @@ void debug_message_1(char *str_p, int16_t value1_p, systime_t time_p, bool high_
 
 	if (sending == false || high_prio_p) {
 
+		high_prio = high_prio_p;
+
 		sending = true;
 		if (strlen(str_p) > MAX_LENGTH_STRING) {
 			strcpy(str, "msg trop long");
@@ -115,8 +124,6 @@ void debug_message_1(char *str_p, int16_t value1_p, systime_t time_p, bool high_
 		value1 = value1_p;
 		time = time_p;
 		nbr_values = 1;
-//		if(high_prio_p == HIGH_PRIO)
-//			chBSemReset(&send_debug, FALSE);
 
 		chBSemSignal(&send_debug);
 	}
@@ -141,6 +148,8 @@ void debug_message_4(char *str_p, int16_t value1_p, int16_t value2_p, int16_t va
 
 	if (sending == false || high_prio_p) {
 
+		high_prio = high_prio_p;
+
 		sending = true;
 		if (strlen(str_p) > MAX_LENGTH_STRING) {
 			strcpy(str, "msg trop long");
@@ -154,9 +163,6 @@ void debug_message_4(char *str_p, int16_t value1_p, int16_t value2_p, int16_t va
 		time = time_p;
 
 		nbr_values = 4;
-
-//		if(high_prio_p == HIGH_PRIO)
-//			chBSemReset(&send_debug, FALSE);
 
 		chBSemSignal(&send_debug);
 	}

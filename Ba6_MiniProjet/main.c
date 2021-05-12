@@ -28,12 +28,12 @@ static void serial_start(void) {
 	sdStart(&SD3, &ser_cfg); // UART3.
 }
 
-/*	used to check execution time of different parts
+//	used to check execution time of different parts
  static void timer12_start(void) {
  //General Purpose Timer configuration
  //timer 12 is a 16 bit timer so we can measure time
  //to about 65ms with a 1Mhz counter
- static const GPTConfig gpt12cfg = { 1000000, // 1MHz timer clock in order to measure uS.
+ static const GPTConfig gpt12cfg = { 10000, // 10kHz timer clock in order to measure mS.
  NULL,
  0, 0 };
 
@@ -41,7 +41,7 @@ static void serial_start(void) {
  //let the timer count to max value
  gptStartContinuous(&GPTD12, 0xFFFF);
  }
- */
+
 
 //private function for the main
 void punky_run(void);
@@ -58,7 +58,7 @@ int main(void) {
 	//start communication with the ESP32
 	spi_comm_start();
 	//starts timer 12
-	//timer12_start();
+	timer12_start();
 
 	//starts the camera
 	dcmi_start();
