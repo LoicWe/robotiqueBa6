@@ -12,13 +12,12 @@
 
 static int16_t speed = 600;
 static int16_t rotation = 0;
-static bool sleep_mode = false;	// stop the motors if SLEEP_MODE
+static bool sleep_mode = false;		// stop the motors if SLEEP_MODE
 
 
 // *************************************************************************//
 // *************       Function for frequency mode        ******************//
 // *************************************************************************//
-
 
 /*
  * 	@Describe:

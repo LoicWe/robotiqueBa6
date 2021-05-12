@@ -13,9 +13,9 @@
 void move(void);
 void move_stop(void);
 
-#define MAX_SPEED 	900	//100%
-#define MIN_SPEED	200	//20%
-#define BARCODE_ROTATION_SPEED 60
+#define MAX_SPEED 					900	// max for motor : 1100
+#define MIN_SPEED					110
+#define BARCODE_ROTATION_SPEED 		60
 
 
 // ************************************************************************//
@@ -26,9 +26,6 @@ void set_speed(int8_t code);
 int16_t get_speed(void);
 void set_rotation(int16_t new_rotation);
 int16_t get_rotation(void);
-//void motor_control_start(void);
-//void motor_control_stop(void);
-
 
 // ************************************************************************//
 // ************* fonction en mode décection de codebarre ******************//
