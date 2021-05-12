@@ -476,10 +476,11 @@ static THD_FUNCTION(ProcessImage, arg) {
  * 		if sleep mode = 0, then the thread run in the background
  */
 void get_image_start(void) {
-	if (sleep_mode == 1) {
+
+	if (sleep_mode) {
+		sleep_mode = 0;
 		chBSemSignal(&start_imaging_sem);
 	}
-	sleep_mode = 0;
 }
 
 /*

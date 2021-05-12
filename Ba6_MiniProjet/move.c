@@ -3,6 +3,7 @@
 #include <math.h>
 #include <usbcfg.h>
 #include <sensors/VL53L0X/VL53L0X.h>
+#include <chbsem.h>
 
 #include <main.h>
 #include <motors.h>
@@ -14,6 +15,8 @@ static int16_t speed = 600;			// up to 1100, see motor files
 static int16_t rotation = 0;		// coeff +/- to speed to rotate
 static bool sleep_mode = false;		// stop the motors if SLEEP_MODE
 
+// semaphores
+static BSEMAPHORE_DECL(pi_regulator_start_sem, TRUE); // @suppress("Field cannot be resolved")
 
 // *************************************************************************//
 // *************       Function for frequency mode        ******************//
@@ -147,7 +150,6 @@ static THD_FUNCTION(PiRegulator, arg) {
 	(void) arg;
 
 	systime_t time1 = 0;
-	bool pi_stop_first_time = false;
 	uint16_t distance;
 	int16_t speed = 0;
 
@@ -169,18 +171,12 @@ static THD_FUNCTION(PiRegulator, arg) {
 			right_motor_set_speed(speed+rotation);
 			left_motor_set_speed(speed-rotation);
 
-			pi_stop_first_time = true;
 
 			chThdSleepUntilWindowed(time1, time1 + MS2ST(50));
 		}
 		else{
-			// stop the motors after PI stop, just one time because
-			// frequency mode has to run too
-			if(pi_stop_first_time == true){
-				move_stop();
-				pi_stop_first_time = false;
-			}
-			chThdSleepMilliseconds(500);
+			move_stop();
+			chBSemWait(&pi_regulator_start_sem);
 		}
 	}
 }
@@ -194,7 +190,11 @@ void pi_regulator_thd_start(void) {
  * 		allow the PI regulator thread to execute it's code
  */
 void pi_regulator_start(void) {
-	sleep_mode = false;
+
+	if(sleep_mode){
+		sleep_mode = false;
+		chBSemSignal(&pi_regulator_start_sem);
+	}
 }
 
 /*
