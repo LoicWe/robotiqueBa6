@@ -17,16 +17,6 @@ static float micBack_cmplx_input[2 * FFT_SIZE];
 // Arrays containing the computed magnitude of the complex numbers
 static float micBack_output[FFT_SIZE];
 
-#define MIN_VALUE_THRESHOLD		15000;	// value to take frequence into account
-#define MIN_FREQ				10		// lowest frequency human voice can reach easily
-#define MAX_FREQ				45		// highest frequency humain voice can reach easily
-#define MIN_FREQ_INIT			17		// lowest frequency to start piloting
-#define MAX_FREQ_INIT			30		// highest frequency to start piloting
-#define FREQ_THRESHOLD_FORWARD	1		// threshold before rotating
-#define NB_SOUND_ON				20		// nbr samples to get for the mean before running
-#define NB_SOUND_OFF			15		// nbr sample to reset the mean
-#define ROTATION_COEFF			12		// how strong the rotation is
-
 static uint8_t mode = SOUND_OFF;		// SOUND_OFF, ANALYSING, MOVING
 static uint8_t sound_on = 0;			// counter to get the mean
 static uint8_t sound_off = 0;			// counter to reset the mean (human has to breath)
