@@ -9,7 +9,7 @@
 #include <motors.h>
 #include <move.h>
 #include <mode_selection.h>
-#include <debug_messager.h>
+#include <communications.h>
 
 static int16_t speed = 600;			// up to 1100, see motor files
 static int16_t rotation = 0;		// coeff +/- to speed to rotate

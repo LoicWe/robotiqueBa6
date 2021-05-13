@@ -9,8 +9,8 @@
 
 #include <move.h>
 #include <leds_animations.h>
-#include <debug_messager.h>
 #include <mode_selection.h>
+#include <communications.h>
 
 // 2 times FFT_SIZE because these arrays contain complex numbers (real + imaginary)
 static float micBack_cmplx_input[2 * FFT_SIZE];
