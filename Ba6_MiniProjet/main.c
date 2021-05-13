@@ -100,7 +100,6 @@ int main(void) {
 				break;
 		}
 
-		//waits 0.5 second
 		chThdSleepMilliseconds(100);
 	}
 }
