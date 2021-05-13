@@ -47,11 +47,11 @@ static uint8_t sound_off = 0;
  */
 void sound_remote(float* data) {
 	int16_t error = 0;
-	float max_norm = MIN_VALUE_THRESHOLD;
+	float max_norm = MIN_VALUE_THRESHOLD
+	;
 	int16_t max_norm_index = -1;
 	int16_t max_norms_index[4] = { -1, -1, -1, -1 };
 	uint8_t norms_index = 0;
-
 
 	static int16_t mean_freq = 0;
 
@@ -87,8 +87,7 @@ void sound_remote(float* data) {
 				mode = SOUND_OFF;
 			}
 		}
-	}
-	else {
+	} else {
 		sound_off = 0;
 		if (sound_on == 0) {
 			if (max_norm_index > MIN_FREQ_INIT && max_norm_index < MAX_FREQ_INIT) {
@@ -123,7 +122,7 @@ void sound_remote(float* data) {
 		error = max_norm_index - mean_freq;
 
 		if (get_punky_state() == PUNKY_DEBUG)
-				debug_message_1("Freq variation = ", error, READABLE, LOW_PRIO);
+			debug_message_1("Freq variation = ", error, READABLE, LOW_PRIO);
 
 		// if near the mean_freq, go straight
 		if (max_norm_index >= mean_freq - FREQ_THRESHOLD_FORWARD && max_norm_index <= mean_freq + FREQ_THRESHOLD_FORWARD) {
@@ -133,7 +132,7 @@ void sound_remote(float* data) {
 		}
 		move();
 
-	} else if (mode == SOUND_OFF || (mode == MOVING && sound_off > 0)){
+	} else if (mode == SOUND_OFF || (mode == MOVING && sound_off > 0)) {
 		move_stop();
 	}
 }
@@ -177,7 +176,6 @@ void processAudioData(int16_t *data, uint16_t num_samples) {
 			}
 		}
 
-
 		if (nb_samples >= (2 * FFT_SIZE)) {
 			/*	FFT processing
 			 *
@@ -208,7 +206,7 @@ void processAudioData(int16_t *data, uint16_t num_samples) {
 			sound_remote(micBack_output);
 
 		}
-	}else{
+	} else {
 		nb_samples = 0;
 	}
 }
@@ -225,12 +223,12 @@ void microphone_run(void) {
 	sleep_mode = false;
 }
 
-bool get_microphone_state(void){
+bool get_microphone_state(void) {
 	return sleep_mode;
 }
 
 void microphone_stop(void) {
-	if(mode != SOUND_OFF && get_punky_state() != PUNKY_SLEEP){
+	if (mode != SOUND_OFF && get_punky_state() != PUNKY_SLEEP) {
 		anim_stop_freq();
 	}
 	sleep_mode = true;
