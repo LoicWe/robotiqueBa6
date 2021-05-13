@@ -16,7 +16,7 @@ static int16_t value1 = 0;		// parameter 1 to print
 static int16_t value2 = 0;		// parameter 2 to print
 static int16_t value3 = 0;		// parameter 3 to print
 static int16_t value4 = 0;		// parameter 4 to print
-static uint32_t timer = 100; 	// CANNOT be 0, otherwise panic error at init
+static uint16_t timer = 100; 	// CANNOT be 0, otherwise panic error at init
 static bool sending = false;	// tricks for priority message
 static uint8_t nbr_values = 1;	// number of parameters
 static uint8_t high_prio = false;
@@ -61,7 +61,7 @@ void timer2_start(void) {
  * 		A priority is given such that high priority messages can force printing (not 100%)
  *
  */
-static THD_WORKING_AREA(waDebugMsgThd, 512);
+static THD_WORKING_AREA(waDebugMsgThd, 256);
 static THD_FUNCTION(DebugMsgThd, arg) {
 
 	chRegSetThreadName(__FUNCTION__);
@@ -73,7 +73,7 @@ static THD_FUNCTION(DebugMsgThd, arg) {
 		chBSemWait(&send_debug);
 
 		// save data otherwise can be changed externaly
-		uint32_t time_p = timer;
+		uint16_t time_p = timer;
 
 		high_prio = false;
 		TIM2->CNT = 0;
@@ -91,7 +91,7 @@ static THD_FUNCTION(DebugMsgThd, arg) {
 		}
 
 		// possibiliy to intercept high priority message
-		while(TIM2->CNT < time_p*10){
+		while((uint16_t) TIM2->CNT < time_p*10){
 			chThdSleepMilliseconds(20);
 			if(high_prio)
 				break;
@@ -109,10 +109,10 @@ static THD_FUNCTION(DebugMsgThd, arg) {
  *
  * 	@Params:
  *		char 		*str_p			a string to be displayed. MAX 20 characters
- *		systime_t 	time_p			the time in milliseconds to be displayed
+ *		uint16_t 	time_p			the time in milliseconds to be displayed
  *		bool 		high_prio_p		The priority of the message
  */
-void debug_message(char *str_p, systime_t time_p, bool high_prio_p) {
+void debug_message(char *str_p, uint16_t time_p, bool high_prio_p) {
 	if (sending == false || high_prio_p) {
 
 		high_prio = high_prio_p;
@@ -140,10 +140,10 @@ void debug_message(char *str_p, systime_t time_p, bool high_prio_p) {
  * 	@Params:
  *		char 		*str_p			a string to be displayed. MAX 20 characters
  *		int16_t 	value1_p		an integer value to display
- *		systime_t 	time_p			the time in milliseconds to be displayed
+ *		uint16_t 	time_p			the time in milliseconds to be displayed
  *		bool 		high_prio_p		The priority of the message
  */
-void debug_message_1(char *str_p, int16_t value1_p, systime_t time_p, bool high_prio_p) {
+void debug_message_1(char *str_p, int16_t value1_p, uint16_t time_p, bool high_prio_p) {
 
 	if (sending == false || high_prio_p) {
 
@@ -172,14 +172,14 @@ void debug_message_1(char *str_p, int16_t value1_p, systime_t time_p, bool high_
  *
  * 	@Params:
  *		char 		*str_p			a string to be displayed. MAX 20 characters
- *		systime_t 	time_p			the time in milliseconds to be displayed
  *		int16_t 	value1_p		an integer value to display
  *		int16_t 	value2_p		an integer value to display
  *		int16_t 	value3_p		an integer value to display
  *		int16_t 	value4_p		an integer value to display
+ *		uint16_t 	time_p			the time in milliseconds to be displayed
  *		bool 		high_prio_p		The priority of the message
  */
-void debug_message_4(char *str_p, int16_t value1_p, int16_t value2_p, int16_t value3_p, int16_t value4_p, systime_t time_p, bool high_prio_p) {
+void debug_message_4(char *str_p, int16_t value1_p, int16_t value2_p, int16_t value3_p, int16_t value4_p, uint16_t time_p, bool high_prio_p) {
 
 	if (sending == false || high_prio_p) {
 
