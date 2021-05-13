@@ -5,7 +5,6 @@
 
 #include "ch.h"
 #include "hal.h"
-
 #include "usbcfg.h"
 #include "spi_comm.h"
 #include "memory_protection.h"
@@ -18,8 +17,8 @@
 #include <process_image.h>
 #include <mode_selection.h>
 #include <communications.h>
-#include <audio_processing.h>
 #include <leds_animations.h>
+#include <audio_processing.h>
 
 static void serial_start(void) {
 	static SerialConfig ser_cfg = { 115200, 0, 0, 0, };

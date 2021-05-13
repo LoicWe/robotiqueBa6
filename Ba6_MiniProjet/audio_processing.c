@@ -3,14 +3,14 @@
 #include <main.h>
 #include <usbcfg.h>
 #include <arm_math.h>
-#include <arm_const_structs.h>
 #include <audio/microphone.h>
-#include <audio_processing.h>
+#include <arm_const_structs.h>
 
 #include <move.h>
-#include <leds_animations.h>
 #include <mode_selection.h>
 #include <communications.h>
+#include <audio_processing.h>
+#include <leds_animations.h>
 
 // 2 times FFT_SIZE because these arrays contain complex numbers (real + imaginary)
 static float micBack_cmplx_input[2 * FFT_SIZE];

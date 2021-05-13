@@ -1,8 +1,8 @@
 #include "ch.h"
 #include "hal.h"
 #include <math.h>
-#include <string.h>
 #include <usbcfg.h>
+#include <string.h>
 #include <chprintf.h>
 #include <spi_comm.h>
 

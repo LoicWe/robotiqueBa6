@@ -2,12 +2,12 @@
 #include "hal.h"
 #include <math.h>
 #include <usbcfg.h>
-#include <sensors/VL53L0X/VL53L0X.h>
 #include <chbsem.h>
+#include <sensors/VL53L0X/VL53L0X.h>
 
 #include <main.h>
-#include <motors.h>
 #include <move.h>
+#include <motors.h>
 #include <mode_selection.h>
 #include <communications.h>
 

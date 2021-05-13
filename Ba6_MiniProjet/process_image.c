@@ -8,8 +8,8 @@
 
 #include <process_image.h>
 #include <communications.h>
-#include <leds_animations.h>
 #include <mode_selection.h>
+#include <leds_animations.h>
 
 static uint8_t code = 0;
 static bool barcode_found = false;		// to block code change before reading
