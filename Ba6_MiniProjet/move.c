@@ -71,7 +71,7 @@ void set_speed(int8_t code) {
 	}
 
 	if (get_punky_state() == PUNKY_DEBUG)
-		debug_message_1("vitesse = ", speed, EMPHASIS, HIGH_PRIO);
+		debug_message_1("vitesse = ", speed, GRAIL, HIGH_PRIO);
 }
 
 

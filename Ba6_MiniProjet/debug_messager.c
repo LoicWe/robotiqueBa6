@@ -15,7 +15,7 @@ static int16_t value1 = 0;		// parameter 1 to print
 static int16_t value2 = 0;		// parameter 2 to print
 static int16_t value3 = 0;		// parameter 3 to print
 static int16_t value4 = 0;		// parameter 4 to print
-static systime_t time = 100; 	// CANNOT be 0, otherwise panic error at init
+static uint32_t time1 = 100; 	// CANNOT be 0, otherwise panic error at init
 static bool sending = false;	// tricks for priority message
 static uint8_t nbr_values = 1;	// number of parameters
 static uint8_t high_prio = false;
@@ -36,12 +36,18 @@ static THD_FUNCTION(DebugMsgThd, arg) {
 	chRegSetThreadName(__FUNCTION__);
 	(void) arg;
 
+
+
 	while (1) {
 
 		//wait for a message to be received
 		chBSemWait(&send_debug);
+
+		uint32_t time_p = time1;
+
 		high_prio = false;
-		GPTD12.tim->CNT = 0;
+		TIM2->CNT = 0;
+
 
 		switch (nbr_values) {
 		case 0:
@@ -56,10 +62,11 @@ static THD_FUNCTION(DebugMsgThd, arg) {
 		}
 
 		// possibiliy to intercept high priority message
-		while(GPTD12.tim->CNT < time*10){
+		while( TIM2->CNT < time_p*10){
 			chThdSleepMilliseconds(20);
-			if(high_prio)
+			if(high_prio){
 				break;
+			}
 		}
 
 		sending = false;
@@ -77,7 +84,7 @@ static THD_FUNCTION(DebugMsgThd, arg) {
  *		systime_t 	time_p			the time in milliseconds to be displayed
  *		bool 		high_prio_p		The priority of the message
  */
-void debug_message(char *str_p, systime_t time_p, bool high_prio_p) {
+void debug_message(char *str_p, uint32_t time_p, bool high_prio_p) {
 	if (sending == false || high_prio_p) {
 
 		high_prio = high_prio_p;
@@ -89,7 +96,7 @@ void debug_message(char *str_p, systime_t time_p, bool high_prio_p) {
 			strcpy(str, str_p);
 		}
 
-		time = time_p;
+		time1 = time_p;
 		nbr_values = 0;
 
 		chBSemSignal(&send_debug);
@@ -108,7 +115,7 @@ void debug_message(char *str_p, systime_t time_p, bool high_prio_p) {
  *		systime_t 	time_p			the time in milliseconds to be displayed
  *		bool 		high_prio_p		The priority of the message
  */
-void debug_message_1(char *str_p, int16_t value1_p, systime_t time_p, bool high_prio_p) {
+void debug_message_1(char *str_p, int16_t value1_p, uint32_t time_p, bool high_prio_p) {
 
 	if (sending == false || high_prio_p) {
 
@@ -122,10 +129,11 @@ void debug_message_1(char *str_p, int16_t value1_p, systime_t time_p, bool high_
 		}
 
 		value1 = value1_p;
-		time = time_p;
+		time1 = time_p;
 		nbr_values = 1;
 
 		chBSemSignal(&send_debug);
+
 	}
 }
 
@@ -144,7 +152,7 @@ void debug_message_1(char *str_p, int16_t value1_p, systime_t time_p, bool high_
  *		int16_t 	value4_p		an integer value to display
  *		bool 		high_prio_p		The priority of the message
  */
-void debug_message_4(char *str_p, int16_t value1_p, int16_t value2_p, int16_t value3_p, int16_t value4_p, systime_t time_p, bool high_prio_p) {
+void debug_message_4(char *str_p, int16_t value1_p, int16_t value2_p, int16_t value3_p, int16_t value4_p, uint32_t time_p, bool high_prio_p) {
 
 	if (sending == false || high_prio_p) {
 
@@ -160,11 +168,12 @@ void debug_message_4(char *str_p, int16_t value1_p, int16_t value2_p, int16_t va
 		value2 = value2_p;
 		value3 = value3_p;
 		value4 = value4_p;
-		time = time_p;
+		time1 = time_p;
 
 		nbr_values = 4;
 
 		chBSemSignal(&send_debug);
+
 	}
 }
 

@@ -17,8 +17,8 @@ enum msg_duration{	// in milliseconds
 };
 
 void debug_messager_thd_start(void);
-void debug_message(char *str_p, systime_t time_p, bool high_prio_p);
-void debug_message_1(char *str_p, int16_t value1_p, systime_t time_p, bool high_prio_p);
-void debug_message_4(char *str_p, int16_t value1_p, int16_t value2_p, int16_t value3_p, int16_t value4_p, systime_t time_p, bool high_prio_p);
+void debug_message(char *str_p, uint32_t time_p, bool high_prio_p);
+void debug_message_1(char *str_p, int16_t value1_p, uint32_t time_p, bool high_prio_p);
+void debug_message_4(char *str_p, int16_t value1_p, int16_t value2_p, int16_t value3_p, int16_t value4_p, uint32_t time_p, bool high_prio_p);
 
 #endif /* DEBUG_MESSAGER_H  */
