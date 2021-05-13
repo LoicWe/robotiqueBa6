@@ -20,7 +20,6 @@ static float micBack_output[FFT_SIZE];
 static uint8_t mode = SOUND_OFF;		// SOUND_OFF, ANALYSING, MOVING
 static uint8_t sound_on = 0;			// counter to get the mean
 static uint8_t sound_off = 0;			// counter to reset the mean (human has to breath)
-
 static bool sleep_mode = true;
 
 /*
