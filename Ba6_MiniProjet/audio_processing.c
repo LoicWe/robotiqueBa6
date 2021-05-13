@@ -109,7 +109,6 @@ void frequency_piloting(float* data) {
 		// a mean is set, start piloting phase
 		else {
 			mode = MOVING;
-//			motor_control_start();
 		}
 	}
 
@@ -195,7 +194,6 @@ void processAudioData(int16_t *data, uint16_t num_samples) {
 void microphone_start(void) {
 	sleep_mode = false;
 }
-
 
 /*
  * 	@Describe:

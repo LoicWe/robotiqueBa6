@@ -83,7 +83,7 @@ static THD_FUNCTION(ThdPotentiometer, arg) {
 }
 
 void mode_selection_thd_start(void) {
-	chThdCreateStatic(waThdPotentiometer, sizeof(waThdPotentiometer), NORMALPRIO+3, ThdPotentiometer, NULL);
+	chThdCreateStatic(waThdPotentiometer, sizeof(waThdPotentiometer), NORMALPRIO+2, ThdPotentiometer, NULL);
 }
 
 void set_punky_state(uint8_t new_punky_state) {
