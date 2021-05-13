@@ -19,7 +19,6 @@
 #include <mode_selection.h>
 #include <communications.h>
 #include <audio_processing.h>
-#include <debug_messager.h>
 #include <leds_animations.h>
 
 static void serial_start(void) {

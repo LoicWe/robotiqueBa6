@@ -10,7 +10,6 @@
 #include <communications.h>
 #include <leds_animations.h>
 #include <mode_selection.h>
-#include <debug_messager.h>
 
 static uint8_t code = 0;
 static bool barcode_found = false;		// to block code change before reading

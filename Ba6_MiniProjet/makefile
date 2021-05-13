@@ -15,8 +15,7 @@ CSRC += ./main.c \
 		./communications.c \
 		./process_image.c \
 		./leds_animations.c \
-		./mode_selection.c\
-		./debug_messager.c\
+		./mode_selection.c \
 		
 #Header folders to include
 INCDIR += 
