@@ -26,19 +26,6 @@ static void serial_start(void) {
 	sdStart(&SD3, &ser_cfg); // UART3.
 }
 
-//	used to check execution time of different parts
- static void timer2_start(void) {
- //General Purpose Timer configuration
- //timer 2 is a 32 bit timer so we can measure time
-
-	 RCC->APB1ENR |= RCC_APB1ENR_TIM2EN;
-	 NVIC_EnableIRQ(TIM2_IRQn);
-	 TIM2->PSC = 8400; 		//10kHz
-	 TIM2->ARR = 100000-1;	//up to 100 seconds
-	 TIM2->CR1 |= TIM_CR1_CEN;
-}
-
-
 
 //private function for the main
 void punky_run(void);
@@ -147,9 +134,6 @@ void punky_run(void) {
 			set_rotation(-BARCODE_ROTATION_SPEED);
 
 		} else if (code == NOT_DETECTED) {
-			if (get_punky_state() == PUNKY_DEBUG)	//debug mode
-				debug_message("Parfait", LIGHTNING, HIGH_PRIO);
-
 			set_rotation(0);
 
 		} else {

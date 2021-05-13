@@ -16,7 +16,7 @@ static int16_t value1 = 0;		// parameter 1 to print
 static int16_t value2 = 0;		// parameter 2 to print
 static int16_t value3 = 0;		// parameter 3 to print
 static int16_t value4 = 0;		// parameter 4 to print
-static systime_t time = 100; 	// CANNOT be 0, otherwise panic error at init
+static uint32_t timer = 100; 	// CANNOT be 0, otherwise panic error at init
 static bool sending = false;	// tricks for priority message
 static uint8_t nbr_values = 1;	// number of parameters
 static uint8_t high_prio = false;
@@ -40,6 +40,17 @@ void SendUint8ToComputer(uint8_t* data, uint16_t size)
 }
 
 
+void timer2_start(void) {
+//timer 2 is a 32 bit timer so we can measure time
+
+	 RCC->APB1ENR |= RCC_APB1ENR_TIM2EN;
+	 NVIC_EnableIRQ(TIM2_IRQn);
+	 TIM2->PSC = 8400; 		//10kHz
+	 TIM2->ARR = 100000-1;	//up to 100 seconds
+	 TIM2->CR1 |= TIM_CR1_CEN;
+}
+
+
 /*
  * 	@Describe:
  * 		Generic function to print informations in the console.
@@ -60,8 +71,12 @@ static THD_FUNCTION(DebugMsgThd, arg) {
 
 		//wait for a message to be received
 		chBSemWait(&send_debug);
+
+		// save data otherwise can be changed externaly
+		uint32_t time_p = timer;
+
 		high_prio = false;
-		GPTD12.tim->CNT = 0;
+		TIM2->CNT = 0;
 
 		switch (nbr_values) {
 		case 0:
@@ -76,7 +91,7 @@ static THD_FUNCTION(DebugMsgThd, arg) {
 		}
 
 		// possibiliy to intercept high priority message
-		while(GPTD12.tim->CNT < time*10){
+		while(TIM2->CNT < time_p*10){
 			chThdSleepMilliseconds(20);
 			if(high_prio)
 				break;
@@ -109,7 +124,7 @@ void debug_message(char *str_p, systime_t time_p, bool high_prio_p) {
 			strcpy(str, str_p);
 		}
 
-		time = time_p;
+		timer = time_p;
 		nbr_values = 0;
 
 		chBSemSignal(&send_debug);
@@ -142,7 +157,7 @@ void debug_message_1(char *str_p, int16_t value1_p, systime_t time_p, bool high_
 		}
 
 		value1 = value1_p;
-		time = time_p;
+		timer = time_p;
 		nbr_values = 1;
 
 		chBSemSignal(&send_debug);
@@ -180,7 +195,7 @@ void debug_message_4(char *str_p, int16_t value1_p, int16_t value2_p, int16_t va
 		value2 = value2_p;
 		value3 = value3_p;
 		value4 = value4_p;
-		time = time_p;
+		timer = time_p;
 
 		nbr_values = 4;
 
