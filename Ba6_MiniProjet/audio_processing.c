@@ -43,6 +43,7 @@ static bool sleep_mode = true;
  * 		float* data		an array containing the frequencies
  *
  */
+
 void frequency_piloting(float* data) {
 	int16_t error = 0;									// between detected and mean
 	float max_norm = MIN_VALUE_THRESHOLD;				// the biggest norm value
@@ -81,8 +82,7 @@ void frequency_piloting(float* data) {
 				mode = SOUND_OFF;
 			}
 		}
-	}
-	else {
+	} else {
 		sound_off = 0;
 
 		// if sound was off, start the mean acquiring process
@@ -129,7 +129,7 @@ void frequency_piloting(float* data) {
 		error = max_norm_index - mean_freq;
 
 		if (get_punky_state() == PUNKY_DEBUG)
-				debug_message_1("Freq variation = ", error, READABLE, LOW_PRIO);
+			debug_message_1("Freq variation = ", error, READABLE, LOW_PRIO);
 
 		// if near the mean_freq, go straight, otherwise turn with quadratic function
 		if (max_norm_index >= mean_freq - FREQ_THRESHOLD_FORWARD && max_norm_index <= mean_freq + FREQ_THRESHOLD_FORWARD) {
@@ -142,6 +142,7 @@ void frequency_piloting(float* data) {
 	}
 	// robot stop. If mode = moving, mean is kept (to allow humain to breath)
 	else if (mode == SOUND_OFF || (mode == MOVING && sound_off > 0)){
+
 		move_stop();
 	}
 }
@@ -179,7 +180,6 @@ void processAudioData(int16_t *data, uint16_t num_samples) {
 			}
 		}
 
-
 		if (nb_samples >= (2 * FFT_SIZE)) {
 
 			// FFT processing
@@ -191,8 +191,10 @@ void processAudioData(int16_t *data, uint16_t num_samples) {
 
 			frequency_piloting(micBack_output);
 		}
-	}else{
-		// reset sample otherwise problem when restarting the function
+
+	}
+	// reset sample otherwise problem when restarting the function
+	else {
 		nb_samples = 0;
 	}
 }
@@ -205,13 +207,15 @@ void microphone_start(void) {
 	sleep_mode = false;
 }
 
+
 /*
  * 	@Describe:
  * 		prevent the sound thread to execute it's code
  * 		--> ressources and time gain for the other threads
  */
+
 void microphone_stop(void) {
-	if(mode != SOUND_OFF && get_punky_state() != PUNKY_SLEEP){
+	if (mode != SOUND_OFF && get_punky_state() != PUNKY_SLEEP) {
 		anim_stop_freq();
 	}
 	sleep_mode = true;
