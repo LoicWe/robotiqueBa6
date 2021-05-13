@@ -5,9 +5,8 @@
 #include <usbcfg.h>
 
 #include <main.h>
-#include <potentiometer.h>
-#include <led_animation.h>
-#include <chprintf.h>
+#include <mode_selection.h>
+#include <leds_animations.h>
 
 static uint8_t punky_state = PUNKY_DEMO;
 
@@ -52,12 +51,11 @@ static THD_FUNCTION(ThdPotentiometer, arg) {
 			switch (punky_state) {
 			case PUNKY_DEMO:
 				punky_state = PUNKY_SLEEP;
-				chprintf((BaseSequentialStream *) &SD3, "ANIM SLEEP\r");
 				anim_sleep();
 				break;
 			case PUNKY_DEBUG:
 				anim_clear_debug(); // reset all animation in order to stop the punky debug overlay
-				punky_state = PUNKY_WAKE_UP;
+				punky_state = PUNKY_DEMO;
 				break;
 			default:
 				break;
@@ -71,8 +69,8 @@ static THD_FUNCTION(ThdPotentiometer, arg) {
 				anim_debug();
 				break;
 			case PUNKY_SLEEP:
-				punky_state = PUNKY_WAKE_UP;
 				anim_wake_up();
+				punky_state = PUNKY_DEMO;
 				break;
 			default:
 				break;
@@ -84,7 +82,7 @@ static THD_FUNCTION(ThdPotentiometer, arg) {
 	}
 }
 
-void potentiometer_init(void) {
+void mode_selection_thd_start(void) {
 	chThdCreateStatic(waThdPotentiometer, sizeof(waThdPotentiometer), NORMALPRIO+3, ThdPotentiometer, NULL);
 }
 

@@ -1,23 +1,23 @@
 #include "ch.h"
 #include "hal.h"
 #include <usbcfg.h>
-#include <chprintf.h>
-
 #include <camera/po8030.h>
 #include "camera/dcmi_camera.h"
 #include "msgbus/messagebus.h"
 #include "parameter/parameter.h"
+
 #include <process_image.h>
 #include <communications.h>
-#include <led_animation.h>
-#include <potentiometer.h>
+#include <leds_animations.h>
+#include <mode_selection.h>
 #include <debug_messager.h>
 
-static bool sleep_mode = 1;
 static uint8_t code = 0;
-static bool barcode_found = false;
+static bool barcode_found = false;		// to block code change before reading
 
-//semaphore
+static bool sleep_mode = 1;
+
+// semaphores
 static BSEMAPHORE_DECL(image_ready_sem, TRUE); // @suppress("Field cannot be resolved")
 static BSEMAPHORE_DECL(start_imaging_sem, FALSE); // @suppress("Field cannot be resolved")
 
@@ -28,19 +28,24 @@ static BSEMAPHORE_DECL(start_imaging_sem, FALSE); // @suppress("Field cannot be 
  *  		- 2 medium lines as starting pattern
  *  		- 3 coding lines with 3 sizes ; small, medium, large
  *  		- 1 small and 1 medium line as ending pattern
- *  	The function search the lines and return a code depending if
+ *  	The function search the lines and set the code depending if
  *  	barcode is fund, just the start pattern or just the end pattern
- *  	The code is static variable accessible all time in the file
+ *  	The code is a static variable accessible all time in the file
+ *  	Steps :
+ *  		- Search for the start pattern
+ *  		- Search for the 3 coding lines
+ *  		- Validate the barcode with the end pattern
+ *  		- If not validate, then search again in other direction the end pattern
  *
  *  @Param:
- // *  	uint8_t *image	The pixel line to analyse. IMAGE_BUFFER_SIZE long
+ *  	uint8_t *image	The pixel line to analyse. IMAGE_BUFFER_SIZE long
  *
  */
 void extract_barcode(uint8_t *image) {
 
 	// save line width and allow keeping track of barcode decryption state
 	int8_t digit[NB_LINE_BARCODE] = { -1, -1, -1, -1, -1, -1, -1 };
-	// luminosity mean, divided into 3 segment because of auto brightness causing a n shape
+	// luminosity mean, divided into 3 segments
 	uint8_t mean[3];
 
 	// a line
@@ -52,9 +57,9 @@ void extract_barcode(uint8_t *image) {
 	uint16_t end_last_line = 0;
 	uint8_t width_unit = 0;
 
-	/**********************************************
-	 *  search for start pattern (2 medium lines)
-	 **********************************************/
+	/*********************************************************
+	 *****  search for start pattern (2 medium lines)    *****
+	 *********************************************************/
 
 	calculate_mean(image, mean);
 
@@ -89,9 +94,9 @@ void extract_barcode(uint8_t *image) {
 		}
 	}
 
-	/***********************************************************
-	 *  Search the 5 next lines (3 coding and last 2 checking)
-	 ***********************************************************/
+	/************************************************************
+	 *  Search the 5 next lines (3 coding and last 2 checking)  *
+	 ************************************************************/
 
 	if (line.found) {
 		for (int i = 2; i < NB_LINE_BARCODE && line.found; i++) {
@@ -107,7 +112,7 @@ void extract_barcode(uint8_t *image) {
 	}
 
 	/*************************************
-	 *              SET CODE
+	 ******        SET CODE         ******
 	 *************************************/
 
 	// if end pattern is SMALL then MEDIUM, barcode was successfuly read
@@ -124,9 +129,9 @@ void extract_barcode(uint8_t *image) {
 	// if start pattern NOT read, analyse the line in the other direction to found end pattern
 	else {
 
-		/**************************************
-		 ******     END PATTERN SEARCH    *****
-		 **************************************/
+		/************************************************
+		 ******     END PATTERN SEARCH, INVERTED    *****
+		 ************************************************/
 
 		// same operations as before, but in the reverse direction
 		line.end_pos = line.begin_pos = IMAGE_BUFFER_SIZE - 1;
@@ -207,7 +212,7 @@ uint8_t line_classify(struct Line line, uint8_t width_unit) {
  *  @Params:
  *  	uint8_t *buffer				a pixel line to analyse. IMAGE_BUFFER_SIZE long
  *  	uint16_t start_position		position in the buffer to start search
- *  	uint32_t mean				luminosity mean to find the line
+ *  	uint32_t *mean_p			luminosity means to find the line
  *
  *  @Return:
  *  	Returns the line (struct) extracted from the image buffer given
@@ -290,7 +295,7 @@ struct Line line_find_next(uint8_t *buffer, uint16_t start_position, uint8_t *me
  *  @Params:
  *  	uint8_t *buffer				a pixel line to analyse. IMAGE_BUFFER_SIZE long
  *  	uint16_t start_position		position in the buffer to start search
- *  	uint32_t mean				luminosity mean to find the line
+ *  	uint32_t *mean_p			luminosity means to find the line
  *
  *  @Return:
  *  	Returns the line (struct) extracted from the image buffer given
@@ -311,8 +316,7 @@ struct Line line_find_next_inverted_direction(uint8_t *buffer, int16_t start_pos
 
 		//search for a begin
 		while (stop == 0 && i > WIDTH_SLOPE) {
-			//the slope must at least be WIDTH_SLOPE wide and is compared
-			//to the mean of the image
+			//the slope must at least be WIDTH_SLOPE wide and is compared to the mean of the image
 			mean = (i < IMAGE_BUFFER_SIZE_DIV_3 ? mean_p[0] : (i < IMAGE_BUFFER_SIZE_DIV_3 * 2 ? mean_p[1] - 20 : mean_p[2]));
 			if (buffer[i] > mean && buffer[i - WIDTH_SLOPE] < mean) {
 				begin = i;
@@ -371,7 +375,7 @@ struct Line line_find_next_inverted_direction(uint8_t *buffer, int16_t start_pos
 /*
  * 	@Describe:
  * 		Performs an average for each 3 segments third, because of auto brightness
- *	    causing the values to have a n shape. It gets dimmer on the sides
+ *	    causing the values to have a n shape : it gets dimmer on the sides.
  *
  *	@Params:
  *		uint8_t *buffer		a pixel line to analyse. IMAGE_BUFFER_SIZE long
@@ -392,8 +396,11 @@ void calculate_mean(uint8_t *buffer, uint8_t *mean) {
 }
 
 /*
+ * 	@Describe:
+ * 		Rules the image capture process and the send the results for analysis.
+ *
  * 	@Author:
- * 		TP4_CamReg_correction
+ * 		TP4_CamReg_correction, adapted for our needs
  */
 static THD_WORKING_AREA(waCaptureImage, 256);
 static THD_FUNCTION(CaptureImage, arg) {
@@ -422,8 +429,11 @@ static THD_FUNCTION(CaptureImage, arg) {
 }
 
 /*
+ * 	@Describe:
+ * 		Analyse image when one is received.
+ *
  * 	@Author:
- * 		TP4_CamReg_correction
+ * 		TP4_CamReg_correction, adapted for our needs
  */
 static THD_WORKING_AREA(waProcessImage, 1024);
 static THD_FUNCTION(ProcessImage, arg) {
@@ -450,35 +460,37 @@ static THD_FUNCTION(ProcessImage, arg) {
 
 		extract_barcode(image);
 
-		// slow send to not flood computer
-//		if (send_to_computer >= 15) {
-//			send_to_computer = 0;
-//			SendUint8ToComputer(image, IMAGE_BUFFER_SIZE);
-//		}
-//		send_to_computer++;
+		// slow send to not flood computer, show only in demo mode
+		if (send_to_computer >= 15 && get_punky_state() == PUNKY_DEMO) {
+			send_to_computer = 0;
+			SendUint8ToComputer(image, IMAGE_BUFFER_SIZE);
+		}
+		send_to_computer++;
 	}
 }
 
 /*
  * 	@Describe:
  * 		Allow to spare ressources by short-circuiting the images analyse threads
- * 		if sleep mode = 1, then the thread wait for an start semaphore
+ * 		if sleep mode = 1, then the thread wait for a start semaphore
  * 		if sleep mode = 0, then the thread run in the background
  */
-void get_image_run(void) {
-	if (sleep_mode == 1) {
+void get_image_start(void) {
+
+	if (sleep_mode) {
+		sleep_mode = 0;
 		chBSemSignal(&start_imaging_sem);
 	}
-	sleep_mode = 0;
 }
 
 /*
  * 	@Describe:
  * 		Allow to spare ressources by short-circuiting the images analyse threads
- * 		if sleep mode = 1, then the thread wait for an start semaphore
+ * 		if sleep mode = 1, then the thread wait for a start semaphore
  * 		if sleep mode = 0, then the thread run in the background
  */
 void get_image_stop(void) {
+
 	sleep_mode = 1;
 	code = 0;
 }
@@ -506,16 +518,19 @@ void set_code(uint8_t code_p) {
 
 /*
  *  @Describe:
- *  	get the code. Release the barcode found flag. See set_code for more
+ *  	Get the code. Release the barcode found flag. See set_code for more
  *  	explainations.
+ *		Values : 13 to 39   valide code to set speed
+ *				 	1 		barcode start pattern found
+ *					2		barcode end pattern found
+ *					0		nothing found
  *
  *  @Return:
  *  	uint8_t code	The code
  */
 uint8_t get_code(void) {
-	// unlock the writing of non valide code
-	barcode_found = false;
 
+	barcode_found = false;
 	return code;
 }
 

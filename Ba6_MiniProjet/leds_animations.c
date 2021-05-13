@@ -2,24 +2,27 @@
 #include "hal.h"
 #include <math.h>
 #include <usbcfg.h>
-
 #include "leds.h"
-#include <led_animation.h>
-#include <move.h>
-#include <chprintf.h>
+
+#include <leds_animations.h>
 
 //semaphore
 static BSEMAPHORE_DECL(anim_ready, TRUE); // @suppress("Field cannot be resolved")
 
-static uint8_t animation = ANIM_CLEAR;
+static uint8_t animation = ANIM_CLEAR;	// animation to be run
 static uint8_t freq_led_intensity = 0;	// link for intensity depending of extern variable
-static uint8_t direction = 0;
+static uint8_t direction = 0;			// forward or backward, for direction indication
 
 /*
  * 	@Describe:
+ * 		Nice animations to help the user and indicate actions.
  * 		The animations SHOULD always be called with one time call.
  * 		If an animation is called on a repeated basis, it may cause some trouble
  * 		and animation could be ignored as there is no priority rules
+ * 		Animations are started by a semaphore call
+ *
+ * 		=> See animation call function for description
+ *
  */
 static THD_WORKING_AREA(waLedAnimationThd, 128);
 static THD_FUNCTION(LedAnimationThd, arg) {
@@ -33,25 +36,17 @@ static THD_FUNCTION(LedAnimationThd, arg) {
 		chBSemWait(&anim_ready);
 
 		switch (animation) {
-//		case ANIM_CLEAR_DEBUG:
-//			set_led(LED1, 0);
-//			set_led(LED3, 0);
-//			set_led(LED5, 0);
-//			set_led(LED7, 0);
-//			break;
-
 		case ANIM_BARCODE:
-			// turn on the body led for 0.8 second and the direction leds
 
 			set_body_led(1);
 
 			if (direction == ANIM_FORWARD) {
-				for (uint8_t i = 0; i < 100; i++) {
+				for (uint8_t i = 0; i < FULL_I; i++) {
 					set_rgb_led(LED2, 0, i, 0);
 					set_rgb_led(LED8, 0, i, 0);
 					chThdSleepMilliseconds(5);
 				}
-				for (uint8_t i = 100; i > 0; i--) {
+				for (uint8_t i = FULL_I; i > 0; i--) {
 					set_rgb_led(LED2, 0, i, 0);
 					set_rgb_led(LED8, 0, i, 0);
 					chThdSleepMilliseconds(10);
@@ -59,12 +54,12 @@ static THD_FUNCTION(LedAnimationThd, arg) {
 				set_rgb_led(LED2, 0, 0, 0);
 				set_rgb_led(LED8, 0, 0, 0);
 			} else {
-				for (uint8_t i = 0; i < 100; i++) {
+				for (uint8_t i = 0; i < FULL_I; i++) {
 					set_rgb_led(LED4, 0, i, 0);
 					set_rgb_led(LED6, 0, i, 0);
 					chThdSleepMilliseconds(5);
 				}
-				for (uint8_t i = 100; i > 0; i--) {
+				for (uint8_t i = FULL_I; i > 0; i--) {
 					set_rgb_led(LED4, 0, i, 0);
 					set_rgb_led(LED6, 0, i, 0);
 					chThdSleepMilliseconds(10);
@@ -82,8 +77,8 @@ static THD_FUNCTION(LedAnimationThd, arg) {
 				chThdSleepMilliseconds(TIME_DEBUG);
 				set_led(LED1, 0);
 				set_led(LED5, 0);
-				set_rgb_led(LED8, 60, 0, 0);
-				set_rgb_led(LED4, 60, 0, 0);
+				set_rgb_led(LED8, HALF_I, 0, 0);
+				set_rgb_led(LED4, HALF_I, 0, 0);
 				chThdSleepMilliseconds(TIME_DEBUG);
 				set_rgb_led(LED8, 0, 0, 0);
 				set_rgb_led(LED4, 0, 0, 0);
@@ -92,8 +87,8 @@ static THD_FUNCTION(LedAnimationThd, arg) {
 				chThdSleepMilliseconds(TIME_DEBUG);
 				set_led(LED7, 0);
 				set_led(LED3, 0);
-				set_rgb_led(LED6, 60, 0, 0);
-				set_rgb_led(LED2, 60, 0, 0);
+				set_rgb_led(LED6, HALF_I, 0, 0);
+				set_rgb_led(LED2, HALF_I, 0, 0);
 				chThdSleepMilliseconds(TIME_DEBUG);
 				set_rgb_led(LED6, 0, 0, 0);
 				set_rgb_led(LED2, 0, 0, 0);
@@ -104,25 +99,25 @@ static THD_FUNCTION(LedAnimationThd, arg) {
 
 		case ANIM_CLEAR_DEBUG:
 			set_led(LED1, 0);
-			set_rgb_led(LED2, 60, 0, 0);
+			set_rgb_led(LED2, HALF_I, 0, 0);
 			chThdSleepMilliseconds(TIME_DEBUG);
 			set_rgb_led(LED2, 0, 0, 0);
 			set_led(LED3, 1);
 			chThdSleepMilliseconds(TIME_DEBUG);
 			set_led(LED3, 0);
-			set_rgb_led(LED4, 60, 0, 0);
+			set_rgb_led(LED4, HALF_I, 0, 0);
 			chThdSleepMilliseconds(TIME_DEBUG);
 			set_rgb_led(LED4, 0, 0, 0);
 			chThdSleepMilliseconds(TIME_DEBUG);
 			set_led(LED5, 0);
 			chThdSleepMilliseconds(TIME_DEBUG);
-			set_rgb_led(LED6, 60, 0, 0);
+			set_rgb_led(LED6, HALF_I, 0, 0);
 			chThdSleepMilliseconds(TIME_DEBUG);
 			set_rgb_led(LED6, 0, 0, 0);
 			set_led(LED7, 1);
 			chThdSleepMilliseconds(TIME_DEBUG);
 			set_led(LED7, 0);
-			set_rgb_led(LED8, 60, 0, 0);
+			set_rgb_led(LED8, HALF_I, 0, 0);
 			chThdSleepMilliseconds(TIME_DEBUG);
 			set_rgb_led(LED8, 0, 0, 0);
 			set_led(LED1, 1);
@@ -131,30 +126,28 @@ static THD_FUNCTION(LedAnimationThd, arg) {
 			break;
 
 		case ANIM_SLEEP:
-			// turn on red with a sleep through yellow
-			for (uint8_t i = 0; i < 50; i++) {
+			for (uint8_t i = 0; i < HALF_I; i++) {
 				set_rgb_led(LED2, i, i, 0);
 				set_rgb_led(LED4, i, i, 0);
 				set_rgb_led(LED6, i, i, 0);
 				set_rgb_led(LED8, i, i, 0);
 				chThdSleepMilliseconds(10);
 			}
-			for (uint8_t i = 0; i < 50; i++) {
-				set_rgb_led(LED2, 50 + i, 50 - i, 0);
-				set_rgb_led(LED4, 50 + i, 50 - i, 0);
-				set_rgb_led(LED6, 50 + i, 50 - i, 0);
-				set_rgb_led(LED8, 50 + i, 50 - i, 0);
+			for (uint8_t i = 0; i < HALF_I; i++) {
+				set_rgb_led(LED2, HALF_I + i, HALF_I - i, 0);
+				set_rgb_led(LED4, HALF_I + i, HALF_I - i, 0);
+				set_rgb_led(LED6, HALF_I + i, HALF_I - i, 0);
+				set_rgb_led(LED8, HALF_I + i, HALF_I - i, 0);
 				chThdSleepMilliseconds(10);
 			}
 			break;
 
 		case ANIM_WAKE_UP:
-			// turn off the red rgb leds
-			for (uint8_t i = 0; i < 101; i += 2) {
-				set_rgb_led(LED2, 100 - i, 0, 0);
-				set_rgb_led(LED4, 100 - i, 0, 0);
-				set_rgb_led(LED6, 100 - i, 0, 0);
-				set_rgb_led(LED8, 100 - i, 0, 0);
+			for (uint8_t i = 0; i < FULL_I; i += 2) {
+				set_rgb_led(LED2, FULL_I - i, 0, 0);
+				set_rgb_led(LED4, FULL_I - i, 0, 0);
+				set_rgb_led(LED6, FULL_I - i, 0, 0);
+				set_rgb_led(LED8, FULL_I - i, 0, 0);
 				chThdSleepMilliseconds(10);
 			}
 			anim_clear_rgbs();
@@ -176,7 +169,6 @@ static THD_FUNCTION(LedAnimationThd, arg) {
 			break;
 
 		case ANIM_FREQ_MANUAL:
-			// turn on or off the led to blue, depending on an extern variable
 			set_rgb_led(LED2, 0, freq_led_intensity, freq_led_intensity);
 			set_rgb_led(LED4, 0, freq_led_intensity, freq_led_intensity);
 			set_rgb_led(LED6, 0, freq_led_intensity, freq_led_intensity);
@@ -194,35 +186,61 @@ static THD_FUNCTION(LedAnimationThd, arg) {
 			set_led(LED7, 0);
 			break;
 		}
+
+		chThdSleepMilliseconds(50);
 	}
 }
 
+/*
+ * 	@Describe:
+ * 		Color : green
+ * 		Turn on the body led for 0.8 second
+ * 		Indicate speed direction with a sweep up to 100%,
+ * 		then back off.
+ */
 void anim_barcode(uint8_t direction_p) {
 	direction = direction_p;
 	animation = ANIM_BARCODE;
 	chBSemSignal(&anim_ready);
 }
 
-void anim_start_freq_manual(uint8_t intensity) {
+/*
+ * 	@Describe:
+ * 		Color : blue & green
+ * 		Accompagny the user with the mean sampling.
+ * 		The intensity reflects the percentage of the process.
+ * 		When mean is sampled, luminosity is maximal at FREQ_I intensity.
+ */
+void anim_start_freq_manual(uint8_t step, uint8_t nb_steps) {
 	animation = ANIM_FREQ_MANUAL;
-	if (intensity <= 10) {
-		freq_led_intensity = intensity;
-	} else {
-		freq_led_intensity = (intensity - 9) * 5;
-	}
+
+	freq_led_intensity = HALF_I	 * step / nb_steps;
+
 	chBSemSignal(&anim_ready);
 }
 
-void anim_stop_freq_manual(uint8_t intensity) {
+/*
+ * 	@Describe:
+ * 		Color : blue & green
+ * 		Indicate the user the mean reset.
+ * 		The intensity reflects the percentage of the process.
+ * 		When mean is lost, luminosity is zero.
+ */
+void anim_stop_freq_manual(uint8_t step, uint8_t nb_steps) {
 	animation = ANIM_FREQ_MANUAL;
-	if (intensity == 10) {
-		freq_led_intensity = 0;
-	} else {
-		freq_led_intensity = 50 - intensity * 5;
-	}
+
+	freq_led_intensity = HALF_I - HALF_I * step / nb_steps;
+
 	chBSemSignal(&anim_ready);
 }
 
+/*
+ * 	@Describe:
+ * 		Color : blue & green
+ * 		Shutdown the frequency leds automatically with a sweep if
+ * 		frequency mode is forced to stop, i.e. when a barcode is
+ * 		shown while moving.
+ */
 void anim_stop_freq(void) {
 	if (freq_led_intensity != 0) {
 		animation = ANIM_FREQ;
@@ -230,11 +248,22 @@ void anim_stop_freq(void) {
 	}
 }
 
+/*
+ * 	@Describe:
+ * 		Color : yellow & red
+ * 		Sweep to yellow-red up to 50% intensity then up to 100%
+ * 		full red. Stay on.
+ */
 void anim_sleep(void) {
 	animation = ANIM_SLEEP;
 	chBSemSignal(&anim_ready);
 }
 
+/*
+ * 	@Describe:
+ * 		Color : red
+ * 		Switch off the leds with a sweep.
+ */
 void anim_wake_up(void) {
 	animation = ANIM_WAKE_UP;
 	chBSemSignal(&anim_ready);
@@ -242,25 +271,31 @@ void anim_wake_up(void) {
 
 /*
  * 	@Describe:
- * 		debug mode is signaled with the front and rear red leds on
+ * 		Color : red
+ * 		Two points 180° opposite, rotating full led circle twice.
+ * 		Stay on.
  */
 void anim_debug(void) {
 	animation = ANIM_DEBUG;
 	chBSemSignal(&anim_ready);
-
-//	set_led(LED1, 1);
-//	set_led(LED5, 1);
 }
 
+/*
+ * 	@Describe:
+ * 		Color : red
+ * 		A point turns full circle once then turn off.
+ */
 void anim_clear_debug(void) {
 	animation = ANIM_CLEAR_DEBUG;
 	chBSemSignal(&anim_ready);
-//	set_led(LED1, 0);
-//	set_led(LED5, 0);
-
 }
 
-void anim_clear_rgbs(void){
+/*
+ * 	@Describe:
+ * 		Color : none
+ * 		Turn off all leds.
+ */
+void anim_clear_rgbs(void) {
 	set_rgb_led(LED2, 0, 0, 0);
 	set_rgb_led(LED4, 0, 0, 0);
 	set_rgb_led(LED6, 0, 0, 0);
