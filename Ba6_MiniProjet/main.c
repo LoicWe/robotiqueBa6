@@ -28,18 +28,17 @@ static void serial_start(void) {
 }
 
 //	used to check execution time of different parts
- static void timer12_start(void) {
+ static void timer2_start(void) {
  //General Purpose Timer configuration
- //timer 12 is a 16 bit timer so we can measure time
- //to about 65ms with a 1Mhz counter
- static const GPTConfig gpt12cfg = { 10000, // 10kHz timer clock in order to measure mS.
- NULL,
- 0, 0 };
+ //timer 2 is a 32 bit timer so we can measure time
 
- gptStart(&GPTD12, &gpt12cfg);
- //let the timer count to max value
- gptStartContinuous(&GPTD12, 0xFFFF);
- }
+	 RCC->APB1ENR |= RCC_APB1ENR_TIM2EN;
+	 NVIC_EnableIRQ(TIM2_IRQn);
+	 TIM2->PSC = 8400; 		//10kHz
+	 TIM2->ARR = 100000-1;	//up to 100 seconds
+	 TIM2->CR1 |= TIM_CR1_CEN;
+}
+
 
 
 //private function for the main
@@ -57,7 +56,9 @@ int main(void) {
 	//start communication with the ESP32
 	spi_comm_start();
 	//starts timer 12
-	timer12_start();
+	timer2_start();
+
+
 
 	//starts the camera
 	dcmi_start();
@@ -101,7 +102,7 @@ int main(void) {
 		}
 
 		//waits 0.5 second
-		chThdSleepMilliseconds(500);
+		chThdSleepMilliseconds(100);
 	}
 }
 
@@ -149,7 +150,7 @@ void punky_run(void) {
 
 		} else if (code == NOT_DETECTED) {
 			if (get_punky_state() == PUNKY_DEBUG)	//debug mode
-				debug_message("Parfait", LIGHTNING, LOW_PRIO);
+				debug_message("Parfait", LIGHTNING, HIGH_PRIO);
 
 			set_rotation(0);
 
