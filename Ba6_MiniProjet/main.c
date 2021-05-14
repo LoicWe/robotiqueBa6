@@ -44,8 +44,6 @@ int main(void) {
 	//starts timer 12
 	timer2_start();
 
-
-
 	//starts the camera
 	dcmi_start();
 	po8030_start();

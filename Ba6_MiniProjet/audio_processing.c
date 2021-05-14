@@ -83,7 +83,7 @@ void frequency_piloting(float* data) {
 				sound_on++;
 
 				if (get_punky_state() == PUNKY_DEBUG)
-					debug_message("Acquiring mean", READABLE, LOW_PRIO);
+					debug_message("Acquiring mean", EMPHASIS, LOW_PRIO);
 
 			}
 		}
