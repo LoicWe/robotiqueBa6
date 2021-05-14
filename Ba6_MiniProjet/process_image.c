@@ -2,8 +2,8 @@
 #include "hal.h"
 #include <usbcfg.h>
 #include <camera/po8030.h>
-#include "camera/dcmi_camera.h"
 #include "msgbus/messagebus.h"
+#include "camera/dcmi_camera.h"
 #include "parameter/parameter.h"
 
 #include <process_image.h>
@@ -11,10 +11,10 @@
 #include <mode_selection.h>
 #include <leds_animations.h>
 
-static uint8_t code = 0;
+static uint8_t code = 0;				// code of the barcode
 static bool barcode_found = false;		// to block code change before reading
 
-static bool sleep_mode = 1;
+static bool sleep_mode = 1;				//to save ressources
 
 // semaphores
 static BSEMAPHORE_DECL(image_ready_sem, TRUE); // @suppress("Field cannot be resolved")
