@@ -94,7 +94,7 @@ int main(void) {
  *		The robot has 2 modes, "frequency" and "PI". If a short distance is detected,
  *		PI mode is running : the robot drives at the right distance of the barcode and
  *		image detection is running to find the code.
- *		Otherwise, frequeny mode is running. The robot can be piloted with the voice.
+ *		Otherwise, frequency mode is running. The robot can be piloted with the voice.
  *
  */
 void punky_run(void) {
@@ -109,7 +109,7 @@ void punky_run(void) {
 		code_found = false;
 	}
 
-	// => PI mode
+	// PI mode
 	if (distance > MIN_DISTANCE_DETECTED && distance < MAX_DISTANCE_DETECTED && !code_found) {
 		if (get_punky_state() == PUNKY_DEBUG)	//debug mode
 			debug_message("== PI CODE ==", LIGHTNING, LOW_PRIO);
@@ -142,7 +142,7 @@ void punky_run(void) {
 		}
 
 	}
-	// => frequency mode
+	// Frequency mode
 	else {
 		if (get_punky_state() == PUNKY_DEBUG)	//debug mode
 			debug_message("== Frequences ==", LIGHTNING, LOW_PRIO);
