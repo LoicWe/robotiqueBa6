@@ -1,8 +1,8 @@
 #include "ch.h"
 #include "hal.h"
+#include "leds.h"
 #include <math.h>
 #include <usbcfg.h>
-#include "leds.h"
 
 #include <leds_animations.h>
 
@@ -10,7 +10,7 @@
 static BSEMAPHORE_DECL(anim_ready, TRUE); // @suppress("Field cannot be resolved")
 
 static uint8_t animation = ANIM_CLEAR;	// animation to be run
-static uint8_t freq_led_intensity = 0;	// link for intensity depending of extern variable
+static uint8_t freq_led_intensity = 0;	// link for intensity depending of external variable
 static uint8_t direction = 0;			// forward or backward, for direction indication
 
 /*
@@ -40,6 +40,8 @@ static THD_FUNCTION(LedAnimationThd, arg) {
 
 			set_body_led(1);
 
+			//2 RGB leds show the direction of the barcode
+			//turning green with a fade in and out
 			if (direction == ANIM_FORWARD) {
 				for (uint8_t i = 0; i < FULL_I; i++) {
 					set_rgb_led(LED2, 0, i, 0);
@@ -71,6 +73,7 @@ static THD_FUNCTION(LedAnimationThd, arg) {
 			break;
 
 		case ANIM_DEBUG:
+			//red counterclockwise animation with 8 leds
 			for (uint8_t i = 0; i < 2; i++) {
 				set_led(LED1, 1);
 				set_led(LED5, 1);
@@ -98,6 +101,7 @@ static THD_FUNCTION(LedAnimationThd, arg) {
 			break;
 
 		case ANIM_CLEAR_DEBUG:
+			// red clockwise animation with 8 leds
 			set_led(LED1, 0);
 			set_rgb_led(LED2, HALF_I, 0, 0);
 			chThdSleepMilliseconds(TIME_DEBUG);
@@ -126,6 +130,7 @@ static THD_FUNCTION(LedAnimationThd, arg) {
 			break;
 
 		case ANIM_SLEEP:
+			//yellow fade in with RGB leds
 			for (uint8_t i = 0; i < HALF_I; i++) {
 				set_rgb_led(LED2, i, i, 0);
 				set_rgb_led(LED4, i, i, 0);
@@ -133,6 +138,7 @@ static THD_FUNCTION(LedAnimationThd, arg) {
 				set_rgb_led(LED8, i, i, 0);
 				chThdSleepMilliseconds(10);
 			}
+			//turning to red with RGB leds
 			for (uint8_t i = 0; i < HALF_I; i++) {
 				set_rgb_led(LED2, HALF_I + i, HALF_I - i, 0);
 				set_rgb_led(LED4, HALF_I + i, HALF_I - i, 0);
@@ -143,6 +149,7 @@ static THD_FUNCTION(LedAnimationThd, arg) {
 			break;
 
 		case ANIM_WAKE_UP:
+			//fade out turning RGB leds off
 			for (uint8_t i = 0; i < FULL_I; i += 2) {
 				set_rgb_led(LED2, FULL_I - i, 0, 0);
 				set_rgb_led(LED4, FULL_I - i, 0, 0);
@@ -154,7 +161,7 @@ static THD_FUNCTION(LedAnimationThd, arg) {
 			break;
 
 		case ANIM_FREQ:
-			// turn off the blue leds
+			//turn off the blue leds
 			for (uint8_t i = freq_led_intensity; i > 0; i--) {
 
 				freq_led_intensity--;
@@ -169,6 +176,7 @@ static THD_FUNCTION(LedAnimationThd, arg) {
 			break;
 
 		case ANIM_FREQ_MANUAL:
+			//blue fade in during mean acquisition
 			set_rgb_led(LED2, 0, freq_led_intensity, freq_led_intensity);
 			set_rgb_led(LED4, 0, freq_led_intensity, freq_led_intensity);
 			set_rgb_led(LED6, 0, freq_led_intensity, freq_led_intensity);
@@ -176,6 +184,7 @@ static THD_FUNCTION(LedAnimationThd, arg) {
 			break;
 
 		default:
+			//turn off every leds
 			set_rgb_led(LED2, 0, 0, 0);
 			set_rgb_led(LED4, 0, 0, 0);
 			set_rgb_led(LED6, 0, 0, 0);
@@ -207,9 +216,9 @@ void anim_barcode(uint8_t direction_p) {
 /*
  * 	@Describe:
  * 		Color : blue & green
- * 		Accompagny the user with the mean sampling.
+ * 		Accompany the user with the mean sampling.
  * 		The intensity reflects the percentage of the process.
- * 		When mean is sampled, luminosity is maximal at FREQ_I intensity.
+ * 		When mean is sampled, brightness is maximal at FREQ_I intensity.
  */
 void anim_start_freq_manual(uint8_t step, uint8_t nb_steps) {
 	animation = ANIM_FREQ_MANUAL;
@@ -224,7 +233,7 @@ void anim_start_freq_manual(uint8_t step, uint8_t nb_steps) {
  * 		Color : blue & green
  * 		Indicate the user the mean reset.
  * 		The intensity reflects the percentage of the process.
- * 		When mean is lost, luminosity is zero.
+ * 		When mean is lost, brightness is zero.
  */
 void anim_stop_freq_manual(uint8_t step, uint8_t nb_steps) {
 	animation = ANIM_FREQ_MANUAL;
