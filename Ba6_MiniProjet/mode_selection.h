@@ -13,8 +13,7 @@ enum CHANGE_STATE{
 	LEFT
 };
 
-void mode_selection_thd_start(void);
-void set_punky_state(uint8_t new_punky_state);
 uint8_t get_punky_state(void);
+void mode_selection_thd_start(void);
 
 #endif /* MODE_SELECTION_H */

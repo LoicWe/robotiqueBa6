@@ -22,7 +22,6 @@ enum direction{
 #define HALF_I		50
 #define	FULL_I		100
 
-void leds_animations_thd_start(void);
 void anim_barcode(uint8_t direction_p);
 void anim_start_freq_manual(uint8_t step, uint8_t nb_steps);
 void anim_stop_freq_manual(uint8_t step, uint8_t nb_steps);
@@ -32,5 +31,6 @@ void anim_sleep(void);
 void anim_wake_up(void);
 void anim_clear_debug(void);
 void anim_clear_rgbs(void);
+void leds_animations_thd_start(void);
 
 #endif /* LEDS_ANIMATIONS_H  */
