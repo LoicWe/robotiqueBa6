@@ -475,7 +475,6 @@ static THD_FUNCTION(ProcessImage, arg) {
  * 		if sleep mode = 0, then the thread run in the background
  */
 void get_image_start(void) {
-
 	if (sleep_mode) {
 		sleep_mode = 0;
 		chBSemSignal(&start_imaging_sem);
@@ -489,7 +488,6 @@ void get_image_start(void) {
  * 		if sleep mode = 0, then the thread run in the background
  */
 void get_image_stop(void) {
-
 	sleep_mode = 1;
 	code = 0;
 }
@@ -506,7 +504,6 @@ void get_image_stop(void) {
  * 		uint8_t code_p		The code found to be set
  */
 void set_code(uint8_t code_p) {
-
 	if (code_p != 0 && code_p != 1 && code_p != 2) {
 		barcode_found = true;
 		code = code_p;
@@ -528,7 +525,6 @@ void set_code(uint8_t code_p) {
  *  	uint8_t code	The code
  */
 uint8_t get_code(void) {
-
 	barcode_found = false;
 	return code;
 }
