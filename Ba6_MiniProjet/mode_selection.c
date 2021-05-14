@@ -87,8 +87,8 @@ static THD_FUNCTION(ThdPotentiometer, arg) {
 }
 
 /*
- * 	@Describe:
- * 		Get the state of the robot
+ * 	@Return:
+ * 		The actual state of the robot
  */
 uint8_t get_punky_state(void) {
 	return punky_state;

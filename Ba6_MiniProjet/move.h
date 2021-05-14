@@ -24,12 +24,12 @@ void move_stop(void);
 
 void set_speed(int8_t code);
 int16_t get_speed(void);
-void set_rotation(int16_t new_rotation);
-int16_t get_rotation(void);
 
 // ************************************************************************//
 // *************           Function for PI mode          ******************//
 // ************************************************************************//
+
+void set_rotation(int16_t new_rotation);
 
 //start the PI regulator thread
 void pi_regulator_thd_start(void);

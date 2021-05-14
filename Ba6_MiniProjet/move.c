@@ -88,14 +88,6 @@ void set_rotation(int16_t new_rotation) {
 }
 
 /*
- * 	@Return:
- * 		the actual rotation set
- */
-int16_t get_rotation(void){
-	return rotation;
-}
-
-/*
  *  @Describe:
  *  	PI regulator to be at right distance for barcode
  *
