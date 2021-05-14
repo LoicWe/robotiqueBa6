@@ -104,7 +104,7 @@ void punky_run(void) {
 
 	distance = VL53L0X_get_dist_mm();
 
-	//mecanism to reactivate the frequency mode after a code is found
+	//Mechanism to reactivate the frequency mode after a code is found
 	if (distance > MAX_DISTANCE_DETECTED) {
 		code_found = false;
 	}

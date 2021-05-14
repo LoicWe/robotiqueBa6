@@ -19,12 +19,12 @@ static float micBack_output[FFT_SIZE];
 
 static uint8_t mode = SOUND_OFF;		// SOUND_OFF, ANALYSING, MOVING
 static uint8_t sound_on = 0;			// counter to get the mean
-static uint8_t sound_off = 0;			// counter to reset the mean (human has to breath)
+static uint8_t sound_off = 0;			// counter before reseting the mean (human has to breath)
 static bool sleep_mode = true;
 
 /*
  * 	@Describe:
- * 		detecte the highest value in a buffer.
+ * 		detect the highest value in a buffer.
  * 		take the mean value then start moving.
  * 		If a frequency is higher, turn right, if lower, turn left.
  *
@@ -61,7 +61,7 @@ void frequency_piloting(float* data) {
 
 	// if no value superior to threshold
 	if (max_norm_index == -1) {
-		// wait a bit before resetting mean (humain breath)
+		// wait a bit before resetting mean (human breath)
 		if (mode != SOUND_OFF) {
 			sound_off++;
 			anim_stop_freq_manual(sound_off, NB_SOUND_OFF);
@@ -128,7 +128,7 @@ void frequency_piloting(float* data) {
 		move();
 
 	}
-	// robot stop. If mode = moving, mean is kept (to allow humain to breath)
+	// robot stop. If mode = moving, mean is kept (to allow human to breath)
 	else if (mode == SOUND_OFF || (mode == MOVING && sound_off > 0)){
 
 		move_stop();
@@ -198,7 +198,7 @@ void microphone_start(void) {
 /*
  * 	@Describe:
  * 		prevent the sound thread to execute it's code
- * 		--> ressources and time gain for the other threads
+ * 		--> Resources and time gain for the other threads
  */
 
 void microphone_stop(void) {
