@@ -460,11 +460,11 @@ static THD_FUNCTION(ProcessImage, arg) {
 		extract_barcode(image);
 
 		// slow send to not flood computer, show only in demo mode
-		if (send_to_computer >= 15 && get_punky_state() == PUNKY_DEMO) {
-			send_to_computer = 0;
-			SendUint8ToComputer(image, IMAGE_BUFFER_SIZE);
-		}
-		send_to_computer++;
+//		if (send_to_computer >= 15 && get_punky_state() == PUNKY_DEMO) {
+//			send_to_computer = 0;
+//			SendUint8ToComputer(image, IMAGE_BUFFER_SIZE);
+//		}
+//		send_to_computer++;
 	}
 }
 

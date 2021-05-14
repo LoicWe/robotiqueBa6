@@ -10,6 +10,7 @@
 #include <motors.h>
 #include <mode_selection.h>
 #include <communications.h>
+#include <chprintf.h>
 
 static int16_t speed = 600;			// up to 1100, see motor files
 static int16_t rotation = 0;		// coeff +/- to speed to rotate
@@ -117,9 +118,11 @@ int16_t pi_regulator(uint16_t distance, uint8_t goal) {
 	error = distance - goal;
 
 	//disables the PI regulator if the error is to small
-	if (fabs(error) < ERROR_THRESHOLD) {
+	TIM12->CNT = 0;
+	if (abs(error) < ERROR_THRESHOLD) {
 		return 0;
 	}
+	chprintf((BaseSequentialStream *) &SD3, "temps %d\r", TIM12->CNT);
 
 	sum_error += error;
 

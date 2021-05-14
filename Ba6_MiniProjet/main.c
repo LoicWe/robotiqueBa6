@@ -26,6 +26,14 @@ static void serial_start(void) {
 	sdStart(&SD3, &ser_cfg); // UART3.
 }
 
+void timer12_start(void) {
+//timer 2 is a 32 bit timer so we can measure time
+
+	 RCC->APB1ENR |= RCC_APB1ENR_TIM12EN;
+	 TIM12->PSC = 1; 		//10kHz
+	 TIM12->ARR = 10000-1;	//up to 1 seconds
+	 TIM12->CR1 |= TIM_CR1_CEN;
+}
 
 //private function for the main
 void punky_run(void);
@@ -43,7 +51,7 @@ int main(void) {
 	spi_comm_start();
 	//starts timer 12
 	timer2_start();
-
+	timer12_start();
 
 
 	//starts the camera
