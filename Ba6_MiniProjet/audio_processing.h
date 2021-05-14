@@ -18,6 +18,7 @@ enum EARING_MODE{
 	MOVING
 };
 
+//Mic functions
 void processAudioData(int16_t *data, uint16_t num_samples);
 void microphone_start(void);
 void microphone_stop(void);

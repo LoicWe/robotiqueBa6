@@ -32,6 +32,7 @@ void extract_barcode(uint8_t *image);
 uint8_t line_classify(struct Line line, uint8_t width_unit);
 struct Line line_find_next(uint8_t *buffer, uint16_t start_position, uint8_t *mean_p);
 struct Line line_find_next_inverted_direction(uint8_t *buffer, int16_t start_position, uint8_t *mean_p);
+
 void calculate_mean(uint8_t *buffer, uint8_t *mean);
 
 void get_image_start(void);

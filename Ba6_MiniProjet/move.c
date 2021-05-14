@@ -41,15 +41,6 @@ void move_stop(void) {
 	left_motor_set_speed(0);
 	right_motor_set_speed(0);
 }
-
-/*
- * 	@Return:
- * 		the actual speed set
- */
-int16_t get_speed(void){
-	return speed;
-}
-
 /*
  * 	@Describe:
  * 		Converts a valide code into a speed for the robot.
@@ -60,6 +51,7 @@ int16_t get_speed(void){
  * 	@Param:
  * 		int8_t code		a valide code from -14 to 13
  */
+
 void set_speed(int8_t code) {
 
 	code = code - 27;
@@ -73,6 +65,15 @@ void set_speed(int8_t code) {
 	if (get_punky_state() == PUNKY_DEBUG)
 		debug_message_1("vitesse = ", speed, GRAIL, HIGH_PRIO);
 }
+
+/*
+ * 	@Return:
+ * 		the actual speed set
+ */
+int16_t get_speed(void){
+	return speed;
+}
+
 
 
 // ************************************************************************//
@@ -173,10 +174,6 @@ static THD_FUNCTION(PiRegulator, arg) {
 	}
 }
 
-void pi_regulator_thd_start(void) {
-	chThdCreateStatic(waPiRegulator, sizeof(waPiRegulator), NORMALPRIO + 1, PiRegulator, NULL);
-}
-
 /*
  * 	@Describe:
  * 		allow the PI regulator thread to execute it's code
@@ -196,4 +193,8 @@ void pi_regulator_start(void) {
  */
 void pi_regulator_stop(void) {
 	sleep_mode = true;
+}
+
+void pi_regulator_thd_start(void) {
+	chThdCreateStatic(waPiRegulator, sizeof(waPiRegulator), NORMALPRIO + 1, PiRegulator, NULL);
 }
