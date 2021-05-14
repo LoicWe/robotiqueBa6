@@ -44,7 +44,7 @@ void SendUint8ToComputer(uint8_t* data, uint16_t size)
  * 		Timer 2 is 32 bit timer so we can measure time up to 100 seconds
  * 		with the following presets.
  * 		It serves to display the debug_messages
- * 		See debug_messager_thd for more explainations.
+ * 		See debug_messager_thd for more explanations.
  */
 void timer2_start(void) {
 
@@ -58,7 +58,7 @@ void timer2_start(void) {
 /*
  * 	@Describe:
  * 		Generic function to print informations in the console.
- * 		The goal of this thread is to print usefule and relevant data
+ * 		The goal of this thread is to print useful and relevant data
  * 		of the robot in a readable way for demonstration.
  * 		User can set with setting functions the message, the values and
  * 		the duration of the message.
@@ -76,7 +76,7 @@ static THD_FUNCTION(DebugMsgThd, arg) {
 		//wait for a message to be received
 		chBSemWait(&send_debug);
 
-		// save data otherwise can be changed externaly
+		// save data otherwise can be changed externally
 		uint16_t time_p = timer;
 
 		high_prio = false;
@@ -94,7 +94,7 @@ static THD_FUNCTION(DebugMsgThd, arg) {
 			break;
 		}
 
-		// possibiliy to intercept high priority message
+		// Possibility to intercept high priority message
 		while((uint16_t) TIM2->CNT < time_p*10){
 			chThdSleepMilliseconds(20);
 			if(high_prio)
@@ -138,7 +138,7 @@ void debug_message(char *str_p, uint16_t time_p, bool high_prio_p) {
 /*
  * 	@Describe:
  * 		This function allow to display messages in the console for debug,
- * 		with display time. The semaphore block any other msg
+ * 		with display time. The semaphore block any other message
  * 		to be sent while the current one is running.
  *
  * 	@Params:
@@ -171,7 +171,7 @@ void debug_message_1(char *str_p, int16_t value1_p, uint16_t time_p, bool high_p
 /*
  * 	@Describe:
  * 		This function allow to display messages in the console for debug,
- * 		with display time. The semaphore block any other msg
+ * 		with display time. The semaphore block any other message
  * 		to be sent while the current one is running.
  *
  * 	@Params:
